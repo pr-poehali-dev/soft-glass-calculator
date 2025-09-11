@@ -18,6 +18,7 @@ interface WindowCalculation {
   d: number;
   e: number;
   grommets: boolean;
+  grommetsCount: number;
   frenchLock: boolean;
   filmType: string;
   kantSize: number;
@@ -34,6 +35,7 @@ const Index = () => {
     d: 0,
     e: 0,
     grommets: false,
+    grommetsCount: 0,
     frenchLock: false,
     filmType: 'transparent',
     kantSize: 20,
@@ -83,7 +85,7 @@ const Index = () => {
     const filmPrice = filmTypes.find(f => f.id === calculation.filmType)?.price || 450;
     let price = area * filmPrice;
 
-    if (calculation.grommets) price += area * 50;
+    if (calculation.grommets) price += calculation.grommetsCount * 150;
     if (calculation.frenchLock) price += area * 80;
     
     // Добавляем стоимость канта (15 ₽ за погонный метр)
@@ -1003,13 +1005,30 @@ const Index = () => {
 
                   <div className="space-y-3">
                     <Label>Дополнительные услуги</Label>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="grommets"
-                        checked={calculation.grommets}
-                        onCheckedChange={(checked) => setCalculation(prev => ({ ...prev, grommets: checked as boolean }))}
-                      />
-                      <Label htmlFor="grommets">Люверсы (+50 ₽/м²)</Label>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="grommets"
+                          checked={calculation.grommets}
+                          onCheckedChange={(checked) => setCalculation(prev => ({ ...prev, grommets: checked as boolean, grommetsCount: checked ? prev.grommetsCount || 4 : 0 }))}
+                        />
+                        <Label htmlFor="grommets">Люверсы 16мм (150 ₽/шт)</Label>
+                      </div>
+                      {calculation.grommets && (
+                        <div className="ml-6 flex items-center space-x-2">
+                          <Label htmlFor="grommetsCount" className="text-sm">Количество:</Label>
+                          <Input
+                            id="grommetsCount"
+                            type="number"
+                            min="0"
+                            max="50"
+                            value={calculation.grommetsCount}
+                            onChange={(e) => setCalculation(prev => ({ ...prev, grommetsCount: parseInt(e.target.value) || 0 }))}
+                            className="w-20 h-8 text-sm"
+                          />
+                          <span className="text-sm text-gray-500">шт</span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox

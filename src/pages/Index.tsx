@@ -873,6 +873,28 @@ const Index = () => {
               </Button>
             </div>
 
+            {/* Демонстрационное изображение мягкого окна */}
+            <div className="relative max-w-4xl mx-auto mb-12">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="https://cdn.poehali.dev/files/26ee1f36-1533-46af-bfd4-f4c5ab65cd32.jpg" 
+                  alt="Мягкие окна на деревянной террасе - пример готового проекта" 
+                  className="w-full h-[400px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">Готовый проект</h3>
+                  <p className="text-lg opacity-90">Мягкие окна на деревянной террасе с металлическими люверсами</p>
+                </div>
+                <div className="absolute top-6 right-6">
+                  <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                    <Icon name="CheckCircle" size={16} className="mr-1" />
+                    Установлено
+                  </Badge>
+                </div>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="hover:shadow-lg transition-shadow">
                 <CardHeader>

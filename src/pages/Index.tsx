@@ -443,10 +443,6 @@ const Index = () => {
             {/* Размер светового проёма */}
             <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
             <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
-              </>
-            )}
-            
-
           </svg>
         );
       

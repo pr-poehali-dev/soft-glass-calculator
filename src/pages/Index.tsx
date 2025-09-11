@@ -130,48 +130,72 @@ const Index = () => {
       const html2canvas = (await import('html2canvas')).default;
       
       const doc = new jsPDF('landscape', 'mm', 'a4');
+      
       const { area, price } = calculatePrice();
       const currentShape = shapes.find(s => s.id === calculation.shape);
       const currentFilm = filmTypes.find(f => f.id === calculation.filmType);
       
+      // Функция транслитерации для корректного отображения
+      const transliterate = (text: string) => {
+        const map: { [key: string]: string } = {
+          'А': 'A', 'а': 'a', 'Б': 'B', 'б': 'b', 'В': 'V', 'в': 'v', 'Г': 'G', 'г': 'g',
+          'Д': 'D', 'д': 'd', 'Е': 'E', 'е': 'e', 'Ё': 'E', 'ё': 'e', 'Ж': 'Zh', 'ж': 'zh',
+          'З': 'Z', 'з': 'z', 'И': 'I', 'и': 'i', 'Й': 'Y', 'й': 'y', 'К': 'K', 'к': 'k',
+          'Л': 'L', 'л': 'l', 'М': 'M', 'м': 'm', 'Н': 'N', 'н': 'n', 'О': 'O', 'о': 'o',
+          'П': 'P', 'п': 'p', 'Р': 'R', 'р': 'r', 'С': 'S', 'с': 's', 'Т': 'T', 'т': 't',
+          'У': 'U', 'у': 'u', 'Ф': 'F', 'ф': 'f', 'Х': 'H', 'х': 'h', 'Ц': 'C', 'ц': 'c',
+          'Ч': 'Ch', 'ч': 'ch', 'Ш': 'Sh', 'ш': 'sh', 'Щ': 'Sch', 'щ': 'sch', 'Ъ': '', 'ъ': '',
+          'Ы': 'Y', 'ы': 'y', 'Ь': '', 'ь': '', 'Э': 'E', 'э': 'e', 'Ю': 'Yu', 'ю': 'yu',
+          'Я': 'Ya', 'я': 'ya', '₽': 'rub'
+        };
+        return text.replace(/[А-я₽]/g, (match) => map[match] || match);
+      };
+      
       // Заголовок
       doc.setFontSize(16);
-      doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА', 148, 20, { align: 'center' });
-      doc.text(`${currentShape?.name.toUpperCase()} - ${calculation.a}x${calculation.b}мм`, 148, 30, { align: 'center' });
+      doc.text('TEHNOLOGICHESKAYA KARTA MYAGKOGO OKNA', 148, 20, { align: 'center' });
+      
+      const shapeName = currentShape?.name === 'Прямоугольник' ? 'PRYAMOUGOLNIK' :
+                       currentShape?.name === 'Треугольник' ? 'TREUGOLNIK' :
+                       currentShape?.name === 'Трапеция' ? 'TRAPECIYA' :
+                       currentShape?.name === 'Пятиугольник' ? 'PYATIUGOLNIK' : 'FIGURA';
+      
+      doc.text(`${shapeName} - ${calculation.a}x${calculation.b}mm`, 148, 30, { align: 'center' });
       
       // Рамка документа
       doc.rect(10, 10, 277, 200);
       
       // Левая часть - спецификация
       doc.setFontSize(12);
-      doc.text('СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:', 15, 50);
+      doc.text('SPECIFIKACIYA IZDELIYA:', 15, 50);
       
       let yPos = 60;
       doc.setFontSize(10);
-      doc.text(`Форма окна: ${currentShape?.name}`, 15, yPos);
+      doc.text(`Forma okna: ${shapeName}`, 15, yPos);
       yPos += 8;
-      doc.text(`Площадь: ${area.toFixed(2)} м²`, 15, yPos);
+      doc.text(`Ploshad: ${area.toFixed(2)} m2`, 15, yPos);
       yPos += 8;
-      doc.text(`Материал: ${currentFilm?.name}`, 15, yPos);
+      const filmName = calculation.filmType === 'transparent' ? 'Prozrachnaya PVH' : calculation.filmType === 'colored' ? 'Cvetnaya PVH' : 'Teksturirovannaya PVH';
+      doc.text(`Material: ${filmName}`, 15, yPos);
       yPos += 8;
       doc.text(`Толщина пленки: 0.5-0.8 мм`, 15, yPos);
       yPos += 8;
       doc.text(`Кант: ПВХ ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
       yPos += 8;
-      doc.text(`Периметр: ${calculatePerimeter().toFixed(2)} м`, 15, yPos);
+      doc.text(`Perimetr: ${calculatePerimeter().toFixed(2)} m`, 15, yPos);
       yPos += 8;
-      doc.text(`Стоимость: ${price.toFixed(0)} ₽`, 15, yPos);
+      doc.text(`Stoimost: ${price.toFixed(0)} rub`, 15, yPos);
       
       // Размеры
       yPos += 15;
       doc.setFontSize(12);
-      doc.text('РАЗМЕРЫ:', 15, yPos);
+      doc.text('RAZMERY:', 15, yPos);
       yPos += 10;
       doc.setFontSize(10);
       
       currentShape?.params.forEach(param => {
         const value = calculation[param as keyof WindowCalculation] as number;
-        doc.text(`Параметр ${param.toUpperCase()}: ${value} мм`, 15, yPos);
+        doc.text(`Parametr ${param.toUpperCase()}: ${value} mm`, 15, yPos);
         yPos += 6;
       });
       
@@ -179,21 +203,21 @@ const Index = () => {
       if (calculation.grommets || calculation.frenchLock) {
         yPos += 10;
         doc.setFontSize(12);
-        doc.text('ФУРНИТУРА:', 15, yPos);
+        doc.text('FURNITURA:', 15, yPos);
         yPos += 10;
         doc.setFontSize(10);
         
         if (calculation.grommets) {
-          doc.text('✓ Люверсы металлические d=10мм', 15, yPos);
+          doc.text('✓ Lyuversy metallicheskie d=10mm', 15, yPos);
           yPos += 6;
-          doc.text('  Расположение: на канте по периметру (несъёмное крепление)', 17, yPos);
+          doc.text('  Raspolozhenie: na kante po perimetru (nesemnoe kreplenie)', 17, yPos);
           yPos += 6;
         }
 
         if (calculation.frenchLock) {
-          doc.text('✓ Французские замки', 15, yPos);
+          doc.text('✓ Francuzskie zamki', 15, yPos);
           yPos += 6;
-          doc.text('  Расположение: на боковых сторонах (съёмное крепление)', 17, yPos);
+          doc.text('  Raspolozhenie: na bokovyh storonah (semnoe kreplenie)', 17, yPos);
           yPos += 6;
         }
 
@@ -201,7 +225,7 @@ const Index = () => {
         yPos += 10;
         doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
-        doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА ПРОИЗВОДСТВА', 15, yPos);
+        doc.text('TEHNOLOGICHESKAYA KARTA PROIZVODSTVA', 15, yPos);
         yPos += 10;
 
         doc.setFontSize(10);

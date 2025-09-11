@@ -275,10 +275,25 @@ const Index = () => {
             doc.circle(x, y, 1, 'S');
           });
           
+          // Размерные линии между люверсами
+          doc.setDrawColor(255, 102, 0);
+          doc.setLineWidth(0.2);
+          
+          // Расстояние между первыми двумя люверсами на верхнем канте
+          const gap1 = rectW/4 - 15; // расстояние между люверсами
+          doc.line(rectX + 15, rectY - 3, rectX + 15 + gap1, rectY - 3);
+          doc.line(rectX + 15, rectY - 5, rectX + 15, rectY - 1);
+          doc.line(rectX + 15 + gap1, rectY - 5, rectX + 15 + gap1, rectY - 1);
+          
+          doc.setFontSize(7);
+          doc.setTextColor(255, 102, 0);
+          doc.text(`${Math.round(gap1 * 10)}мм`, rectX + 15 + gap1/2, rectY - 6, { align: 'center' });
+          
           // Обозначение люверса
           doc.setFontSize(8);
           doc.setTextColor(66, 66, 66);
           doc.text('Металлические люверсы d=10мм', rectX + rectW + 5, rectY + 15);
+          doc.text('Расстояние между люверсами: 40-75мм', rectX + rectW + 5, rectY + 25);
           doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
         }
 
@@ -401,6 +416,27 @@ const Index = () => {
                     <circle cx={x+0.5} cy={y+0.5} r="6" fill="rgba(0,0,0,0.1)" stroke="none"/>
                   </g>
                 ))}
+                
+                {/* Размерные линии между люверсами */}
+                {/* Расстояние между люверсами на верхнем канте */}
+                <line x1="80" y1="40" x2="125" y2="40" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="80" y1="35" x2="80" y2="45" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="125" y1="35" x2="125" y2="45" stroke="#FF6600" strokeWidth="1"/>
+                <text x="102.5" y="32" textAnchor="middle" fontSize="10" fill="#FF6600">45мм</text>
+                
+                <line x1="125" y1="40" x2="200" y2="40" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="125" y1="35" x2="125" y2="45" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="200" y1="35" x2="200" y2="45" stroke="#FF6600" strokeWidth="1"/>
+                <text x="162.5" y="32" textAnchor="middle" fontSize="10" fill="#FF6600">75мм</text>
+                
+                {/* Расстояние между люверсами на левом канте */}
+                <line x1="35" y1="90" x2="35" y2="130" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="30" y1="90" x2="40" y2="90" stroke="#FF6600" strokeWidth="1"/>
+                <line x1="30" y1="130" x2="40" y2="130" stroke="#FF6600" strokeWidth="1"/>
+                <text x="20" y="110" textAnchor="middle" fontSize="10" fill="#FF6600" transform="rotate(-90 20 110)">40мм</text>
+                
+                {/* Обозначение размеров между люверсами */}
+                <text x="50" y="300" textAnchor="start" fontSize="9" fill="#FF6600">* Расстояние между люверсами: 40-75мм</text>
               </>
             )}
 

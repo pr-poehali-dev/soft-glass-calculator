@@ -188,7 +188,7 @@ const Index = () => {
         doc.setFontSize(10);
         
         if (calculation.grommets) {
-          doc.text('✓ Люверсы металлические d=10мм', 15, yPos);
+          doc.text('✓ Люверсы металлические d=16мм', 15, yPos);
           yPos += 6;
           doc.text('  Расположение: на канте по периметру (несъёмное крепление)', 17, yPos);
           yPos += 6;
@@ -219,7 +219,7 @@ const Index = () => {
         yPos += 4;
         doc.text('    • Подготовка канта ПВХ шириной 50мм (цвет по заказу)', 19, yPos);
         yPos += 4;
-        const metalware = calculation.grommets ? 'люверсы d=10мм' : 'французские замки';
+        const metalware = calculation.grommets ? 'люверсы d=16мм' : 'французские замки';
         doc.text(`    • Подготовка крепежа: ${metalware}`, 19, yPos);
         yPos += 4;
         doc.text('    • Проверка инструмента и оборудования', 19, yPos);
@@ -495,7 +495,7 @@ const Index = () => {
           // Обозначение люверса
           doc.setFontSize(8);
           doc.setTextColor(66, 66, 66);
-          doc.text('Металлические люверсы d=10мм', rectX + rectW + 5, rectY + 15);
+          doc.text('Металлические люверсы d=16мм', rectX + rectW + 5, rectY + 15);
           doc.text('Расстояние между люверсами: 40-75мм', rectX + rectW + 5, rectY + 25);
           doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
         }
@@ -549,7 +549,7 @@ const Index = () => {
       yPos += 6;
       doc.text(`2. Кант: ПВХ лента шириной ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
       yPos += 6;
-      doc.text('3. Люверсы: металл, диаметр 12мм, с шайбами', 15, yPos);
+      doc.text('3. Люверсы: металл, диаметр 16мм, с шайбами', 15, yPos);
       yPos += 6;
       doc.text('4. Сварка: ультразвуковая, шов герметичный', 15, yPos);
       yPos += 6;
@@ -672,7 +672,7 @@ const Index = () => {
             <text x="200" y="175" textAnchor="middle" fontSize="12" fill="#5D4037">кант 5 см</text>
             
             {calculation.grommets && (
-              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 10мм (несъёмное крепление)</text>
+              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 16мм (несъёмное крепление)</text>
             )}
             
             {calculation.frenchLock && (
@@ -1118,9 +1118,9 @@ const Index = () => {
                   <div className="p-3 bg-green-50 rounded">
                     <h4 className="font-medium flex items-center">
                       <Icon name="Circle" size={16} className="mr-2 text-accent" />
-                      Люверсы
+                      Люверсы 16мм
                     </h4>
-                    <p className="text-sm text-gray-600">Металлические кольца для крепления</p>
+                    <p className="text-sm text-gray-600">Металлические кольца диаметром 16мм для надежного крепления</p>
                     <Badge className="mt-1">+50 ₽/м²</Badge>
                   </div>
                   <div className="p-3 bg-red-50 rounded">
@@ -1148,6 +1148,16 @@ const Index = () => {
                     <h4 className="font-medium">Установка</h4>
                     <p className="text-sm text-gray-600">Профессиональный монтаж</p>
                     <Badge className="mt-1">2000 ₽</Badge>
+                  </div>
+                  <div className="p-3 bg-purple-50 rounded">
+                    <h4 className="font-medium">Усиленные люверсы 16мм</h4>
+                    <p className="text-sm text-gray-600">Люверсы увеличенного диаметра для повышенной нагрузки</p>
+                    <Badge className="mt-1">+25 ₽/шт</Badge>
+                  </div>
+                  <div className="p-3 bg-cyan-50 rounded">
+                    <h4 className="font-medium">Установка люверсов</h4>
+                    <p className="text-sm text-gray-600">Установка металлических люверсов 16мм с шайбами</p>
+                    <Badge className="mt-1">150 ₽/шт</Badge>
                   </div>
                 </CardContent>
               </Card>

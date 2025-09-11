@@ -97,55 +97,159 @@ const Index = () => {
       const jsPDF = (await import('jspdf')).default;
       const html2canvas = (await import('html2canvas')).default;
       
-      const doc = new jsPDF();
+      const doc = new jsPDF('landscape', 'mm', 'a4');
       const { area, price } = calculatePrice();
       const currentShape = shapes.find(s => s.id === calculation.shape);
       const currentFilm = filmTypes.find(f => f.id === calculation.filmType);
       
-      // Добавляем заголовок
-      doc.setFontSize(20);
-      doc.text('Технологическая карта мягкого окна', 105, 30, { align: 'center' });
+      // Заголовок
+      doc.setFontSize(16);
+      doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА', 148, 20, { align: 'center' });
+      doc.text(`${currentShape?.name.toUpperCase()} - ${calculation.a}x${calculation.b}мм`, 148, 30, { align: 'center' });
       
-      // Добавляем спецификацию
+      // Рамка документа
+      doc.rect(10, 10, 277, 200);
+      
+      // Левая часть - спецификация
       doc.setFontSize(12);
-      doc.text('СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ', 20, 60);
+      doc.text('СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:', 15, 50);
       
-      let yPosition = 80;
-      doc.text(`Форма: ${currentShape?.name}`, 20, yPosition);
-      yPosition += 10;
-      doc.text(`Площадь: ${area.toFixed(2)} м²`, 20, yPosition);
-      yPosition += 10;
-      doc.text(`Материал: ${currentFilm?.name}`, 20, yPosition);
-      yPosition += 10;
-      doc.text(`Стоимость: ${price.toFixed(0)} ₽`, 20, yPosition);
+      let yPos = 60;
+      doc.setFontSize(10);
+      doc.text(`Форма окна: ${currentShape?.name}`, 15, yPos);
+      yPos += 8;
+      doc.text(`Площадь: ${area.toFixed(2)} м²`, 15, yPos);
+      yPos += 8;
+      doc.text(`Материал: ${currentFilm?.name}`, 15, yPos);
+      yPos += 8;
+      doc.text(`Толщина пленки: 0.5-0.8 мм`, 15, yPos);
+      yPos += 8;
+      doc.text(`Кант: ПВХ, цвет коричневый`, 15, yPos);
+      yPos += 8;
+      doc.text(`Стоимость: ${price.toFixed(0)} ₽`, 15, yPos);
       
-      if (calculation.grommets || calculation.frenchLock) {
-        yPosition += 15;
-        doc.text('ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ:', 20, yPosition);
-        yPosition += 10;
-        if (calculation.grommets) {
-          doc.text('• Люверсы', 25, yPosition);
-          yPosition += 8;
-        }
-        if (calculation.frenchLock) {
-          doc.text('• Французский замок', 25, yPosition);
-          yPosition += 8;
-        }
-      }
-      
-      // Добавляем размеры
-      yPosition += 15;
-      doc.text('РАЗМЕРЫ (см):', 20, yPosition);
-      yPosition += 10;
+      // Размеры
+      yPos += 15;
+      doc.setFontSize(12);
+      doc.text('РАЗМЕРЫ:', 15, yPos);
+      yPos += 10;
+      doc.setFontSize(10);
       
       currentShape?.params.forEach(param => {
         const value = calculation[param as keyof WindowCalculation] as number;
-        doc.text(`${param.toUpperCase()}: ${value}`, 25, yPosition);
-        yPosition += 8;
+        doc.text(`Параметр ${param.toUpperCase()}: ${value} мм`, 15, yPos);
+        yPos += 6;
       });
       
-      // Сохраняем PDF
-      doc.save(`chertezh-${currentShape?.name}-${Date.now()}.pdf`);
+      // Дополнительные услуги
+      if (calculation.grommets || calculation.frenchLock) {
+        yPos += 10;
+        doc.setFontSize(12);
+        doc.text('ФУРНИТУРА:', 15, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        
+        if (calculation.grommets) {
+          doc.text('✓ Люверсы металлические d=12мм', 15, yPos);
+          yPos += 6;
+          doc.text('  Расположение: по углам и центрам сторон', 17, yPos);
+          yPos += 6;
+        }
+        if (calculation.frenchLock) {
+          doc.text('✓ Французский замок', 15, yPos);
+          yPos += 6;
+          doc.text('  Материал: пластик, цвет красный', 17, yPos);
+          yPos += 6;
+        }
+      }
+      
+      // Правая часть - чертеж
+      doc.setFontSize(12);
+      doc.text('ЧЕРТЕЖ:', 160, 50);
+      
+      // Рисуем чертеж прямоугольника
+      if (calculation.shape === 'rectangle') {
+        const rectX = 180;
+        const rectY = 70;
+        const rectW = 80;
+        const rectH = 50;
+        
+        // Основной контур
+        doc.setLineWidth(0.5);
+        doc.rect(rectX, rectY, rectW, rectH);
+        
+        // Кант (жирная линия)
+        doc.setLineWidth(2);
+        doc.rect(rectX, rectY, rectW, rectH);
+        
+        // Размерные линии
+        doc.setLineWidth(0.3);
+        // Верхняя размерная линия
+        doc.line(rectX, rectY - 10, rectX + rectW, rectY - 10);
+        doc.line(rectX, rectY - 12, rectX, rectY - 8);
+        doc.line(rectX + rectW, rectY - 12, rectX + rectW, rectY - 8);
+        doc.text(`${calculation.a}мм`, rectX + rectW/2, rectY - 15, { align: 'center' });
+        
+        // Левая размерная линия
+        doc.line(rectX - 10, rectY, rectX - 10, rectY + rectH);
+        doc.line(rectX - 12, rectY, rectX - 8, rectY);
+        doc.line(rectX - 12, rectY + rectH, rectX - 8, rectY + rectH);
+        doc.text(`${calculation.b}мм`, rectX - 15, rectY + rectH/2, { align: 'center', angle: 90 });
+        
+        // Люверсы
+        if (calculation.grommets) {
+          const grommetPositions = [
+            [rectX + 15, rectY + 12],
+            [rectX + rectW/2, rectY + 12],
+            [rectX + rectW - 15, rectY + 12],
+            [rectX + 15, rectY + rectH - 12],
+            [rectX + rectW/2, rectY + rectH - 12],
+            [rectX + rectW - 15, rectY + rectH - 12]
+          ];
+          
+          grommetPositions.forEach(([x, y]) => {
+            doc.circle(x, y, 2, 'S');
+          });
+          
+          // Обозначение люверса
+          doc.setFontSize(8);
+          doc.text('Люверс', rectX + rectW + 5, rectY + 15);
+          doc.line(rectX + rectW - 15, rectY + 12, rectX + rectW + 3, rectY + 15);
+        }
+        
+        // Французский замок
+        if (calculation.frenchLock) {
+          doc.setFillColor(255, 68, 68);
+          doc.rect(rectX + rectW/2 - 8, rectY + rectH + 5, 16, 4, 'F');
+          doc.setFontSize(8);
+          doc.text('Французский замок', rectX + rectW/2, rectY + rectH + 15, { align: 'center' });
+        }
+      }
+      
+      // Технические требования
+      yPos = 160;
+      doc.setFontSize(12);
+      doc.text('ТЕХНИЧЕСКИЕ ТРЕБОВАНИЯ:', 15, yPos);
+      yPos += 10;
+      doc.setFontSize(9);
+      doc.text('1. Материал: ПВХ пленка прозрачная, ГОСТ 16272-79', 15, yPos);
+      yPos += 6;
+      doc.text('2. Кант: ПВХ лента шириной 20мм, цвет коричневый', 15, yPos);
+      yPos += 6;
+      doc.text('3. Люверсы: металл, диаметр 12мм, с шайбами', 15, yPos);
+      yPos += 6;
+      doc.text('4. Сварка: ультразвуковая, шов герметичный', 15, yPos);
+      yPos += 6;
+      doc.text('5. Допуски размеров: ±2мм', 15, yPos);
+      
+      // Подписи
+      doc.setFontSize(10);
+      doc.text('Разработал: ________________', 15, 195);
+      doc.text('Проверил: ________________', 160, 195);
+      doc.text(`Дата: ${new Date().toLocaleDateString('ru-RU')}`, 230, 195);
+      
+      // Сохранение
+      doc.save(`Технологическая-карта-${currentShape?.name}-${calculation.a}x${calculation.b}-${Date.now()}.pdf`);
       
     } catch (error) {
       console.error('Ошибка при создании PDF:', error);
@@ -159,45 +263,124 @@ const Index = () => {
     switch (shape) {
       case 'rectangle':
         return (
-          <svg width="200" height="150" className="border rounded bg-blue-50">
-            <rect x="25" y="25" width="150" height="100" fill="rgba(66, 133, 244, 0.2)" stroke="#4285F4" strokeWidth="2"/>
-            <text x="100" y="15" textAnchor="middle" fontSize="12" fill="#4285F4">a = {a}см</text>
-            <text x="10" y="80" textAnchor="middle" fontSize="12" fill="#4285F4" transform="rotate(-90 10 80)">b = {b}см</text>
+          <svg width="400" height="300" className="border rounded bg-white">
+            {/* Основной прямоугольник */}
+            <rect x="50" y="50" width="300" height="200" fill="rgba(173, 216, 230, 0.3)" stroke="#8B4513" strokeWidth="4"/>
+            
+            {/* Размерные линии */}
+            {/* Верхняя размерная линия */}
+            <line x1="50" y1="30" x2="350" y2="30" stroke="#000" strokeWidth="1"/>
+            <line x1="50" y1="25" x2="50" y2="35" stroke="#000" strokeWidth="1"/>
+            <line x1="350" y1="25" x2="350" y2="35" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="20" textAnchor="middle" fontSize="12" fill="#000">{a}мм</text>
+            
+            {/* Левая размерная линия */}
+            <line x1="30" y1="50" x2="30" y2="250" stroke="#000" strokeWidth="1"/>
+            <line x1="25" y1="50" x2="35" y2="50" stroke="#000" strokeWidth="1"/>
+            <line x1="25" y1="250" x2="35" y2="250" stroke="#000" strokeWidth="1"/>
+            <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
+            
+            {/* Люверсы */}
             {calculation.grommets && (
               <>
-                <circle cx="45" cy="45" r="3" fill="#10B981"/>
-                <circle cx="155" cy="45" r="3" fill="#10B981"/>
-                <circle cx="45" cy="105" r="3" fill="#10B981"/>
-                <circle cx="155" cy="105" r="3" fill="#10B981"/>
+                <circle cx="90" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="310" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="90" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="310" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="200" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="200" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                
+                {/* Стрелки для люверсов */}
+                <polygon points="70,70 90,70 80,60" fill="#10B981"/>
+                <text x="60" y="65" fontSize="10" fill="#10B981">Люверс</text>
               </>
             )}
+            
+            {/* Французский замок */}
             {calculation.frenchLock && (
-              <rect x="90" y="120" width="20" height="8" fill="#EF4444" rx="2"/>
+              <>
+                <rect x="180" y="270" width="40" height="15" fill="#EF4444" rx="3"/>
+                <polygon points="160,285 180,285 170,295" fill="#EF4444"/>
+                <text x="140" y="290" fontSize="10" fill="#EF4444">Французский замок</text>
+              </>
             )}
+            
+            {/* Кант по периметру */}
+            <rect x="50" y="50" width="300" height="200" fill="none" stroke="#8B4513" strokeWidth="6"/>
+            
+            {/* Заголовок */}
+            <text x="200" y="285" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">
+              ПВХ-окно 1 - Размер: {a}x{b}мм
+            </text>
           </svg>
         );
       
       case 'triangle':
         return (
-          <svg width="200" height="150" className="border rounded bg-blue-50">
-            <polygon points="100,25 25,125 175,125" fill="rgba(66, 133, 244, 0.2)" stroke="#4285F4" strokeWidth="2"/>
-            <text x="100" y="15" textAnchor="middle" fontSize="12" fill="#4285F4">a = {a}см</text>
-            <text x="100" y="145" textAnchor="middle" fontSize="12" fill="#4285F4">b = {b}см</text>
-            <text x="15" y="80" textAnchor="middle" fontSize="12" fill="#4285F4" transform="rotate(-60 15 80)">c = {c}см</text>
+          <svg width="400" height="300" className="border rounded bg-white">
+            {/* Основной треугольник */}
+            <polygon points="200,50 80,250 320,250" fill="rgba(173, 216, 230, 0.3)" stroke="#8B4513" strokeWidth="4"/>
+            
+            {/* Размерные линии */}
+            <line x1="80" y1="270" x2="320" y2="270" stroke="#000" strokeWidth="1"/>
+            <line x1="80" y1="265" x2="80" y2="275" stroke="#000" strokeWidth="1"/>
+            <line x1="320" y1="265" x2="320" y2="275" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="285" textAnchor="middle" fontSize="12" fill="#000">{a}мм</text>
+            
+            <line x1="30" y1="50" x2="30" y2="250" stroke="#000" strokeWidth="1"/>
+            <line x1="25" y1="50" x2="35" y2="50" stroke="#000" strokeWidth="1"/>
+            <line x1="25" y1="250" x2="35" y2="250" stroke="#000" strokeWidth="1"/>
+            <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
+            
+            {/* Люверсы */}
             {calculation.grommets && (
               <>
-                <circle cx="100" cy="35" r="3" fill="#10B981"/>
-                <circle cx="40" cy="115" r="3" fill="#10B981"/>
-                <circle cx="160" cy="115" r="3" fill="#10B981"/>
+                <circle cx="200" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="120" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="280" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
               </>
             )}
+            
+            {/* Кант */}
+            <polygon points="200,50 80,250 320,250" fill="none" stroke="#8B4513" strokeWidth="6"/>
+          </svg>
+        );
+      
+      case 'trapezoid':
+        return (
+          <svg width="400" height="300" className="border rounded bg-white">
+            {/* Основная трапеция */}
+            <polygon points="120,50 280,50 350,250 50,250" fill="rgba(173, 216, 230, 0.3)" stroke="#8B4513" strokeWidth="4"/>
+            
+            {/* Размерные линии */}
+            <line x1="120" y1="30" x2="280" y2="30" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="20" textAnchor="middle" fontSize="12" fill="#000">{a}мм</text>
+            
+            <line x1="50" y1="270" x2="350" y2="270" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="285" textAnchor="middle" fontSize="12" fill="#000">{c}мм</text>
+            
+            <line x1="30" y1="50" x2="30" y2="250" stroke="#000" strokeWidth="1"/>
+            <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
+            
+            {/* Люверсы */}
+            {calculation.grommets && (
+              <>
+                <circle cx="150" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="250" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="100" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="300" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+              </>
+            )}
+            
+            {/* Кант */}
+            <polygon points="120,50 280,50 350,250 50,250" fill="none" stroke="#8B4513" strokeWidth="6"/>
           </svg>
         );
       
       default:
         return (
-          <div className="w-[200px] h-[150px] border rounded bg-blue-50 flex items-center justify-center">
-            <Icon name="Shapes" size={40} className="text-primary" />
+          <div className="w-[400px] h-[300px] border rounded bg-white flex items-center justify-center">
+            <Icon name="Shapes" size={60} className="text-primary" />
           </div>
         );
     }

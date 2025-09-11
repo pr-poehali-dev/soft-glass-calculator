@@ -196,6 +196,205 @@ const Index = () => {
           doc.text('  Расположение: на боковых сторонах (съёмное крепление)', 17, yPos);
           yPos += 6;
         }
+
+        // Технологическая карта
+        yPos += 10;
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА ПРОИЗВОДСТВА', 15, yPos);
+        yPos += 10;
+
+        doc.setFontSize(10);
+        doc.text('1. ПОДГОТОВИТЕЛЬНЫЕ ОПЕРАЦИИ', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        doc.text('1.1. Подготовка материалов:', 17, yPos);
+        yPos += 5;
+        doc.text('    • Проверка качества ПВХ пленки (отсутствие дефектов, царапин)', 19, yPos);
+        yPos += 4;
+        doc.text('    • Подготовка канта ПВХ шириной 50мм (цвет по заказу)', 19, yPos);
+        yPos += 4;
+        const metalware = calculation.grommets ? 'люверсы d=10мм' : 'французские замки';
+        doc.text(`    • Подготовка крепежа: ${metalware}`, 19, yPos);
+        yPos += 4;
+        doc.text('    • Проверка инструмента и оборудования', 19, yPos);
+        yPos += 6;
+
+        doc.text('1.2. Раскрой материала:', 17, yPos);
+        yPos += 5;
+        doc.text(`    • Разметка основного полотна: ${calculation.a}×${calculation.b}мм`, 19, yPos);
+        yPos += 4;
+        doc.text('    • Припуски на сварку: +10мм по периметру', 19, yPos);
+        yPos += 4;
+        const kantLength = Math.round((calculation.a + calculation.b) * 2 / 10);
+        doc.text(`    • Нарезка канта: ${kantLength}см + 5% запас`, 19, yPos);
+        yPos += 4;
+        doc.text('    • Контроль размеров кроя (допуск ±2мм)', 19, yPos);
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('2. СБОРОЧНЫЕ ОПЕРАЦИИ', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        doc.text('2.1. Подготовка к сварке:', 17, yPos);
+        yPos += 5;
+        doc.text('    • Очистка краев пленки от пыли и загрязнений', 19, yPos);
+        yPos += 4;
+        doc.text('    • Обезжиривание сварочных поверхностей', 19, yPos);
+        yPos += 4;
+        doc.text('    • Укладка канта по периметру с равномерным натяжением', 19, yPos);
+        yPos += 4;
+        doc.text('    • Фиксация канта зажимами через каждые 200мм', 19, yPos);
+        yPos += 6;
+
+        doc.text('2.2. Сварка канта:', 17, yPos);
+        yPos += 5;
+        doc.text('    • Настройка сварочного аппарата (t=380-420°C)', 19, yPos);
+        yPos += 4;
+        doc.text('    • Скорость сварки: 2-3 м/мин', 19, yPos);
+        yPos += 4;
+        doc.text('    • Контроль качества шва (герметичность, равномерность)', 19, yPos);
+        yPos += 4;
+        doc.text('    • Формовка углов с радиусом 3-5мм', 19, yPos);
+        yPos += 4;
+        doc.text('    • Охлаждение швов до комнатной температуры', 19, yPos);
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('3. УСТАНОВКА КРЕПЕЖА', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        if (calculation.grommets) {
+          doc.text('3.1. Установка люверсов:', 17, yPos);
+          yPos += 5;
+          doc.text('    • Разметка позиций люверсов (шаг 40-75мм)', 19, yPos);
+          yPos += 4;
+          doc.text('    • Пробивка отверстий d=8мм пробойником', 19, yPos);
+          yPos += 4;
+          doc.text('    • Установка люверсов с помощью пресса', 19, yPos);
+          yPos += 4;
+          doc.text('    • Контроль усилия установки (500-700 кг)', 19, yPos);
+          yPos += 4;
+          doc.text('    • Проверка прочности крепления (тест на вырыв)', 19, yPos);
+        } else if (calculation.frenchLock) {
+          doc.text('3.1. Установка французских замков:', 17, yPos);
+          yPos += 5;
+          doc.text('    • Разметка позиций замков на боковых сторонах', 19, yPos);
+          yPos += 4;
+          doc.text('    • Сверление отверстий под крепеж d=3мм', 19, yPos);
+          yPos += 4;
+          doc.text('    • Установка замков с герметизацией стыков', 19, yPos);
+          yPos += 4;
+          doc.text('    • Проверка работы механизма (открытие/закрытие)', 19, yPos);
+          yPos += 4;
+          doc.text('    • Смазка подвижных частей силиконовой смазкой', 19, yPos);
+        }
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('4. КОНТРОЛЬ КАЧЕСТВА', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        doc.text('4.1. Проверка геометрии:', 17, yPos);
+        yPos += 5;
+        doc.text(`    • Контроль размеров: ${calculation.a}×${calculation.b}мм (±3мм)`, 19, yPos);
+        yPos += 4;
+        doc.text('    • Проверка прямоугольности (диагонали)', 19, yPos);
+        yPos += 4;
+        doc.text('    • Измерение ширины канта (50±2мм)', 19, yPos);
+        yPos += 6;
+
+        doc.text('4.2. Проверка качества швов:', 17, yPos);
+        yPos += 5;
+        doc.text('    • Визуальный осмотр сварных швов', 19, yPos);
+        yPos += 4;
+        doc.text('    • Тест на герметичность (избыточное давление)', 19, yPos);
+        yPos += 4;
+        doc.text('    • Проверка прочности соединений', 19, yPos);
+        yPos += 6;
+
+        doc.text('4.3. Проверка крепежа:', 17, yPos);
+        yPos += 5;
+        if (calculation.grommets) {
+          doc.text('    • Контроль установки всех люверсов', 19, yPos);
+          yPos += 4;
+          doc.text('    • Проверка отсутствия деформаций вокруг люверсов', 19, yPos);
+        } else {
+          doc.text('    • Контроль работы замков', 19, yPos);
+          yPos += 4;
+          doc.text('    • Проверка герметичности в закрытом состоянии', 19, yPos);
+        }
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('5. ФИНИШНЫЕ ОПЕРАЦИИ', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        doc.text('5.1. Очистка и упаковка:', 17, yPos);
+        yPos += 5;
+        doc.text('    • Удаление защитной пленки с ПВХ', 19, yPos);
+        yPos += 4;
+        doc.text('    • Очистка поверхности от загрязнений', 19, yPos);
+        yPos += 4;
+        doc.text('    • Антистатическая обработка', 19, yPos);
+        yPos += 4;
+        doc.text('    • Упаковка в защитную пленку', 19, yPos);
+        yPos += 6;
+
+        doc.text('5.2. Маркировка:', 17, yPos);
+        yPos += 5;
+        doc.text(`    • Размер: ${calculation.a}×${calculation.b}мм`, 19, yPos);
+        yPos += 4;
+        const filmTypeName = filmTypes.find(f => f.id === calculation.filmType)?.name || 'Прозрачная ПВХ';
+        doc.text(`    • Материал: ${filmTypeName}`, 19, yPos);
+        yPos += 4;
+        doc.text('    • Дата изготовления', 19, yPos);
+        yPos += 4;
+        doc.text('    • Номер партии', 19, yPos);
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('6. НОРМЫ ВРЕМЕНИ', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        const area = calculateArea();
+        const prepTime = Math.max(15, Math.round(area * 5));
+        const weldTime = Math.max(20, Math.round(area * 8));
+        const installTime = calculation.grommets ? Math.max(10, Math.round(area * 6)) : Math.max(15, Math.round(area * 7));
+        const qcTime = Math.max(10, Math.round(area * 3));
+        const totalTime = prepTime + weldTime + installTime + qcTime;
+
+        doc.text(`Подготовительные операции: ${prepTime} мин`, 17, yPos);
+        yPos += 4;
+        doc.text(`Сварочные операции: ${weldTime} мин`, 17, yPos);
+        yPos += 4;
+        doc.text(`Установка крепежа: ${installTime} мин`, 17, yPos);
+        yPos += 4;
+        doc.text(`Контроль качества: ${qcTime} мин`, 17, yPos);
+        yPos += 4;
+        doc.text(`ОБЩЕЕ ВРЕМЯ: ${totalTime} мин (${Math.round(totalTime/60*10)/10} ч)`, 17, yPos);
+        yPos += 8;
+
+        doc.setFontSize(10);
+        doc.text('7. ТРЕБОВАНИЯ БЕЗОПАСНОСТИ', 15, yPos);
+        yPos += 8;
+
+        doc.setFontSize(9);
+        doc.text('    • Использование СИЗ (очки, перчатки, респиратор)', 17, yPos);
+        yPos += 4;
+        doc.text('    • Вентиляция рабочего места при сварке', 17, yPos);
+        yPos += 4;
+        doc.text('    • Заземление сварочного оборудования', 17, yPos);
+        yPos += 4;
+        doc.text('    • Противопожарная безопасность', 17, yPos);
+        yPos += 4;
+        doc.text('    • Первая помощь при ожогах', 17, yPos);
         if (calculation.frenchLock) {
           doc.text('✓ Французский замок', 15, yPos);
           yPos += 6;

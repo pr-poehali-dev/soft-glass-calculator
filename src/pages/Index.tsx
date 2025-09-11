@@ -837,6 +837,7 @@ const Index = () => {
               <Button variant="ghost" onClick={() => setActiveTab('main')}>Главная</Button>
               <Button variant="ghost" onClick={() => setActiveTab('calculator')}>Калькулятор</Button>
               <Button variant="ghost" onClick={() => setActiveTab('services')}>Услуги</Button>
+              <Button variant="ghost" onClick={() => setActiveTab('portfolio')}>Портфолио</Button>
               <Button variant="ghost" onClick={() => setActiveTab('blueprint')}>Чертежи</Button>
               <Button variant="ghost" onClick={() => setActiveTab('techcard')}>Тех. карта</Button>
               <Button variant="ghost" onClick={() => setActiveTab('contract')}>Договор</Button>
@@ -1561,6 +1562,258 @@ const Index = () => {
                       <li>• Регулярное обслуживание оборудования</li>
                     </ul>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Портфолио */}
+          <TabsContent value="portfolio" className="space-y-8">
+            <div className="text-center py-8">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Наши проекты
+              </h2>
+              <p className="text-xl text-white/90 mb-6">
+                Более 500 успешно реализованных объектов
+              </p>
+            </div>
+
+            {/* Галерея проектов */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {/* Проект 1 - Деревянная терраса */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src="/img/1f0cdb80-d24a-4c4d-aae3-2fa47ab4b79a.jpg" 
+                  alt="Мягкие окна на деревянной террасе" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Деревянная терраса</h3>
+                  <p className="text-gray-600 text-sm mb-3">Частный дом, 24 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Люверсы</Badge>
+                    <span className="text-sm text-gray-500">2023</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Проект 2 - Ресторан */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src="/img/030dde9c-1053-4d06-ae96-48a660afbcda.jpg" 
+                  alt="Летняя терраса ресторана" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Ресторан "Вилла"</h3>
+                  <p className="text-gray-600 text-sm mb-3">Летняя терраса, 48 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Французские замки</Badge>
+                    <span className="text-sm text-gray-500">2023</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Проект 3 - Склад */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src="/img/12a3c78a-02a5-4344-84cb-630e3b321bb1.jpg" 
+                  alt="Промышленные мягкие окна" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Складской комплекс</h3>
+                  <p className="text-gray-600 text-sm mb-3">Промышленное здание, 120 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Большие размеры</Badge>
+                    <span className="text-sm text-gray-500">2024</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Проект 4 - Кафе */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src="/img/1988cf49-6d49-4dbb-a464-0b5444f7b9e7.jpg" 
+                  alt="Кафе с мягкими окнами" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Кафе "Уют"</h3>
+                  <p className="text-gray-600 text-sm mb-3">Зимняя веранда, 32 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Утепленные</Badge>
+                    <span className="text-sm text-gray-500">2024</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Проект 5 - Марина */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src="/img/b753cc35-620e-4299-975b-7e963f4b67be.jpg" 
+                  alt="Яхтенная марина" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Яхт-клуб "Neva"</h3>
+                  <p className="text-gray-600 text-sm mb-3">Морская пристань, 85 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Морская среда</Badge>
+                    <span className="text-sm text-gray-500">2024</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Проект 6 - Загородный дом */}
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <div className="bg-gradient-to-br from-blue-100 to-green-100 w-full h-48 flex items-center justify-center">
+                  <div className="text-center">
+                    <Icon name="Home" size={48} className="text-blue-600 mb-2 mx-auto" />
+                    <p className="text-gray-600">Загородный дом</p>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">Дом в Павловске</h3>
+                  <p className="text-gray-600 text-sm mb-3">Беседка и терраса, 28 м²</p>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline">Комбинированные</Badge>
+                    <span className="text-sm text-gray-500">2024</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Отзывы клиентов */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-center text-white mb-4">
+                  <Icon name="MessageSquare" className="mr-2 inline" />
+                  Отзывы наших клиентов
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* Отзыв 1 */}
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Отличное качество! Мягкие окна на террасе служат уже второй год. 
+                      Никаких протечек, швы крепкие. Монтаж выполнили быстро и аккуратно."
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Александр П.</p>
+                      <p className="text-gray-500">Частный дом, Павловск</p>
+                    </div>
+                  </div>
+
+                  {/* Отзыв 2 */}
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Для нашего ресторана заказывали мягкие окна на летнюю веранду. 
+                      Клиенты довольны - теперь можно сидеть даже в дождь. Рекомендую!"
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Елена В.</p>
+                      <p className="text-gray-500">Ресторан "Вилла"</p>
+                    </div>
+                  </div>
+
+                  {/* Отзыв 3 */}
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Заказывали промышленные окна для склада. Размеры большие, 
+                      но справились на отлично. Теперь товары защищены от дождя."
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Михаил С.</p>
+                      <p className="text-gray-500">ООО "Логистика-СПб"</p>
+                    </div>
+                  </div>
+
+                  {/* Отзыв 4 */}
+                  <div className="bg-orange-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Профессиональный подход! Сделали точные замеры, 
+                      предложили оптимальное решение. Работают быстро и качественно."
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Ольга К.</p>
+                      <p className="text-gray-500">Кафе "Уют"</p>
+                    </div>
+                  </div>
+
+                  {/* Отзыв 5 */}
+                  <div className="bg-indigo-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Мягкие окна для яхт-клуба получились отличные! 
+                      Выдерживают морской климат, соленый воздух. Очень довольны."
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Дмитрий Н.</p>
+                      <p className="text-gray-500">Яхт-клуб "Neva"</p>
+                    </div>
+                  </div>
+
+                  {/* Отзыв 6 */}
+                  <div className="bg-pink-50 p-4 rounded-lg">
+                    <div className="flex items-center mb-3">
+                      <div className="flex text-yellow-400">
+                        {"★★★★★".split('').map((star, i) => (
+                          <span key={i}>{star}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-3 italic">
+                      "Заказываем уже не первый раз. Качество стабильно высокое, 
+                      цены адекватные. Лучшая компания в Петербурге!"
+                    </p>
+                    <div className="text-sm">
+                      <p className="font-medium">Сергей Т.</p>
+                      <p className="text-gray-500">Строительная компания</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center pt-6">
+                  <Button size="lg" className="bg-white text-primary hover:bg-gray-50">
+                    <Icon name="Phone" className="mr-2" />
+                    Заказать консультацию
+                  </Button>
                 </div>
               </CardContent>
             </Card>

@@ -826,9 +826,71 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-green-300 relative overflow-hidden">
+      {/* Анимированный фон */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Солнце */}
+        <div className="absolute top-10 right-16 w-20 h-20 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse">
+          <div className="absolute inset-2 bg-yellow-300 rounded-full opacity-70"></div>
+        </div>
+        
+        {/* Облака */}
+        <div className="absolute top-8 left-1/4 animate-float">
+          <div className="flex">
+            <div className="w-16 h-8 bg-white/80 rounded-full"></div>
+            <div className="w-20 h-10 bg-white/80 rounded-full -ml-4"></div>
+            <div className="w-14 h-7 bg-white/80 rounded-full -ml-3"></div>
+          </div>
+        </div>
+        
+        <div className="absolute top-16 right-1/3 animate-float-delayed">
+          <div className="flex">
+            <div className="w-12 h-6 bg-white/70 rounded-full"></div>
+            <div className="w-16 h-8 bg-white/70 rounded-full -ml-3"></div>
+            <div className="w-10 h-5 bg-white/70 rounded-full -ml-2"></div>
+          </div>
+        </div>
+        
+        <div className="absolute top-6 left-1/2 animate-float-slow">
+          <div className="flex">
+            <div className="w-14 h-7 bg-white/60 rounded-full"></div>
+            <div className="w-18 h-9 bg-white/60 rounded-full -ml-4"></div>
+            <div className="w-12 h-6 bg-white/60 rounded-full -ml-3"></div>
+          </div>
+        </div>
+        
+        {/* Лес на заднем плане */}
+        <div className="absolute bottom-0 left-0 w-full h-40">
+          {/* Дальние горы/холмы */}
+          <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-green-600/40 to-green-500/20 rounded-t-full transform scale-x-150"></div>
+          
+          {/* Деревья */}
+          <div className="absolute bottom-0 left-8 w-4 h-28 bg-green-700 rounded-t-full"></div>
+          <div className="absolute bottom-0 left-16 w-6 h-32 bg-green-800 rounded-t-full"></div>
+          <div className="absolute bottom-0 left-28 w-5 h-26 bg-green-700 rounded-t-full"></div>
+          <div className="absolute bottom-0 left-40 w-7 h-30 bg-green-800 rounded-t-full"></div>
+          
+          <div className="absolute bottom-0 right-8 w-5 h-24 bg-green-700 rounded-t-full"></div>
+          <div className="absolute bottom-0 right-20 w-6 h-28 bg-green-800 rounded-t-full"></div>
+          <div className="absolute bottom-0 right-32 w-4 h-22 bg-green-700 rounded-t-full"></div>
+          
+          {/* Кусты */}
+          <div className="absolute bottom-0 left-60 w-8 h-12 bg-green-600 rounded-t-full"></div>
+          <div className="absolute bottom-0 left-80 w-10 h-14 bg-green-600 rounded-t-full"></div>
+          <div className="absolute bottom-0 right-60 w-6 h-10 bg-green-600 rounded-t-full"></div>
+          
+          {/* Полянка */}
+          <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-green-400 to-green-300"></div>
+        </div>
+        
+        {/* Летающие листочки */}
+        <div className="absolute top-1/3 left-20 w-2 h-2 bg-green-500 rounded-full animate-fall opacity-60"></div>
+        <div className="absolute top-1/4 right-32 w-1.5 h-1.5 bg-green-400 rounded-full animate-fall-delayed opacity-50"></div>
+        <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-green-600 rounded-full animate-fall-slow opacity-40"></div>
+      </div>
+      
       {/* Header */}
-      <header className="bg-black shadow-sm border-b border-gray-800">
+      <header className="bg-black/90 backdrop-blur-sm shadow-sm border-b border-gray-800 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
@@ -845,7 +907,7 @@ const Index = () => {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 mb-8 bg-black border-black">
             <TabsTrigger value="main" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Главная</TabsTrigger>

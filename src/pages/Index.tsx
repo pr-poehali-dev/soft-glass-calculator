@@ -20,6 +20,7 @@ interface WindowCalculation {
   grommets: boolean;
   frenchLock: boolean;
   filmType: string;
+  kantSize: number;
   area: number;
   price: number;
 }
@@ -35,6 +36,7 @@ const Index = () => {
     grommets: false,
     frenchLock: false,
     filmType: 'transparent',
+    kantSize: 20,
     area: 0,
     price: 0
   });
@@ -83,8 +85,38 @@ const Index = () => {
 
     if (calculation.grommets) price += area * 50;
     if (calculation.frenchLock) price += area * 80;
+    
+    // Добавляем стоимость канта (15 ₽ за погонный метр)
+    const perimeter = calculatePerimeter();
+    price += perimeter * 15;
 
     return { area, price };
+  };
+
+  const calculatePerimeter = () => {
+    const { shape, a, b, c, d, e } = calculation;
+    let perimeter = 0;
+
+    switch (shape) {
+      case 'rectangle':
+        perimeter = (2 * (a + b)) / 1000; // переводим в метры
+        break;
+      case 'triangle':
+        perimeter = (a + b + c) / 1000;
+        break;
+      case 'trapezoid':
+        // Приблизительный расчет для трапеции
+        const height = b / 1000;
+        const side = Math.sqrt(Math.pow(height, 2) + Math.pow((c - a) / 2000, 2));
+        perimeter = (a + c + 2 * side * 1000) / 1000;
+        break;
+      case 'pentagon':
+        // Приблизительный расчет для пятиугольника
+        perimeter = (a + b + c + d + e) / 1000;
+        break;
+    }
+
+    return perimeter;
   };
 
   const handleCalculate = () => {
@@ -124,7 +156,9 @@ const Index = () => {
       yPos += 8;
       doc.text(`Толщина пленки: 0.5-0.8 мм`, 15, yPos);
       yPos += 8;
-      doc.text(`Кант: ПВХ, цвет коричневый`, 15, yPos);
+      doc.text(`Кант: ПВХ ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
+      yPos += 8;
+      doc.text(`Периметр: ${calculatePerimeter().toFixed(2)} м`, 15, yPos);
       yPos += 8;
       doc.text(`Стоимость: ${price.toFixed(0)} ₽`, 15, yPos);
       
@@ -234,7 +268,7 @@ const Index = () => {
       doc.setFontSize(9);
       doc.text('1. Материал: ПВХ пленка прозрачная, ГОСТ 16272-79', 15, yPos);
       yPos += 6;
-      doc.text('2. Кант: ПВХ лента шириной 20мм, цвет коричневый', 15, yPos);
+      doc.text(`2. Кант: ПВХ лента шириной ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
       yPos += 6;
       doc.text('3. Люверсы: металл, диаметр 12мм, с шайбами', 15, yPos);
       yPos += 6;
@@ -527,6 +561,21 @@ const Index = () => {
                     </Select>
                   </div>
 
+                  <div>
+                    <Label htmlFor="kantSize">Ширина канта (мм)</Label>
+                    <Select value={calculation.kantSize.toString()} onValueChange={(value) => setCalculation(prev => ({ ...prev, kantSize: Number(value) }))}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Выберите ширину канта" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="15">15 мм</SelectItem>
+                        <SelectItem value="20">20 мм (стандарт)</SelectItem>
+                        <SelectItem value="25">25 мм</SelectItem>
+                        <SelectItem value="30">30 мм</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <div className="space-y-3">
                     <Label>Дополнительные услуги</Label>
                     <div className="flex items-center space-x-2">
@@ -558,6 +607,12 @@ const Index = () => {
                         <div className="text-center space-y-2">
                           <p className="text-lg">
                             Площадь: <strong>{calculation.area.toFixed(2)} м²</strong>
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Периметр: <strong>{calculatePerimeter().toFixed(2)} м</strong>
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter().toFixed(2)}м</strong>
                           </p>
                           <p className="text-2xl font-bold text-primary">
                             Стоимость: {calculation.price.toFixed(0)} ₽

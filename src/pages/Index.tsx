@@ -310,15 +310,18 @@ const Index = () => {
       case 'rectangle':
         return (
           <svg width="400" height="300" className="border rounded bg-white">
-            {/* Основной прямоугольник */}
-            <rect x="50" y="50" width="300" height="200" fill="rgba(173, 216, 230, 0.3)" stroke="#8B4513" strokeWidth="4"/>
+            {/* Прозрачная пленка (внутренняя область) */}
+            <rect x="70" y="70" width="260" height="160" fill="rgba(179, 229, 252, 0.7)" stroke="none"/>
+            
+            {/* Кант (окантовка) */}
+            <rect x="50" y="50" width="300" height="200" fill="none" stroke="#8D6E63" strokeWidth="20"/>
             
             {/* Размерные линии */}
             {/* Верхняя размерная линия */}
             <line x1="50" y1="30" x2="350" y2="30" stroke="#000" strokeWidth="1"/>
             <line x1="50" y1="25" x2="50" y2="35" stroke="#000" strokeWidth="1"/>
             <line x1="350" y1="25" x2="350" y2="35" stroke="#000" strokeWidth="1"/>
-            <text x="200" y="20" textAnchor="middle" fontSize="12" fill="#000">{a}мм</text>
+            <text x="200" y="20" textAnchor="middle" fontSize="12" fill="#000">{a}мм (с окантовкой)</text>
             
             {/* Левая размерная линия */}
             <line x1="30" y1="50" x2="30" y2="250" stroke="#000" strokeWidth="1"/>
@@ -329,29 +332,40 @@ const Index = () => {
             {/* Люверсы на канте */}
             {calculation.grommets && (
               <>
-                {/* Люверсы на верхнем канте */}
-                <circle cx="100" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="300" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Верхний кант */}
+                <circle cx="80" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="125" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="200" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="275" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="320" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
                 
-                {/* Люверсы на нижнем канте */}
-                <circle cx="100" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="300" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Нижний кант */}
+                <circle cx="80" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="125" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="200" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="275" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="320" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
                 
-                {/* Люверсы на левом канте */}
-                <circle cx="50" cy="100" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="50" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="50" cy="200" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Левый кант */}
+                <circle cx="50" cy="90" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="50" cy="130" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="50" cy="170" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="50" cy="210" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
                 
-                {/* Люверсы на правом канте */}
-                <circle cx="350" cy="100" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="350" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="350" cy="200" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Правый кант */}
+                <circle cx="350" cy="90" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="350" cy="130" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="350" cy="170" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
+                <circle cx="350" cy="210" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
                 
-                {/* Обозначение люверса */}
-                <polygon points="80,35 100,35 90,25" fill="#10B981"/>
-                <text x="70" y="30" fontSize="10" fill="#10B981">Люверс на канте</text>
+                {/* Подписи */}
+                <text x="200" y="155" textAnchor="middle" fontSize="14" fill="#1565C0" fontWeight="bold">Прозрачная пленка</text>
+                <text x="200" y="175" textAnchor="middle" fontSize="12" fill="#5D4037">кант 5 см</text>
+                <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 10мм (несъёмное крепление)</text>
+                
+                {/* Размер светового проёма */}
+                <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
+                <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
               </>
             )}
             

@@ -186,7 +186,7 @@ const Index = () => {
         if (calculation.grommets) {
           doc.text('✓ Люверсы металлические d=12мм', 15, yPos);
           yPos += 6;
-          doc.text('  Расположение: по углам и центрам сторон', 17, yPos);
+          doc.text('  Расположение: на канте по периметру', 17, yPos);
           yPos += 6;
         }
         if (calculation.frenchLock) {
@@ -232,23 +232,35 @@ const Index = () => {
         
         // Люверсы
         if (calculation.grommets) {
+          // Люверсы на канте (по периметру)
           const grommetPositions = [
-            [rectX + 15, rectY + 12],
-            [rectX + rectW/2, rectY + 12],
-            [rectX + rectW - 15, rectY + 12],
-            [rectX + 15, rectY + rectH - 12],
-            [rectX + rectW/2, rectY + rectH - 12],
-            [rectX + rectW - 15, rectY + rectH - 12]
+            // Верхний кант
+            [rectX + 15, rectY],
+            [rectX + rectW/2, rectY],
+            [rectX + rectW - 15, rectY],
+            // Нижний кант  
+            [rectX + 15, rectY + rectH],
+            [rectX + rectW/2, rectY + rectH],
+            [rectX + rectW - 15, rectY + rectH],
+            // Левый кант
+            [rectX, rectY + 15],
+            [rectX, rectY + rectH/2],
+            [rectX, rectY + rectH - 15],
+            // Правый кант
+            [rectX + rectW, rectY + 15],
+            [rectX + rectW, rectY + rectH/2],
+            [rectX + rectW, rectY + rectH - 15]
           ];
           
+          doc.setFillColor(16, 185, 129);
           grommetPositions.forEach(([x, y]) => {
-            doc.circle(x, y, 2, 'S');
+            doc.circle(x, y, 1.5, 'F');
           });
           
           // Обозначение люверса
           doc.setFontSize(8);
-          doc.text('Люверс', rectX + rectW + 5, rectY + 15);
-          doc.line(rectX + rectW - 15, rectY + 12, rectX + rectW + 3, rectY + 15);
+          doc.text('Люверс на канте', rectX + rectW + 5, rectY + 15);
+          doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
         }
         
         // Французский замок
@@ -314,19 +326,32 @@ const Index = () => {
             <line x1="25" y1="250" x2="35" y2="250" stroke="#000" strokeWidth="1"/>
             <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
             
-            {/* Люверсы */}
+            {/* Люверсы на канте */}
             {calculation.grommets && (
               <>
-                <circle cx="90" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="310" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="90" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="310" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="200" cy="90" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="200" cy="210" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                {/* Люверсы на верхнем канте */}
+                <circle cx="100" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="300" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
                 
-                {/* Стрелки для люверсов */}
-                <polygon points="70,70 90,70 80,60" fill="#10B981"/>
-                <text x="60" y="65" fontSize="10" fill="#10B981">Люверс</text>
+                {/* Люверсы на нижнем канте */}
+                <circle cx="100" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="300" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                
+                {/* Люверсы на левом канте */}
+                <circle cx="50" cy="100" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="50" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="50" cy="200" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                
+                {/* Люверсы на правом канте */}
+                <circle cx="350" cy="100" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="350" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="350" cy="200" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                
+                {/* Обозначение люверса */}
+                <polygon points="80,35 100,35 90,25" fill="#10B981"/>
+                <text x="70" y="30" fontSize="10" fill="#10B981">Люверс на канте</text>
               </>
             )}
             
@@ -366,12 +391,15 @@ const Index = () => {
             <line x1="25" y1="250" x2="35" y2="250" stroke="#000" strokeWidth="1"/>
             <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
             
-            {/* Люверсы */}
+            {/* Люверсы на канте треугольника */}
             {calculation.grommets && (
               <>
-                <circle cx="200" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="120" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="280" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="150" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="250" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="120" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="280" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
               </>
             )}
             
@@ -396,13 +424,22 @@ const Index = () => {
             <line x1="30" y1="50" x2="30" y2="250" stroke="#000" strokeWidth="1"/>
             <text x="15" y="155" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 155)">{b}мм</text>
             
-            {/* Люверсы */}
+            {/* Люверсы на канте трапеции */}
             {calculation.grommets && (
               <>
-                <circle cx="150" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="250" cy="80" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="100" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
-                <circle cx="300" cy="220" r="6" fill="none" stroke="#10B981" strokeWidth="2"/>
+                {/* Верхний кант */}
+                <circle cx="150" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="250" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                
+                {/* Нижний кант */}
+                <circle cx="100" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="300" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                
+                {/* Боковые канты */}
+                <circle cx="85" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                <circle cx="315" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
               </>
             )}
             

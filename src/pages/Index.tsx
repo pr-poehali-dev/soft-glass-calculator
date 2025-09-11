@@ -831,7 +831,7 @@ const Index = () => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               <Icon name="Home" size={32} className="text-primary" />
-              <h1 className="text-2xl font-roboto font-bold text-gray-900">SoftWindows</h1>
+              <h1 className="text-2xl font-roboto font-bold text-gray-900">Полимер-проект</h1>
             </div>
             <nav className="hidden md:flex space-x-6">
               <Button variant="ghost" onClick={() => setActiveTab('main')}>Главная</Button>
@@ -1286,7 +1286,7 @@ const Index = () => {
                   <div className="flex items-center space-x-3">
                     <Icon name="Mail" className="text-primary" />
                     <div>
-                      <p className="font-medium">info@softwindows.ru</p>
+                      <p className="font-medium">info@polymer-project.ru</p>
                       <p className="text-sm text-gray-600">Ответим в течение часа</p>
                     </div>
                   </div>
@@ -1294,7 +1294,7 @@ const Index = () => {
                   <div className="flex items-start space-x-3">
                     <Icon name="MapPin" className="text-primary mt-1" />
                     <div>
-                      <p className="font-medium">г. Москва, ул. Производственная, д. 1</p>
+                      <p className="font-medium">г. Санкт-Петербург, ул. Уральская, д. 1</p>
                       <p className="text-sm text-gray-600">Офис и производство</p>
                     </div>
                   </div>

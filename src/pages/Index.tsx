@@ -184,9 +184,16 @@ const Index = () => {
         doc.setFontSize(10);
         
         if (calculation.grommets) {
-          doc.text('✓ Люверсы металлические d=12мм', 15, yPos);
+          doc.text('✓ Люверсы металлические d=10мм', 15, yPos);
           yPos += 6;
-          doc.text('  Расположение: на канте по периметру', 17, yPos);
+          doc.text('  Расположение: на канте по периметру (несъёмное крепление)', 17, yPos);
+          yPos += 6;
+        }
+
+        if (calculation.frenchLock) {
+          doc.text('✓ Французские замки', 15, yPos);
+          yPos += 6;
+          doc.text('  Расположение: на боковых сторонах (съёмное крепление)', 17, yPos);
           yPos += 6;
         }
         if (calculation.frenchLock) {
@@ -230,7 +237,7 @@ const Index = () => {
         doc.line(rectX - 12, rectY + rectH, rectX - 8, rectY + rectH);
         doc.text(`${calculation.b}мм`, rectX - 15, rectY + rectH/2, { align: 'center', angle: 90 });
         
-        // Люверсы
+        // Крепеж
         if (calculation.grommets) {
           // Люверсы на канте (по периметру)
           const grommetPositions = [
@@ -252,15 +259,57 @@ const Index = () => {
             [rectX + rectW, rectY + rectH - 15]
           ];
           
-          doc.setFillColor(16, 185, 129);
+          // Рисуем фотореалистичные люверсы
           grommetPositions.forEach(([x, y]) => {
+            // Основа люверса (серый цвет)
+            doc.setFillColor(192, 192, 192);
+            doc.circle(x, y, 2, 'F');
+            
+            // Внутренний круг
+            doc.setFillColor(232, 232, 232);
             doc.circle(x, y, 1.5, 'F');
+            
+            // Отверстие
+            doc.setDrawColor(139, 69, 19);
+            doc.setLineWidth(0.3);
+            doc.circle(x, y, 1, 'S');
           });
           
           // Обозначение люверса
           doc.setFontSize(8);
-          doc.text('Люверс на канте', rectX + rectW + 5, rectY + 15);
+          doc.setTextColor(66, 66, 66);
+          doc.text('Металлические люверсы d=10мм', rectX + rectW + 5, rectY + 15);
           doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
+        }
+
+        if (calculation.frenchLock) {
+          // Французские замки на боковых сторонах
+          const lockPositions = [
+            [rectX, rectY + rectH/3],
+            [rectX, rectY + 2*rectH/3],
+            [rectX + rectW, rectY + rectH/3],
+            [rectX + rectW, rectY + 2*rectH/3]
+          ];
+          
+          lockPositions.forEach(([x, y]) => {
+            // Основание замка (золотистый)
+            doc.setFillColor(184, 134, 11);
+            doc.roundedRect(x-2, y-1.5, 4, 3, 0.3, 0.3, 'F');
+            
+            // Металлическая планка
+            doc.setFillColor(192, 192, 192);
+            doc.roundedRect(x-1.5, y-1, 3, 2, 0.2, 0.2, 'F');
+            
+            // Защелка
+            doc.setFillColor(255, 215, 0);
+            doc.roundedRect(x-0.5, y-0.5, 1, 1, 0.1, 0.1, 'F');
+          });
+          
+          // Обозначение замка
+          doc.setFontSize(8);
+          doc.setTextColor(184, 134, 11);
+          doc.text('Французские замки (съёмные)', rectX + rectW + 5, rectY + 25);
+          doc.line(rectX + rectW, rectY + rectH/2, rectX + rectW + 3, rectY + 25);
         }
         
         // Французский замок
@@ -332,59 +381,72 @@ const Index = () => {
             {/* Люверсы на канте */}
             {calculation.grommets && (
               <>
-                {/* Верхний кант */}
-                <circle cx="80" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="125" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="200" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="275" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="320" cy="50" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                
-                {/* Нижний кант */}
-                <circle cx="80" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="125" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="200" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="275" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="320" cy="250" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                
-                {/* Левый кант */}
-                <circle cx="50" cy="90" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="50" cy="130" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="50" cy="170" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="50" cy="210" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                
-                {/* Правый кант */}
-                <circle cx="350" cy="90" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="350" cy="130" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="350" cy="170" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                <circle cx="350" cy="210" r="5" fill="none" stroke="#424242" strokeWidth="2"/>
-                
-                {/* Подписи */}
-                <text x="200" y="155" textAnchor="middle" fontSize="14" fill="#1565C0" fontWeight="bold">Прозрачная пленка</text>
-                <text x="200" y="175" textAnchor="middle" fontSize="12" fill="#5D4037">кант 5 см</text>
-                <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 10мм (несъёмное крепление)</text>
-                
-                {/* Размер светового проёма */}
-                <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
-                <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
+                {/* Фотореалистичные люверсы */}
+                {[
+                  [80, 50], [125, 50], [200, 50], [275, 50], [320, 50],
+                  [80, 250], [125, 250], [200, 250], [275, 250], [320, 250],
+                  [50, 90], [50, 130], [50, 170], [50, 210],
+                  [350, 90], [350, 130], [350, 170], [350, 210]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основа люверса */}
+                    <circle cx={x} cy={y} r="6" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
+                    {/* Внутренний металлический круг */}
+                    <circle cx={x} cy={y} r="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Отверстие */}
+                    <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блик металла */}
+                    <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
+                    {/* Тень */}
+                    <circle cx={x+0.5} cy={y+0.5} r="6" fill="rgba(0,0,0,0.1)" stroke="none"/>
+                  </g>
+                ))}
               </>
             )}
-            
+
             {/* Французский замок */}
             {calculation.frenchLock && (
               <>
-                <rect x="180" y="270" width="40" height="15" fill="#EF4444" rx="3"/>
-                <polygon points="160,285 180,285 170,295" fill="#EF4444"/>
-                <text x="140" y="290" fontSize="10" fill="#EF4444">Французский замок</text>
+                {/* Замки на боковых сторонах */}
+                {[
+                  [50, 100], [50, 200], [350, 100], [350, 200]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основание замка */}
+                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
+                    {/* Металлическая планка */}
+                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
+                    {/* Защелка */}
+                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
+                    {/* Винты */}
+                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
+                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
+                    {/* Блик */}
+                    <rect x={x-5} y={y-3} width="2" height="1" fill="rgba(255,255,255,0.5)"/>
+                  </g>
+                ))}
+              </>
+            )}
+                
+            {/* Подписи */}
+            <text x="200" y="155" textAnchor="middle" fontSize="14" fill="#1565C0" fontWeight="bold">Прозрачная пленка</text>
+            <text x="200" y="175" textAnchor="middle" fontSize="12" fill="#5D4037">кант 5 см</text>
+            
+            {calculation.grommets && (
+              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 10мм (несъёмное крепление)</text>
+            )}
+            
+            {calculation.frenchLock && (
+              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#B8860B">Французский замок (съёмное крепление)</text>
+            )}
+            
+            {/* Размер светового проёма */}
+            <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
+            <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
               </>
             )}
             
-            {/* Кант по периметру */}
-            <rect x="50" y="50" width="300" height="200" fill="none" stroke="#8B4513" strokeWidth="6"/>
-            
-            {/* Заголовок */}
-            <text x="200" y="285" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">
-              ПВХ-окно 1 - Размер: {a}x{b}мм
-            </text>
+
           </svg>
         );
       
@@ -408,12 +470,42 @@ const Index = () => {
             {/* Люверсы на канте треугольника */}
             {calculation.grommets && (
               <>
-                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="150" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="250" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="120" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="280" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Фотореалистичные люверсы на треугольнике */}
+                {[
+                  [200, 50], [150, 150], [250, 150], [120, 250], [200, 250], [280, 250]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основа люверса */}
+                    <circle cx={x} cy={y} r="6" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
+                    {/* Внутренний металлический круг */}
+                    <circle cx={x} cy={y} r="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Отверстие */}
+                    <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блик металла */}
+                    <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
+            {/* Французский замок на треугольнике */}
+            {calculation.frenchLock && (
+              <>
+                {[
+                  [150, 150], [250, 150]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основание замка */}
+                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
+                    {/* Металлическая планка */}
+                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
+                    {/* Защелка */}
+                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
+                    {/* Винты */}
+                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
+                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
+                  </g>
+                ))}
               </>
             )}
             
@@ -441,19 +533,44 @@ const Index = () => {
             {/* Люверсы на канте трапеции */}
             {calculation.grommets && (
               <>
-                {/* Верхний кант */}
-                <circle cx="150" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="200" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="250" cy="50" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                
-                {/* Нижний кант */}
-                <circle cx="100" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="200" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="300" cy="250" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                
-                {/* Боковые канты */}
-                <circle cx="85" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
-                <circle cx="315" cy="150" r="4" fill="#10B981" stroke="#fff" strokeWidth="1"/>
+                {/* Фотореалистичные люверсы на трапеции */}
+                {[
+                  [150, 50], [200, 50], [250, 50],
+                  [100, 250], [200, 250], [300, 250],
+                  [85, 150], [315, 150]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основа люверса */}
+                    <circle cx={x} cy={y} r="6" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
+                    {/* Внутренний металлический круг */}
+                    <circle cx={x} cy={y} r="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Отверстие */}
+                    <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блик металла */}
+                    <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
+            {/* Французский замок на трапеции */}
+            {calculation.frenchLock && (
+              <>
+                {[
+                  [85, 150], [315, 150]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основание замка */}
+                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
+                    {/* Металлическая планка */}
+                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
+                    {/* Защелка */}
+                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
+                    {/* Винты */}
+                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
+                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
+                  </g>
+                ))}
               </>
             )}
             

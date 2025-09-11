@@ -826,37 +826,34 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-black shadow-sm border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <Icon name="Home" size={32} className="text-primary" />
-              <h1 className="text-2xl font-roboto font-bold text-gray-900">Полимер-проект</h1>
+              <Icon name="Home" size={32} className="text-white" />
+              <h1 className="text-2xl font-roboto font-bold text-white">Полимер-проект</h1>
             </div>
-            <nav className="hidden md:flex space-x-6">
-              <Button variant="ghost" onClick={() => setActiveTab('main')}>Главная</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('calculator')}>Калькулятор</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('services')}>Услуги</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('portfolio')}>Портфолио</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('blueprint')}>Чертежи</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('techcard')}>Тех. карта</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('contract')}>Договор</Button>
-              <Button variant="ghost" onClick={() => setActiveTab('contacts')}>Контакты</Button>
-            </nav>
+            <div className="hidden md:flex items-center space-x-4">
+              <Badge variant="outline" className="bg-white/20 text-white border-white/30">
+                <Icon name="Phone" size={14} className="mr-1" />
+                +7 (999) 123-45-67
+              </Badge>
+            </div>
           </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 lg:grid-cols-7 mb-8">
-            <TabsTrigger value="main">Главная</TabsTrigger>
-            <TabsTrigger value="calculator">Калькулятор</TabsTrigger>
-            <TabsTrigger value="services">Услуги</TabsTrigger>
-            <TabsTrigger value="blueprint">Чертежи</TabsTrigger>
-            <TabsTrigger value="techcard">Тех. карта</TabsTrigger>
-            <TabsTrigger value="contract">Договор</TabsTrigger>
-            <TabsTrigger value="contacts">Контакты</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 mb-8 bg-black border-black">
+            <TabsTrigger value="main" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Главная</TabsTrigger>
+            <TabsTrigger value="calculator" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Калькулятор</TabsTrigger>
+            <TabsTrigger value="services" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Услуги</TabsTrigger>
+            <TabsTrigger value="portfolio" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Портфолио</TabsTrigger>
+            <TabsTrigger value="blueprint" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Чертежи</TabsTrigger>
+            <TabsTrigger value="techcard" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Тех. карта</TabsTrigger>
+            <TabsTrigger value="contract" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Договор</TabsTrigger>
+            <TabsTrigger value="contacts" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Контакты</TabsTrigger>
           </TabsList>
 
           {/* Главная */}

@@ -20,6 +20,8 @@ interface WindowCalculation {
   grommets: boolean;
   grommetsCount: number;
   frenchLock: boolean;
+  ringGrommets: boolean;
+  ringGrommetsCount: number;
   filmType: string;
   kantSize: number;
   area: number;
@@ -37,6 +39,8 @@ const Index = () => {
     grommets: false,
     grommetsCount: 0,
     frenchLock: false,
+    ringGrommets: false,
+    ringGrommetsCount: 0,
     filmType: 'transparent',
     kantSize: 20,
     area: 0,
@@ -86,6 +90,7 @@ const Index = () => {
     let price = area * filmPrice;
 
     if (calculation.grommets) price += calculation.grommetsCount * 150;
+    if (calculation.ringGrommets) price += calculation.ringGrommetsCount * 180;
     if (calculation.frenchLock) price += area * 80;
     
     // Добавляем стоимость канта (15 ₽ за погонный метр)
@@ -500,6 +505,42 @@ const Index = () => {
           doc.text('Металлические люверсы d=16мм', rectX + rectW + 5, rectY + 15);
           doc.text('Расстояние между люверсами: 40-75мм', rectX + rectW + 5, rectY + 25);
           doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
+        }
+
+        if (calculation.ringGrommets) {
+          // Кольцевые люверсы в центральной части
+          const ringGrommetPositions = [
+            [rectX + rectW/4, rectY + rectH/3],
+            [rectX + 3*rectW/4, rectY + rectH/3],
+            [rectX + rectW/4, rectY + 2*rectH/3],
+            [rectX + 3*rectW/4, rectY + 2*rectH/3]
+          ].slice(0, calculation.ringGrommetsCount);
+          
+          // Рисуем фотореалистичные кольцевые люверсы
+          ringGrommetPositions.forEach(([x, y]) => {
+            // Внешнее кольцо (латунь)
+            doc.setFillColor(184, 134, 11);
+            doc.ellipse(x, y, 3, 2, 'F');
+            
+            // Внутреннее кольцо (блестящий металл)
+            doc.setFillColor(230, 230, 230);
+            doc.ellipse(x, y, 2.5, 1.7, 'F');
+            
+            // Центральное отверстие (овальное)
+            doc.setDrawColor(80, 80, 80);
+            doc.setLineWidth(0.8);
+            doc.ellipse(x, y, 1.5, 1, 'S');
+            
+            // Блики на металле
+            doc.setFillColor(255, 255, 255);
+            doc.ellipse(x - 0.5, y - 0.3, 0.3, 0.2, 'F');
+          });
+          
+          // Обозначение кольцевых люверсов
+          doc.setFontSize(8);
+          doc.setTextColor(184, 134, 11);
+          doc.text('Кольцевые люверсы 42×22мм (латунь)', rectX + rectW + 5, rectY + 35);
+          doc.text('Усиленные для тяжелых нагрузок', rectX + rectW + 5, rectY + 45);
         }
 
         if (calculation.frenchLock) {
@@ -1090,6 +1131,30 @@ const Index = () => {
                             max="50"
                             value={calculation.grommetsCount}
                             onChange={(e) => setCalculation(prev => ({ ...prev, grommetsCount: parseInt(e.target.value) || 0 }))}
+                            className="w-20 h-8 text-sm"
+                          />
+                          <span className="text-sm text-gray-500">шт</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="ringGrommets"
+                          checked={calculation.ringGrommets}
+                          onCheckedChange={(checked) => setCalculation(prev => ({ ...prev, ringGrommets: checked as boolean, ringGrommetsCount: checked ? prev.ringGrommetsCount || 2 : 0 }))}
+                        />
+                        <Label htmlFor="ringGrommets">Кольцевые люверсы 42×22мм (180 ₽/шт)</Label>
+                      </div>
+                      {calculation.ringGrommets && (
+                        <div className="ml-6 flex items-center space-x-2">
+                          <Label htmlFor="ringGrommetsCount" className="text-sm">Количество:</Label>
+                          <Input
+                            id="ringGrommetsCount"
+                            type="number"
+                            min="0"
+                            max="20"
+                            value={calculation.ringGrommetsCount}
+                            onChange={(e) => setCalculation(prev => ({ ...prev, ringGrommetsCount: parseInt(e.target.value) || 0 }))}
                             className="w-20 h-8 text-sm"
                           />
                           <span className="text-sm text-gray-500">шт</span>

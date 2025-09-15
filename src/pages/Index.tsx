@@ -717,6 +717,26 @@ const Index = () => {
             {calculation.grommets && (
               <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 16мм (несъёмное крепление)</text>
             )}
+
+            {/* Кольцевые люверсы на прямоугольнике */}
+            {calculation.ringGrommets && (
+              <>
+                {[
+                  [150, 120], [250, 120], [200, 170], [150, 220], [250, 220]
+                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Внешнее кольцо (латунь) */}
+                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    {/* Внутреннее кольцо (блестящий металл) */}
+                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Центральное отверстие (овальное) */}
+                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блики на металле */}
+                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
+                  </g>
+                ))}
+              </>
+            )}
             
             {calculation.frenchLock && (
               <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#B8860B">Французский замок (съёмное крепление)</text>
@@ -761,6 +781,26 @@ const Index = () => {
                     <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
                     {/* Блик металла */}
                     <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
+            {/* Кольцевые люверсы на треугольнике */}
+            {calculation.ringGrommets && (
+              <>
+                {[
+                  [200, 120], [170, 180], [230, 180], [200, 220]
+                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Внешнее кольцо (латунь) */}
+                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    {/* Внутреннее кольцо (блестящий металл) */}
+                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Центральное отверстие (овальное) */}
+                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блики на металле */}
+                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
                   </g>
                 ))}
               </>
@@ -831,6 +871,26 @@ const Index = () => {
               </>
             )}
 
+            {/* Кольцевые люверсы на трапеции */}
+            {calculation.ringGrommets && (
+              <>
+                {[
+                  [200, 120], [150, 170], [250, 170], [200, 220]
+                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Внешнее кольцо (латунь) */}
+                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    {/* Внутреннее кольцо (блестящий металл) */}
+                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Центральное отверстие (овальное) */}
+                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блики на металле */}
+                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
             {/* Французский замок на трапеции */}
             {calculation.frenchLock && (
               <>
@@ -854,6 +914,87 @@ const Index = () => {
             
             {/* Кант */}
             <polygon points="120,50 280,50 350,250 50,250" fill="none" stroke="#8B4513" strokeWidth="6"/>
+          </svg>
+        );
+      
+      case 'pentagon':
+        return (
+          <svg width="400" height="300" className="border rounded bg-white">
+            {/* Основной пятиугольник */}
+            <polygon points="200,50 120,120 140,220 260,220 280,120" fill="rgba(173, 216, 230, 0.3)" stroke="#8B4513" strokeWidth="4"/>
+            
+            {/* Размерные линии */}
+            <line x1="120" y1="30" x2="280" y2="30" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="20" textAnchor="middle" fontSize="12" fill="#000">{a}мм</text>
+            
+            <line x1="30" y1="50" x2="30" y2="220" stroke="#000" strokeWidth="1"/>
+            <text x="15" y="135" textAnchor="middle" fontSize="12" fill="#000" transform="rotate(-90 15 135)">{b}мм</text>
+            
+            {/* Люверсы на канте пятиугольника */}
+            {calculation.grommets && (
+              <>
+                {/* Фотореалистичные люверсы на пятиугольнике */}
+                {[
+                  [200, 50], [150, 85], [250, 85],
+                  [130, 150], [270, 150], [150, 200], [250, 200], [200, 220]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основа люверса */}
+                    <circle cx={x} cy={y} r="6" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
+                    {/* Внутренний металлический круг */}
+                    <circle cx={x} cy={y} r="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Отверстие */}
+                    <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блик металла */}
+                    <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
+            {/* Кольцевые люверсы на пятиугольнике */}
+            {calculation.ringGrommets && (
+              <>
+                {[
+                  [200, 120], [170, 170], [230, 170], [200, 200]
+                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Внешнее кольцо (латунь) */}
+                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    {/* Внутреннее кольцо (блестящий металл) */}
+                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    {/* Центральное отверстие (овальное) */}
+                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    {/* Блики на металле */}
+                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
+                  </g>
+                ))}
+              </>
+            )}
+
+            {/* Французский замок на пятиугольнике */}
+            {calculation.frenchLock && (
+              <>
+                {[
+                  [130, 150], [270, 150]
+                ].map(([x, y], i) => (
+                  <g key={i}>
+                    {/* Основание замка */}
+                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
+                    {/* Металлическая планка */}
+                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
+                    {/* Защелка */}
+                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
+                    {/* Винты */}
+                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
+                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
+                  </g>
+                ))}
+              </>
+            )}
+            
+            {/* Кант */}
+            <polygon points="200,50 120,120 140,220 260,220 280,120" fill="none" stroke="#8B4513" strokeWidth="6"/>
           </svg>
         );
       

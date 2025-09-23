@@ -42,7 +42,7 @@ const Index = () => {
     ringGrommets: false,
     ringGrommetsCount: 0,
     filmType: 'transparent',
-    kantSize: 20,
+    kantSize: 10,
     area: 0,
     price: 0
   });
@@ -579,119 +579,112 @@ const Index = () => {
       case 'rectangle':
         return (
           <svg width="400" height="320" className="border rounded bg-white">
-            {/* Коричневый кант (ПВХ лента 12мм) */}
+            {/* Коричневый кант (ПВХ лента 10мм) */}
             <rect x="50" y="50" width="300" height="200" fill="#A0522D" stroke="none"/>
             
             {/* Голубая прозрачная пленка */}
-            <rect x="62" y="62" width="276" height="176" fill="#B3E5FC" stroke="none"/>
+            <rect x="60" y="60" width="280" height="180" fill="#B3E5FC" stroke="none"/>
             
-            {/* Люверсы по периметру (соответствуют образцу) */}
+            {/* Размеры канта */}
+            <text x="200" y="35" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="35" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="365" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="200" y="290" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            
+            {/* Люверсы 16мм по верхнему канту */}
             {calculation.grommets && (
               <>
-                {/* Верхний ряд люверсов */}
-                {[
-                  [80, 50], [140, 50], [200, 50], [260, 50], [320, 50]
-                ].map(([x, y], i) => (
-                  <g key={i}>
+                {/* Верхний кант: начало на 5мм от края, далее каждые 200мм */}
+                {(() => {
+                  const positions = [];
+                  const startX = 55; // 5мм от края (масштаб 1:10)
+                  const spacing = 20; // 200мм в масштабе 1:10
+                  const endX = 345; // 5мм от правого края
+                  
+                  for (let x = startX; x <= endX; x += spacing) {
+                    positions.push([x, 50]);
+                  }
+                  return positions;
+                })().map(([x, y], i) => (
+                  <g key={`top-${i}`}>
                     <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
                     <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
                     <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
                     <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Нижний ряд люверсов */}
-                {[
-                  [80, 250], [140, 250], [200, 250], [260, 250], [320, 250]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Левый ряд люверсов */}
-                {[
-                  [50, 90], [50, 130], [50, 170], [50, 210]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Правый ряд люверсов */}
-                {[
-                  [350, 90], [350, 130], [350, 170], [350, 210]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
+                    {/* Размер люверса */}
+                    <text x={x} y={y-15} textAnchor="middle" fontSize="10" fill="#666">16мм</text>
                   </g>
                 ))}
               </>
             )}
 
-            {/* Размеры как на образце */}
-            {/* Цифра 10 сверху */}
-            <text x="200" y="35" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            {/* Цифра 10 снизу */}
-            <text x="200" y="275" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            {/* Цифра 10 слева */}
-            <text x="35" y="155" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            {/* Цифра 10 справа */}
-            <text x="365" y="155" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
+
             
-            {/* Люверсы на канте */}
-            {calculation.grommets && (
+            {/* Кольцевые люверсы 42×22мм на расстоянии 400мм */}
+            {calculation.ringGrommets && (
               <>
-                {/* Фотореалистичные люверсы */}
-                {[
-                  [80, 50], [125, 50], [200, 50], [275, 50], [320, 50],
-                  [80, 250], [125, 250], [200, 250], [275, 250], [320, 250],
-                  [50, 90], [50, 130], [50, 170], [50, 210],
-                  [350, 90], [350, 130], [350, 170], [350, 210]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Основа люверса */}
-                    <circle cx={x} cy={y} r="6" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    {/* Внутренний металлический круг */}
-                    <circle cx={x} cy={y} r="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    {/* Отверстие */}
-                    <circle cx={x} cy={y} r="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    {/* Блик металла */}
-                    <circle cx={x-1} cy={y-1} r="1.5" fill="rgba(255,255,255,0.6)"/>
-                    {/* Тень */}
-                    <circle cx={x+0.5} cy={y+0.5} r="6" fill="rgba(0,0,0,0.1)" stroke="none"/>
+                {/* Левая сторона */}
+                {(() => {
+                  const positions = [];
+                  const startY = 90; // начальная позиция
+                  const spacing = 40; // 400мм в масштабе 1:10
+                  const endY = 210; // конечная позиция
+                  
+                  for (let y = startY; y <= endY; y += spacing) {
+                    positions.push([50, y]);
+                  }
+                  return positions;
+                })().map(([x, y], i) => (
+                  <g key={`left-${i}`}>
+                    <ellipse cx={x} cy={y} rx="11" ry="6" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="9" ry="4.5" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="6" ry="3" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
+                    <text x={x-25} y={y+3} textAnchor="middle" fontSize="8" fill="#666">42×22</text>
                   </g>
                 ))}
                 
-                {/* Размерные линии между люверсами */}
-                {/* Расстояние между люверсами на верхнем канте */}
-                <line x1="80" y1="40" x2="125" y2="40" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="80" y1="35" x2="80" y2="45" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="125" y1="35" x2="125" y2="45" stroke="#FF6600" strokeWidth="1"/>
-                <text x="102.5" y="32" textAnchor="middle" fontSize="10" fill="#FF6600">45мм</text>
+                {/* Правая сторона */}
+                {(() => {
+                  const positions = [];
+                  const startY = 90;
+                  const spacing = 40; // 400мм в масштабе 1:10
+                  const endY = 210;
+                  
+                  for (let y = startY; y <= endY; y += spacing) {
+                    positions.push([350, y]);
+                  }
+                  return positions;
+                })().map(([x, y], i) => (
+                  <g key={`right-${i}`}>
+                    <ellipse cx={x} cy={y} rx="11" ry="6" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="9" ry="4.5" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="6" ry="3" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
+                    <text x={x+25} y={y+3} textAnchor="middle" fontSize="8" fill="#666">42×22</text>
+                  </g>
+                ))}
                 
-                <line x1="125" y1="40" x2="200" y2="40" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="125" y1="35" x2="125" y2="45" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="200" y1="35" x2="200" y2="45" stroke="#FF6600" strokeWidth="1"/>
-                <text x="162.5" y="32" textAnchor="middle" fontSize="10" fill="#FF6600">75мм</text>
-                
-                {/* Расстояние между люверсами на левом канте */}
-                <line x1="35" y1="90" x2="35" y2="130" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="30" y1="90" x2="40" y2="90" stroke="#FF6600" strokeWidth="1"/>
-                <line x1="30" y1="130" x2="40" y2="130" stroke="#FF6600" strokeWidth="1"/>
-                <text x="20" y="110" textAnchor="middle" fontSize="10" fill="#FF6600" transform="rotate(-90 20 110)">40мм</text>
-                
-                {/* Обозначение размеров между люверсами */}
-                <text x="50" y="300" textAnchor="start" fontSize="9" fill="#FF6600">* Расстояние между люверсами: 40-75мм</text>
+                {/* Нижняя сторона */}
+                {(() => {
+                  const positions = [];
+                  const startX = 90;
+                  const spacing = 40; // 400мм в масштабе 1:10
+                  const endX = 310;
+                  
+                  for (let x = startX; x <= endX; x += spacing) {
+                    positions.push([x, 250]);
+                  }
+                  return positions;
+                })().map(([x, y], i) => (
+                  <g key={`bottom-${i}`}>
+                    <ellipse cx={x} cy={y} rx="11" ry="6" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="9" ry="4.5" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="6" ry="3" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
+                    <text x={x} y={y+20} textAnchor="middle" fontSize="8" fill="#666">42×22</text>
+                  </g>
+                ))}
               </>
             )}
 
@@ -700,7 +693,7 @@ const Index = () => {
               <>
                 {/* Замки на боковых сторонах */}
                 {[
-                  [50, 100], [50, 200], [350, 100], [350, 200]
+                  [50, 150], [350, 150]
                 ].map(([x, y], i) => (
                   <g key={i}>
                     {/* Основание замка */}
@@ -712,48 +705,10 @@ const Index = () => {
                     {/* Винты */}
                     <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
                     <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
-                    {/* Блик */}
-                    <rect x={x-5} y={y-3} width="2" height="1" fill="rgba(255,255,255,0.5)"/>
                   </g>
                 ))}
               </>
             )}
-                
-            {/* Подписи */}
-            <text x="200" y="155" textAnchor="middle" fontSize="14" fill="#1565C0" fontWeight="bold">Прозрачная пленка</text>
-            <text x="200" y="175" textAnchor="middle" fontSize="12" fill="#5D4037">кант 5 см</text>
-            
-            {calculation.grommets && (
-              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#424242">Люверсы диаметром 16мм (несъёмное крепление)</text>
-            )}
-
-            {/* Кольцевые люверсы на прямоугольнике */}
-            {calculation.ringGrommets && (
-              <>
-                {[
-                  [150, 120], [250, 120], [200, 170], [150, 220], [250, 220]
-                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Внешнее кольцо (латунь) */}
-                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
-                    {/* Внутреннее кольцо (блестящий металл) */}
-                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    {/* Центральное отверстие (овальное) */}
-                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    {/* Блики на металле */}
-                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
-                  </g>
-                ))}
-              </>
-            )}
-            
-            {calculation.frenchLock && (
-              <text x="200" y="10" textAnchor="middle" fontSize="12" fill="#B8860B">Французский замок (съёмное крепление)</text>
-            )}
-            
-            {/* Размер светового проёма */}
-            <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
-            <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
           </svg>
         );
       
@@ -995,8 +950,9 @@ const Index = () => {
                         <SelectValue placeholder="Выберите ширину канта" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="10">10 мм (стандарт)</SelectItem>
                         <SelectItem value="15">15 мм</SelectItem>
-                        <SelectItem value="20">20 мм (стандарт)</SelectItem>
+                        <SelectItem value="20">20 мм</SelectItem>
                         <SelectItem value="25">25 мм</SelectItem>
                         <SelectItem value="30">30 мм</SelectItem>
                       </SelectContent>

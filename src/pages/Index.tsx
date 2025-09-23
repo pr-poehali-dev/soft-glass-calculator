@@ -92,498 +92,89 @@ const Index = () => {
 
   const generatePDF = async () => {
     try {
-      const jsPDF = (await import('jspdf')).default;
-      const html2canvas = (await import('html2canvas')).default;
+      const pdfMake = (await import('pdfmake/build/pdfmake')).default;
+      const pdfFonts = (await import('pdfmake/build/vfs_fonts')).default;
       
-      const doc = new jsPDF('landscape', 'mm', 'a4');
-      
-      // Используем стандартный шрифт для корректного отображения русского текста
-      doc.setFont('times', 'normal');
+      pdfMake.vfs = pdfFonts.pdfMake.vfs;
       
       const { area, price } = calculatePrice();
       const currentShape = shapes.find(s => s.id === calculation.shape);
       const currentFilm = filmTypes.find(f => f.id === calculation.filmType);
       
-      // Заголовок на русском
-      doc.setFontSize(16);
-      doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА', 148, 20, { align: 'center' });
-      doc.text(`${currentShape?.name?.toUpperCase()} - ${calculation.a}x${calculation.b}мм`, 148, 30, { align: 'center' });
+      const fabricWidth = calculation.a + 20;
+      const fabricHeight = calculation.b + 20;
+      const kantPerimeter = (calculation.a + calculation.b) * 2;
+      const kantLength = Math.round(kantPerimeter / 10);
+      const kantWithMargin = Math.round(kantLength * 1.05);
+      const totalGrommets = calculation.grommetsCount + (calculation.ringGrommets ? calculation.ringGrommetsCount : 0);
       
-      // Рамка документа
-      doc.rect(10, 10, 277, 200);
+      const docDefinition = {
+        pageOrientation: 'landscape' as const,
+        pageMargins: [20, 20, 20, 20],
+        content: [
+          {
+            text: 'ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА',
+            style: 'header',
+            alignment: 'center' as const,
+            margin: [0, 0, 0, 10]
+          },
+          {
+            text: `${currentShape?.name?.toUpperCase()} - ${calculation.a}×${calculation.b}мм`,
+            style: 'subheader', 
+            alignment: 'center' as const,
+            margin: [0, 0, 0, 20]
+          },
+          {
+            columns: [
+              {
+                width: '50%',
+                stack: [
+                  { text: 'СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:', style: 'sectionHeader' },
+                  { text: `Форма окна: ${currentShape?.name}`, margin: [0, 5] },
+                  { text: `Площадь: ${area.toFixed(2)} м²`, margin: [0, 2] },
+                  { text: `Материал: ${currentFilm?.name}`, margin: [0, 2] },
+                  { text: 'Толщина пленки: 0.5-0.8 мм', margin: [0, 2] },
+                  { text: `Кант: ПВХ ${calculation.kantSize}мм, цвет коричневый`, margin: [0, 2] },
+                  { text: `Периметр: ${calculatePerimeter().toFixed(2)} м`, margin: [0, 2] },
+                  { text: `Стоимость: ${price.toFixed(0)} ₽`, margin: [0, 2] },
+                  
+                  { text: 'РАЗМЕРЫ:', style: 'sectionHeader', margin: [0, 15, 0, 5] },
+                  { text: `Параметр A: ${calculation.a} мм`, margin: [0, 2] },
+                  { text: `Параметр B: ${calculation.b} мм`, margin: [0, 2] },
+                  { text: `Параметр C: ${calculation.c} мм`, margin: [0, 2] },
+                  { text: `Параметр D: ${calculation.d} мм`, margin: [0, 2] },
+                  
+                  { text: 'ЗАГОТОВКИ:', style: 'sectionHeader', margin: [0, 15, 0, 5] },
+                  { text: `Размер заготовки полотна: ${fabricWidth}×${fabricHeight}мм (с припусками)`, margin: [0, 2] },
+                  { text: `Размер заготовки канта: ${kantWithMargin}см (${kantLength}см + 5% запас)`, margin: [0, 2] },
+                  { text: `Общее количество люверсов: ${totalGrommets} шт`, margin: [0, 2] }
+                ]
+              },
+              {
+                width: '50%',
+                stack: [
+                  { text: 'ТЕХНИЧЕСКИЕ ТРЕБОВАНИЯ:', style: 'sectionHeader' },
+                  { text: '1. Материал: ПВХ пленка прозрачная, ГОСТ 16272-79', margin: [0, 5] },
+                  { text: `2. Кант: ПВХ лента шириной ${calculation.kantSize}мм, цвет коричневый`, margin: [0, 2] },
+                  { text: '3. Люверсы: металл, диаметр 16мм, с шайбами', margin: [0, 2] },
+                  { text: '4. Сварка: ультразвуковая, шов герметичный', margin: [0, 2] },
+                  { text: '5. Допуски размеров: ±2мм', margin: [0, 2] }
+                ]
+              }
+            ]
+          }
+        ],
+        styles: {
+          header: { fontSize: 16, bold: true },
+          subheader: { fontSize: 14, bold: true },
+          sectionHeader: { fontSize: 12, bold: true },
+          normal: { fontSize: 10 }
+        },
+        defaultStyle: { font: 'Roboto', fontSize: 10 }
+      };
       
-      // Левая часть - спецификация
-      doc.setFontSize(12);
-      doc.text('СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:', 15, 50);
-      
-      let yPos = 60;
-      doc.setFontSize(10);
-      doc.text(`Форма окна: ${currentShape?.name}`, 15, yPos);
-      yPos += 8;
-      doc.text(`Площадь: ${area.toFixed(2)} м²`, 15, yPos);
-      yPos += 8;
-      doc.text(`Материал: ${currentFilm?.name}`, 15, yPos);
-      yPos += 8;
-      doc.text(`Толщина пленки: 0.5-0.8 мм`, 15, yPos);
-      yPos += 8;
-      doc.text(`Кант: ПВХ ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
-      yPos += 8;
-      doc.text(`Периметр: ${calculatePerimeter().toFixed(2)} м`, 15, yPos);
-      yPos += 8;
-      doc.text(`Стоимость: ${price.toFixed(0)} ₽`, 15, yPos);
-      
-      // Размеры
-      yPos += 15;
-      doc.setFontSize(12);
-      doc.text('РАЗМЕРЫ:', 15, yPos);
-      yPos += 10;
-      doc.setFontSize(10);
-      
-      currentShape?.params.forEach(param => {
-        const value = calculation[param as keyof WindowCalculation] as number;
-        doc.text(`Параметр ${param.toUpperCase()}: ${value} мм`, 15, yPos);
-        yPos += 6;
-      });
-      
-      // Дополнительные услуги
-      if (calculation.grommets || calculation.frenchLock) {
-        yPos += 10;
-        doc.setFontSize(12);
-        doc.text('ФУРНИТУРА:', 15, yPos);
-        yPos += 10;
-        doc.setFontSize(10);
-        
-        if (calculation.grommets) {
-          doc.text('✓ Люверсы металлические d=16мм', 15, yPos);
-          yPos += 6;
-          doc.text('  Расположение: на канте по периметру (несъёмное крепление)', 17, yPos);
-          yPos += 6;
-        }
-
-        if (calculation.frenchLock) {
-          doc.text('✓ Французские замки', 15, yPos);
-          yPos += 6;
-          doc.text('  Расположение: на боковых сторонах (съёмное крепление)', 17, yPos);
-          yPos += 6;
-        }
-
-        // Технологическая карта
-        yPos += 10;
-        doc.setFontSize(14);
-        doc.setTextColor(0, 0, 0);
-        doc.text('ТЕХНОЛОГИЧЕСКАЯ КАРТА ПРОИЗВОДСТВА', 15, yPos);
-        yPos += 10;
-
-        doc.setFontSize(10);
-        doc.text('1. ПОДГОТОВИТЕЛЬНЫЕ ОПЕРАЦИИ', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        doc.text('1.1. Подготовка материалов:', 17, yPos);
-        yPos += 5;
-        doc.text('    • Проверка качества ПВХ пленки (отсутствие дефектов, царапин)', 19, yPos);
-        yPos += 4;
-        doc.text('    • Подготовка канта ПВХ шириной 50мм (цвет по заказу)', 19, yPos);
-        yPos += 4;
-        const metalware = calculation.grommets ? 'люверсы d=16мм' : 'французские замки';
-        doc.text(`    • Подготовка крепежа: ${metalware}`, 19, yPos);
-        yPos += 4;
-        doc.text('    • Проверка инструмента и оборудования', 19, yPos);
-        yPos += 6;
-
-        doc.text('1.2. Раскрой материала:', 17, yPos);
-        yPos += 5;
-        const fabricWidth = calculation.a + 20; // добавляем припуски 10мм с каждой стороны
-        const fabricHeight = calculation.b + 20;
-        doc.text(`    • Размер заготовки полотна: ${fabricWidth}×${fabricHeight}мм (с припусками)`, 19, yPos);
-        yPos += 4;
-        doc.text(`    • Разметка основного полотна: ${calculation.a}×${calculation.b}мм`, 19, yPos);
-        yPos += 4;
-        doc.text('    • Припуски на сварку: +10мм по периметру', 19, yPos);
-        yPos += 4;
-        const kantPerimeter = (calculation.a + calculation.b) * 2;
-        const kantLength = Math.round(kantPerimeter / 10);
-        const kantWithMargin = Math.round(kantLength * 1.05);
-        doc.text(`    • Размер заготовки канта: ${kantWithMargin}см (${kantLength}см + 5% запас)`, 19, yPos);
-        yPos += 4;
-        doc.text('    • Контроль размеров кроя (допуск ±2мм)', 19, yPos);
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('2. СБОРОЧНЫЕ ОПЕРАЦИИ', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        doc.text('2.1. Подготовка к сварке:', 17, yPos);
-        yPos += 5;
-        doc.text('    • Очистка краев пленки от пыли и загрязнений', 19, yPos);
-        yPos += 4;
-        doc.text('    • Обезжиривание сварочных поверхностей', 19, yPos);
-        yPos += 4;
-        doc.text('    • Укладка канта по периметру с равномерным натяжением', 19, yPos);
-        yPos += 4;
-        doc.text('    • Фиксация канта зажимами через каждые 200мм', 19, yPos);
-        yPos += 6;
-
-        doc.text('2.2. Сварка канта:', 17, yPos);
-        yPos += 5;
-        doc.text('    • Настройка сварочного аппарата (t=380-420°C)', 19, yPos);
-        yPos += 4;
-        doc.text('    • Скорость сварки: 2-3 м/мин', 19, yPos);
-        yPos += 4;
-        doc.text('    • Контроль качества шва (герметичность, равномерность)', 19, yPos);
-        yPos += 4;
-        doc.text('    • Формовка углов с радиусом 3-5мм', 19, yPos);
-        yPos += 4;
-        doc.text('    • Охлаждение швов до комнатной температуры', 19, yPos);
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('3. УСТАНОВКА КРЕПЕЖА', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        if (calculation.grommets) {
-          doc.text('3.1. Установка люверсов:', 17, yPos);
-          yPos += 5;
-          doc.text('    • Разметка позиций люверсов (шаг 40-75мм)', 19, yPos);
-          yPos += 4;
-          doc.text('    • Пробивка отверстий d=8мм пробойником', 19, yPos);
-          yPos += 4;
-          doc.text('    • Установка люверсов с помощью пресса', 19, yPos);
-          yPos += 4;
-          doc.text('    • Контроль усилия установки (500-700 кг)', 19, yPos);
-          yPos += 4;
-          doc.text('    • Проверка прочности крепления (тест на вырыв)', 19, yPos);
-        } else if (calculation.frenchLock) {
-          doc.text('3.1. Установка французских замков:', 17, yPos);
-          yPos += 5;
-          doc.text('    • Разметка позиций замков на боковых сторонах', 19, yPos);
-          yPos += 4;
-          doc.text('    • Сверление отверстий под крепеж d=3мм', 19, yPos);
-          yPos += 4;
-          doc.text('    • Установка замков с герметизацией стыков', 19, yPos);
-          yPos += 4;
-          doc.text('    • Проверка работы механизма (открытие/закрытие)', 19, yPos);
-          yPos += 4;
-          doc.text('    • Смазка подвижных частей силиконовой смазкой', 19, yPos);
-        }
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('4. КОНТРОЛЬ КАЧЕСТВА', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        doc.text('4.1. Проверка геометрии:', 17, yPos);
-        yPos += 5;
-        doc.text(`    • Контроль размеров: ${calculation.a}×${calculation.b}мм (±3мм)`, 19, yPos);
-        yPos += 4;
-        doc.text('    • Проверка прямоугольности (диагонали)', 19, yPos);
-        yPos += 4;
-        doc.text('    • Измерение ширины канта (50±2мм)', 19, yPos);
-        yPos += 6;
-
-        doc.text('4.2. Проверка качества швов:', 17, yPos);
-        yPos += 5;
-        doc.text('    • Визуальный осмотр сварных швов', 19, yPos);
-        yPos += 4;
-        doc.text('    • Тест на герметичность (избыточное давление)', 19, yPos);
-        yPos += 4;
-        doc.text('    • Проверка прочности соединений', 19, yPos);
-        yPos += 6;
-
-        doc.text('4.3. Проверка крепежа:', 17, yPos);
-        yPos += 5;
-        if (calculation.grommets) {
-          const totalGrommets = calculation.grommetsCount + (calculation.ringGrommets ? calculation.ringGrommetsCount : 0);
-          doc.text(`    • Контроль установки всех люверсов (${totalGrommets} шт)`, 19, yPos);
-          yPos += 4;
-          doc.text('    • Проверка отсутствия деформаций вокруг люверсов', 19, yPos);
-        } else {
-          doc.text('    • Контроль работы замков', 19, yPos);
-          yPos += 4;
-          doc.text('    • Проверка герметичности в закрытом состоянии', 19, yPos);
-        }
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('5. ФИНИШНЫЕ ОПЕРАЦИИ', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        doc.text('5.1. Очистка и упаковка:', 17, yPos);
-        yPos += 5;
-        doc.text('    • Удаление защитной пленки с ПВХ', 19, yPos);
-        yPos += 4;
-        doc.text('    • Очистка поверхности от загрязнений', 19, yPos);
-        yPos += 4;
-        doc.text('    • Антистатическая обработка', 19, yPos);
-        yPos += 4;
-        doc.text('    • Упаковка в защитную пленку', 19, yPos);
-        yPos += 6;
-
-        doc.text('5.2. Маркировка:', 17, yPos);
-        yPos += 5;
-        doc.text(`    • Размер: A=${calculation.a}×B=${calculation.b}×C=${calculation.c}×D=${calculation.d}мм`, 19, yPos);
-        yPos += 4;
-        const filmTypeName = filmTypes.find(f => f.id === calculation.filmType)?.name || 'Прозрачная ПВХ';
-        doc.text(`    • Материал: ${filmTypeName}`, 19, yPos);
-        yPos += 4;
-        doc.text('    • Дата изготовления', 19, yPos);
-        yPos += 4;
-        doc.text('    • Номер партии', 19, yPos);
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('6. НОРМЫ ВРЕМЕНИ', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        const area = calculateArea();
-        const prepTime = Math.max(15, Math.round(area * 5));
-        const weldTime = Math.max(20, Math.round(area * 8));
-        const installTime = calculation.grommets ? Math.max(10, Math.round(area * 6)) : Math.max(15, Math.round(area * 7));
-        const qcTime = Math.max(10, Math.round(area * 3));
-        const totalTime = prepTime + weldTime + installTime + qcTime;
-
-        doc.text(`Подготовительные операции: ${prepTime} мин`, 17, yPos);
-        yPos += 4;
-        doc.text(`Сварочные операции: ${weldTime} мин`, 17, yPos);
-        yPos += 4;
-        doc.text(`Установка крепежа: ${installTime} мин`, 17, yPos);
-        yPos += 4;
-        doc.text(`Контроль качества: ${qcTime} мин`, 17, yPos);
-        yPos += 4;
-        doc.text(`ОБЩЕЕ ВРЕМЯ: ${totalTime} мин (${Math.round(totalTime/60*10)/10} ч)`, 17, yPos);
-        yPos += 8;
-
-        doc.setFontSize(10);
-        doc.text('7. ТРЕБОВАНИЯ БЕЗОПАСНОСТИ', 15, yPos);
-        yPos += 8;
-
-        doc.setFontSize(9);
-        doc.text('    • Использование СИЗ (очки, перчатки, респиратор)', 17, yPos);
-        yPos += 4;
-        doc.text('    • Вентиляция рабочего места при сварке', 17, yPos);
-        yPos += 4;
-        doc.text('    • Заземление сварочного оборудования', 17, yPos);
-        yPos += 4;
-        doc.text('    • Противопожарная безопасность', 17, yPos);
-        yPos += 4;
-        doc.text('    • Первая помощь при ожогах', 17, yPos);
-        if (calculation.frenchLock) {
-          doc.text('✓ Французский замок', 15, yPos);
-          yPos += 6;
-          doc.text('  Материал: пластик, цвет красный', 17, yPos);
-          yPos += 6;
-        }
-      }
-      
-      // Правая часть - чертеж
-      doc.setFontSize(12);
-      doc.text('ЧЕРТЕЖ:', 160, 50);
-      
-      // Рисуем чертеж прямоугольника
-      if (calculation.shape === 'rectangle') {
-        const rectX = 180;
-        const rectY = 70;
-        const rectW = 80;
-        const rectH = 50;
-        
-        // Основной контур
-        doc.setLineWidth(0.5);
-        doc.rect(rectX, rectY, rectW, rectH);
-        
-        // Кант (жирная линия)
-        doc.setLineWidth(2);
-        doc.rect(rectX, rectY, rectW, rectH);
-        
-        // Размерные линии
-        doc.setLineWidth(0.3);
-        // Верхняя размерная линия
-        doc.line(rectX, rectY - 10, rectX + rectW, rectY - 10);
-        doc.line(rectX, rectY - 12, rectX, rectY - 8);
-        doc.line(rectX + rectW, rectY - 12, rectX + rectW, rectY - 8);
-        doc.text(`A = ${calculation.a}мм`, rectX + rectW/2, rectY - 15, { align: 'center' });
-        
-        // Правая размерная линия (сторона B)
-        doc.line(rectX + rectW + 10, rectY, rectX + rectW + 10, rectY + rectH);
-        doc.line(rectX + rectW + 8, rectY, rectX + rectW + 12, rectY);
-        doc.line(rectX + rectW + 8, rectY + rectH, rectX + rectW + 12, rectY + rectH);
-        doc.text(`B = ${calculation.b}мм`, rectX + rectW + 15, rectY + rectH/2, { align: 'center', angle: 90 });
-        
-        // Нижняя размерная линия (сторона C)
-        doc.line(rectX, rectY + rectH + 10, rectX + rectW, rectY + rectH + 10);
-        doc.line(rectX, rectY + rectH + 8, rectX, rectY + rectH + 12);
-        doc.line(rectX + rectW, rectY + rectH + 8, rectX + rectW, rectY + rectH + 12);
-        doc.text(`C = ${calculation.c}мм`, rectX + rectW/2, rectY + rectH + 20, { align: 'center' });
-        
-        // Левая размерная линия (сторона D)
-        doc.line(rectX - 10, rectY, rectX - 10, rectY + rectH);
-        doc.line(rectX - 12, rectY, rectX - 8, rectY);
-        doc.line(rectX - 12, rectY + rectH, rectX - 8, rectY + rectH);
-        doc.text(`D = ${calculation.d}мм`, rectX - 15, rectY + rectH/2, { align: 'center', angle: 90 });
-        
-        // Крепеж
-        if (calculation.grommets) {
-          // Люверсы на канте (по периметру)
-          const grommetPositions = [
-            // Верхний кант
-            [rectX + 15, rectY],
-            [rectX + rectW/2, rectY],
-            [rectX + rectW - 15, rectY],
-            // Нижний кант  
-            [rectX + 15, rectY + rectH],
-            [rectX + rectW/2, rectY + rectH],
-            [rectX + rectW - 15, rectY + rectH],
-            // Левый кант
-            [rectX, rectY + 15],
-            [rectX, rectY + rectH/2],
-            [rectX, rectY + rectH - 15],
-            // Правый кант
-            [rectX + rectW, rectY + 15],
-            [rectX + rectW, rectY + rectH/2],
-            [rectX + rectW, rectY + rectH - 15]
-          ];
-          
-          // Рисуем фотореалистичные люверсы
-          grommetPositions.forEach(([x, y]) => {
-            // Основа люверса (серый цвет)
-            doc.setFillColor(192, 192, 192);
-            doc.circle(x, y, 2, 'F');
-            
-            // Внутренний круг
-            doc.setFillColor(232, 232, 232);
-            doc.circle(x, y, 1.5, 'F');
-            
-            // Отверстие
-            doc.setDrawColor(139, 69, 19);
-            doc.setLineWidth(0.3);
-            doc.circle(x, y, 1, 'S');
-          });
-          
-          // Размерные линии между люверсами
-          doc.setDrawColor(255, 102, 0);
-          doc.setLineWidth(0.2);
-          
-          // Расстояние между первыми двумя люверсами на верхнем канте
-          const gap1 = rectW/4 - 15; // расстояние между люверсами
-          doc.line(rectX + 15, rectY - 3, rectX + 15 + gap1, rectY - 3);
-          doc.line(rectX + 15, rectY - 5, rectX + 15, rectY - 1);
-          doc.line(rectX + 15 + gap1, rectY - 5, rectX + 15 + gap1, rectY - 1);
-          
-          doc.setFontSize(7);
-          doc.setTextColor(255, 102, 0);
-          doc.text(`${Math.round(gap1 * 10)}мм`, rectX + 15 + gap1/2, rectY - 6, { align: 'center' });
-          
-          // Обозначение люверса
-          doc.setFontSize(8);
-          doc.setTextColor(66, 66, 66);
-          doc.text('Металлические люверсы d=16мм', rectX + rectW + 5, rectY + 15);
-          doc.text('Расстояние между люверсами: 40-75мм', rectX + rectW + 5, rectY + 25);
-          doc.line(rectX + rectW, rectY + 15, rectX + rectW + 3, rectY + 15);
-        }
-
-        if (calculation.ringGrommets) {
-          // Кольцевые люверсы в центральной части
-          const ringGrommetPositions = [
-            [rectX + rectW/4, rectY + rectH/3],
-            [rectX + 3*rectW/4, rectY + rectH/3],
-            [rectX + rectW/4, rectY + 2*rectH/3],
-            [rectX + 3*rectW/4, rectY + 2*rectH/3]
-          ].slice(0, calculation.ringGrommetsCount);
-          
-          // Рисуем фотореалистичные кольцевые люверсы
-          ringGrommetPositions.forEach(([x, y]) => {
-            // Внешнее кольцо (латунь)
-            doc.setFillColor(184, 134, 11);
-            doc.ellipse(x, y, 3, 2, 'F');
-            
-            // Внутреннее кольцо (блестящий металл)
-            doc.setFillColor(230, 230, 230);
-            doc.ellipse(x, y, 2.5, 1.7, 'F');
-            
-            // Центральное отверстие (овальное)
-            doc.setDrawColor(80, 80, 80);
-            doc.setLineWidth(0.8);
-            doc.ellipse(x, y, 1.5, 1, 'S');
-            
-            // Блики на металле
-            doc.setFillColor(255, 255, 255);
-            doc.ellipse(x - 0.5, y - 0.3, 0.3, 0.2, 'F');
-          });
-          
-          // Обозначение кольцевых люверсов
-          doc.setFontSize(8);
-          doc.setTextColor(184, 134, 11);
-          doc.text('Кольцевые люверсы 42×22мм (латунь)', rectX + rectW + 5, rectY + 35);
-          doc.text('Усиленные для тяжелых нагрузок', rectX + rectW + 5, rectY + 45);
-        }
-
-        if (calculation.frenchLock) {
-          // Французские замки на боковых сторонах
-          const lockPositions = [
-            [rectX, rectY + rectH/3],
-            [rectX, rectY + 2*rectH/3],
-            [rectX + rectW, rectY + rectH/3],
-            [rectX + rectW, rectY + 2*rectH/3]
-          ];
-          
-          lockPositions.forEach(([x, y]) => {
-            // Основание замка (золотистый)
-            doc.setFillColor(184, 134, 11);
-            doc.roundedRect(x-2, y-1.5, 4, 3, 0.3, 0.3, 'F');
-            
-            // Металлическая планка
-            doc.setFillColor(192, 192, 192);
-            doc.roundedRect(x-1.5, y-1, 3, 2, 0.2, 0.2, 'F');
-            
-            // Защелка
-            doc.setFillColor(255, 215, 0);
-            doc.roundedRect(x-0.5, y-0.5, 1, 1, 0.1, 0.1, 'F');
-          });
-          
-          // Обозначение замка
-          doc.setFontSize(8);
-          doc.setTextColor(184, 134, 11);
-          doc.text('Французские замки (съёмные)', rectX + rectW + 5, rectY + 25);
-          doc.line(rectX + rectW, rectY + rectH/2, rectX + rectW + 3, rectY + 25);
-        }
-        
-        // Французский замок
-        if (calculation.frenchLock) {
-          doc.setFillColor(255, 68, 68);
-          doc.rect(rectX + rectW/2 - 8, rectY + rectH + 5, 16, 4, 'F');
-          doc.setFontSize(8);
-          doc.text('Французский замок', rectX + rectW/2, rectY + rectH + 15, { align: 'center' });
-        }
-      }
-      
-      // Технические требования
-      yPos = 160;
-      doc.setFontSize(12);
-      doc.text('ТЕХНИЧЕСКИЕ ТРЕБОВАНИЯ:', 15, yPos);
-      yPos += 10;
-      doc.setFontSize(9);
-      doc.text('1. Материал: ПВХ пленка прозрачная, ГОСТ 16272-79', 15, yPos);
-      yPos += 6;
-      doc.text(`2. Кант: ПВХ лента шириной ${calculation.kantSize}мм, цвет коричневый`, 15, yPos);
-      yPos += 6;
-      doc.text('3. Люверсы: металл, диаметр 16мм, с шайбами', 15, yPos);
-      yPos += 6;
-      doc.text('4. Сварка: ультразвуковая, шов герметичный', 15, yPos);
-      yPos += 6;
-      doc.text('5. Допуски размеров: ±2мм', 15, yPos);
-      
-      // Подписи
-      doc.setFontSize(10);
-      doc.text('Разработал: ________________', 15, 195);
-      doc.text('Проверил: ________________', 160, 195);
-      doc.text(`Дата: ${new Date().toLocaleDateString('ru-RU')}`, 230, 195);
-      
-      // Сохранение
-      doc.save(`Технологическая-карта-${currentShape?.name}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`);
+      const pdf = pdfMake.createPdf(docDefinition);
+      pdf.download(`Технологическая-карта-${currentShape?.name}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`);
       
     } catch (error) {
       console.error('Ошибка при создании PDF:', error);

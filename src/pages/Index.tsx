@@ -97,8 +97,8 @@ const Index = () => {
       
       const doc = new jsPDF('landscape', 'mm', 'a4');
       
-      // Подключаем встроенный шрифт с поддержкой Unicode
-      doc.setFont('helvetica');
+      // Используем стандартный шрифт для корректного отображения русского текста
+      doc.setFont('times', 'normal');
       
       const { area, price } = calculatePrice();
       const currentShape = shapes.find(s => s.id === calculation.shape);
@@ -193,12 +193,18 @@ const Index = () => {
 
         doc.text('1.2. Раскрой материала:', 17, yPos);
         yPos += 5;
+        const fabricWidth = calculation.a + 20; // добавляем припуски 10мм с каждой стороны
+        const fabricHeight = calculation.b + 20;
+        doc.text(`    • Размер заготовки полотна: ${fabricWidth}×${fabricHeight}мм (с припусками)`, 19, yPos);
+        yPos += 4;
         doc.text(`    • Разметка основного полотна: ${calculation.a}×${calculation.b}мм`, 19, yPos);
         yPos += 4;
         doc.text('    • Припуски на сварку: +10мм по периметру', 19, yPos);
         yPos += 4;
-        const kantLength = Math.round((calculation.a + calculation.b) * 2 / 10);
-        doc.text(`    • Нарезка канта: ${kantLength}см + 5% запас`, 19, yPos);
+        const kantPerimeter = (calculation.a + calculation.b) * 2;
+        const kantLength = Math.round(kantPerimeter / 10);
+        const kantWithMargin = Math.round(kantLength * 1.05);
+        doc.text(`    • Размер заготовки канта: ${kantWithMargin}см (${kantLength}см + 5% запас)`, 19, yPos);
         yPos += 4;
         doc.text('    • Контроль размеров кроя (допуск ±2мм)', 19, yPos);
         yPos += 8;
@@ -290,7 +296,8 @@ const Index = () => {
         doc.text('4.3. Проверка крепежа:', 17, yPos);
         yPos += 5;
         if (calculation.grommets) {
-          doc.text('    • Контроль установки всех люверсов', 19, yPos);
+          const totalGrommets = calculation.grommetsCount + (calculation.ringGrommets ? calculation.ringGrommetsCount : 0);
+          doc.text(`    • Контроль установки всех люверсов (${totalGrommets} шт)`, 19, yPos);
           yPos += 4;
           doc.text('    • Проверка отсутствия деформаций вокруг люверсов', 19, yPos);
         } else {
@@ -773,7 +780,7 @@ const Index = () => {
             <div className="hidden md:flex items-center space-x-4">
               <Badge variant="outline" className="bg-white/15 text-white border-white/40">
                 <Icon name="Phone" size={14} className="mr-1" />
-                +7 (999) 123-45-67
+                +7 (921) 636-36-08
               </Badge>
             </div>
           </div>
@@ -1286,7 +1293,7 @@ const Index = () => {
                   <div className="flex items-center space-x-3">
                     <Icon name="Phone" className="text-primary" />
                     <div>
-                      <p className="font-medium">+7 (999) 123-45-67</p>
+                      <p className="font-medium">+7 (921) 636-36-08</p>
                       <p className="text-sm text-gray-600">Звонки с 9:00 до 18:00</p>
                     </div>
                   </div>

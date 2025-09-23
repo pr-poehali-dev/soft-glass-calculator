@@ -31,10 +31,10 @@ interface WindowCalculation {
 const Index = () => {
   const [calculation, setCalculation] = useState<WindowCalculation>({
     shape: 'rectangle',
-    a: 100,
-    b: 100,
-    c: 0,
-    d: 0,
+    a: 1000,
+    b: 1000,
+    c: 1000,
+    d: 1000,
     e: 0,
     grommets: false,
     grommetsCount: 0,
@@ -50,7 +50,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('calculator');
 
   const shapes = [
-    { id: 'rectangle', name: 'Прямоугольник', params: ['a', 'b'] }
+    { id: 'rectangle', name: 'Прямоугольник', params: ['a', 'b', 'c', 'd'] }
   ];
 
   const filmTypes = [
@@ -61,7 +61,7 @@ const Index = () => {
 
   const calculateArea = () => {
     const { a, b } = calculation;
-    return (a * b) / 10000;
+    return (a * b) / 1000000; // переводим мм² в м²
   };
 
   const calculatePrice = () => {
@@ -81,8 +81,8 @@ const Index = () => {
   };
 
   const calculatePerimeter = () => {
-    const { a, b } = calculation;
-    return (2 * (a + b)) / 1000; // переводим в метры
+    const { a, b, c, d } = calculation;
+    return (a + b + c + d) / 1000; // переводим мм в метры
   };
 
   const handleCalculate = () => {
@@ -318,7 +318,7 @@ const Index = () => {
 
         doc.text('5.2. Маркировка:', 17, yPos);
         yPos += 5;
-        doc.text(`    • Размер: ${calculation.a}×${calculation.b}мм`, 19, yPos);
+        doc.text(`    • Размер: A=${calculation.a}×B=${calculation.b}×C=${calculation.c}×D=${calculation.d}мм`, 19, yPos);
         yPos += 4;
         const filmTypeName = filmTypes.find(f => f.id === calculation.filmType)?.name || 'Прозрачная ПВХ';
         doc.text(`    • Материал: ${filmTypeName}`, 19, yPos);
@@ -398,13 +398,25 @@ const Index = () => {
         doc.line(rectX, rectY - 10, rectX + rectW, rectY - 10);
         doc.line(rectX, rectY - 12, rectX, rectY - 8);
         doc.line(rectX + rectW, rectY - 12, rectX + rectW, rectY - 8);
-        doc.text(`${calculation.a}мм`, rectX + rectW/2, rectY - 15, { align: 'center' });
+        doc.text(`A = ${calculation.a}мм`, rectX + rectW/2, rectY - 15, { align: 'center' });
         
-        // Левая размерная линия
+        // Правая размерная линия (сторона B)
+        doc.line(rectX + rectW + 10, rectY, rectX + rectW + 10, rectY + rectH);
+        doc.line(rectX + rectW + 8, rectY, rectX + rectW + 12, rectY);
+        doc.line(rectX + rectW + 8, rectY + rectH, rectX + rectW + 12, rectY + rectH);
+        doc.text(`B = ${calculation.b}мм`, rectX + rectW + 15, rectY + rectH/2, { align: 'center', angle: 90 });
+        
+        // Нижняя размерная линия (сторона C)
+        doc.line(rectX, rectY + rectH + 10, rectX + rectW, rectY + rectH + 10);
+        doc.line(rectX, rectY + rectH + 8, rectX, rectY + rectH + 12);
+        doc.line(rectX + rectW, rectY + rectH + 8, rectX + rectW, rectY + rectH + 12);
+        doc.text(`C = ${calculation.c}мм`, rectX + rectW/2, rectY + rectH + 20, { align: 'center' });
+        
+        // Левая размерная линия (сторона D)
         doc.line(rectX - 10, rectY, rectX - 10, rectY + rectH);
         doc.line(rectX - 12, rectY, rectX - 8, rectY);
         doc.line(rectX - 12, rectY + rectH, rectX - 8, rectY + rectH);
-        doc.text(`${calculation.b}мм`, rectX - 15, rectY + rectH/2, { align: 'center', angle: 90 });
+        doc.text(`D = ${calculation.d}мм`, rectX - 15, rectY + rectH/2, { align: 'center', angle: 90 });
         
         // Крепеж
         if (calculation.grommets) {
@@ -564,7 +576,7 @@ const Index = () => {
       doc.text(`Дата: ${new Date().toLocaleDateString('ru-RU')}`, 230, 195);
       
       // Сохранение
-      doc.save(`Технологическая-карта-${currentShape?.name}-${calculation.a}x${calculation.b}-${Date.now()}.pdf`);
+      doc.save(`Технологическая-карта-${currentShape?.name}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`);
       
     } catch (error) {
       console.error('Ошибка при создании PDF:', error);
@@ -573,7 +585,7 @@ const Index = () => {
   };
 
   const renderShape = () => {
-    const { shape, a, b } = calculation;
+    const { shape, a, b, c, d } = calculation;
     
     switch (shape) {
       case 'rectangle':
@@ -585,11 +597,33 @@ const Index = () => {
             {/* Голубая прозрачная пленка */}
             <rect x="65" y="65" width="270" height="170" fill="#B3E5FC" stroke="none"/>
             
+            {/* Размерные линии для всех сторон */}
+            {/* Верхняя сторона A */}
+            <line x1="40" y1="25" x2="360" y2="25" stroke="#000" strokeWidth="1"/>
+            <line x1="40" y1="22" x2="40" y2="28" stroke="#000" strokeWidth="1"/>
+            <line x1="360" y1="22" x2="360" y2="28" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="20" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a} мм</text>
+            
+            {/* Правая сторона B */}
+            <line x1="375" y1="40" x2="375" y2="260" stroke="#000" strokeWidth="1"/>
+            <line x1="372" y1="40" x2="378" y2="40" stroke="#000" strokeWidth="1"/>
+            <line x1="372" y1="260" x2="378" y2="260" stroke="#000" strokeWidth="1"/>
+            <text x="385" y="155" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 385 155)">B = {b} мм</text>
+            
+            {/* Нижняя сторона C */}
+            <line x1="40" y1="275" x2="360" y2="275" stroke="#000" strokeWidth="1"/>
+            <line x1="40" y1="272" x2="40" y2="278" stroke="#000" strokeWidth="1"/>
+            <line x1="360" y1="272" x2="360" y2="278" stroke="#000" strokeWidth="1"/>
+            <text x="200" y="290" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c} мм</text>
+            
+            {/* Левая сторона D */}
+            <line x1="25" y1="40" x2="25" y2="260" stroke="#000" strokeWidth="1"/>
+            <line x1="22" y1="40" x2="28" y2="40" stroke="#000" strokeWidth="1"/>
+            <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
+            <text x="15" y="155" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 155)">D = {d} мм</text>
+            
             {/* Размеры канта */}
-            <text x="200" y="30" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="25" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="375" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="200" y="300" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="200" y="310" textAnchor="middle" fontSize="12" fill="#666">Кант: {calculation.kantSize}мм</text>
             
             {/* Люверсы 16мм по верхнему канту */}
             {calculation.grommets && (
@@ -847,7 +881,7 @@ const Index = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="a">Ширина (см)</Label>
+                      <Label htmlFor="a">Сторона A (мм)</Label>
                       <Input
                         id="a"
                         type="number"
@@ -856,12 +890,30 @@ const Index = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="b">Высота (см)</Label>
+                      <Label htmlFor="b">Сторона B (мм)</Label>
                       <Input
                         id="b"
                         type="number"
                         value={calculation.b}
                         onChange={(e) => setCalculation(prev => ({ ...prev, b: Number(e.target.value) }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="c">Сторона C (мм)</Label>
+                      <Input
+                        id="c"
+                        type="number"
+                        value={calculation.c}
+                        onChange={(e) => setCalculation(prev => ({ ...prev, c: Number(e.target.value) }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="d">Сторона D (мм)</Label>
+                      <Input
+                        id="d"
+                        type="number"
+                        value={calculation.d}
+                        onChange={(e) => setCalculation(prev => ({ ...prev, d: Number(e.target.value) }))}
                       />
                     </div>
                   </div>

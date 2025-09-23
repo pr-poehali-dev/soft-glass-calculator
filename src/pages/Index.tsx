@@ -579,17 +579,17 @@ const Index = () => {
       case 'rectangle':
         return (
           <svg width="400" height="320" className="border rounded bg-white">
-            {/* Коричневый кант (ПВХ лента 10мм) */}
-            <rect x="50" y="50" width="300" height="200" fill="#A0522D" stroke="none"/>
+            {/* Коричневый кант (ПВХ лента) - увеличенный */}
+            <rect x="40" y="40" width="320" height="220" fill="#A0522D" stroke="none"/>
             
             {/* Голубая прозрачная пленка */}
-            <rect x="60" y="60" width="280" height="180" fill="#B3E5FC" stroke="none"/>
+            <rect x="65" y="65" width="270" height="170" fill="#B3E5FC" stroke="none"/>
             
             {/* Размеры канта */}
-            <text x="200" y="35" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="35" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="365" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
-            <text x="200" y="290" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="200" y="30" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="25" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="375" y="155" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
+            <text x="200" y="300" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#000">{calculation.kantSize}мм</text>
             
             {/* Люверсы 16мм по верхнему канту */}
             {calculation.grommets && (
@@ -597,12 +597,12 @@ const Index = () => {
                 {/* Верхний кант: начало на 5мм от края, далее каждые 200мм */}
                 {(() => {
                   const positions = [];
-                  const startX = 55; // 5мм от края (масштаб 1:10)
+                  const startX = 65; // 5мм от края + ширина канта (масштаб 1:10)
                   const spacing = 20; // 200мм в масштабе 1:10
-                  const endX = 345; // 5мм от правого края
+                  const endX = 335; // 5мм от правого края
                   
                   for (let x = startX; x <= endX; x += spacing) {
-                    positions.push([x, 50]);
+                    positions.push([x, 52]); // центр верхнего канта
                   }
                   return positions;
                 })().map(([x, y], i) => (
@@ -631,7 +631,7 @@ const Index = () => {
                   const endY = 210; // конечная позиция
                   
                   for (let y = startY; y <= endY; y += spacing) {
-                    positions.push([50, y]);
+                    positions.push([52, y]); // центр левого канта
                   }
                   return positions;
                 })().map(([x, y], i) => (
@@ -652,7 +652,7 @@ const Index = () => {
                   const endY = 210;
                   
                   for (let y = startY; y <= endY; y += spacing) {
-                    positions.push([350, y]);
+                    positions.push([348, y]); // центр правого канта
                   }
                   return positions;
                 })().map(([x, y], i) => (
@@ -673,7 +673,7 @@ const Index = () => {
                   const endX = 310;
                   
                   for (let x = startX; x <= endX; x += spacing) {
-                    positions.push([x, 250]);
+                    positions.push([x, 248]); // центр нижнего канта
                   }
                   return positions;
                 })().map(([x, y], i) => (
@@ -1038,6 +1038,16 @@ const Index = () => {
                           <p className="text-sm text-gray-600">
                             Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter().toFixed(2)}м</strong>
                           </p>
+                          {(calculation.grommets && calculation.grommetsCount > 0) && (
+                            <p className="text-sm text-gray-600">
+                              Люверсы 16мм: <strong>{calculation.grommetsCount} шт</strong>
+                            </p>
+                          )}
+                          {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
+                            <p className="text-sm text-gray-600">
+                              Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт</strong>
+                            </p>
+                          )}
                           <p className="text-2xl font-bold text-primary">
                             Стоимость: {calculation.price.toFixed(0)} ₽
                           </p>

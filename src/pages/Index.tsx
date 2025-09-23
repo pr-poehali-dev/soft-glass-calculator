@@ -722,71 +722,10 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-green-300 relative overflow-hidden">
-      {/* Анимированный фон */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Солнце */}
-        <div className="absolute top-10 right-16 w-20 h-20 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse">
-          <div className="absolute inset-2 bg-yellow-300 rounded-full opacity-70"></div>
-        </div>
-        
-        {/* Облака */}
-        <div className="absolute top-8 left-1/4 animate-float">
-          <div className="flex">
-            <div className="w-16 h-8 bg-white/80 rounded-full"></div>
-            <div className="w-20 h-10 bg-white/80 rounded-full -ml-4"></div>
-            <div className="w-14 h-7 bg-white/80 rounded-full -ml-3"></div>
-          </div>
-        </div>
-        
-        <div className="absolute top-16 right-1/3 animate-float-delayed">
-          <div className="flex">
-            <div className="w-12 h-6 bg-white/70 rounded-full"></div>
-            <div className="w-16 h-8 bg-white/70 rounded-full -ml-3"></div>
-            <div className="w-10 h-5 bg-white/70 rounded-full -ml-2"></div>
-          </div>
-        </div>
-        
-        <div className="absolute top-6 left-1/2 animate-float-slow">
-          <div className="flex">
-            <div className="w-14 h-7 bg-white/60 rounded-full"></div>
-            <div className="w-18 h-9 bg-white/60 rounded-full -ml-4"></div>
-            <div className="w-12 h-6 bg-white/60 rounded-full -ml-3"></div>
-          </div>
-        </div>
-        
-        {/* Лес на заднем плане */}
-        <div className="absolute bottom-0 left-0 w-full h-40">
-          {/* Дальние горы/холмы */}
-          <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-green-600/40 to-green-500/20 rounded-t-full transform scale-x-150"></div>
-          
-          {/* Деревья */}
-          <div className="absolute bottom-0 left-8 w-4 h-28 bg-green-700 rounded-t-full"></div>
-          <div className="absolute bottom-0 left-16 w-6 h-32 bg-green-800 rounded-t-full"></div>
-          <div className="absolute bottom-0 left-28 w-5 h-26 bg-green-700 rounded-t-full"></div>
-          <div className="absolute bottom-0 left-40 w-7 h-30 bg-green-800 rounded-t-full"></div>
-          
-          <div className="absolute bottom-0 right-8 w-5 h-24 bg-green-700 rounded-t-full"></div>
-          <div className="absolute bottom-0 right-20 w-6 h-28 bg-green-800 rounded-t-full"></div>
-          <div className="absolute bottom-0 right-32 w-4 h-22 bg-green-700 rounded-t-full"></div>
-          
-          {/* Кусты */}
-          <div className="absolute bottom-0 left-60 w-8 h-12 bg-green-600 rounded-t-full"></div>
-          <div className="absolute bottom-0 left-80 w-10 h-14 bg-green-600 rounded-t-full"></div>
-          <div className="absolute bottom-0 right-60 w-6 h-10 bg-green-600 rounded-t-full"></div>
-          
-          {/* Полянка */}
-          <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-green-400 to-green-300"></div>
-        </div>
-        
-        {/* Летающие листочки */}
-        <div className="absolute top-1/3 left-20 w-2 h-2 bg-green-500 rounded-full animate-fall opacity-60"></div>
-        <div className="absolute top-1/4 right-32 w-1.5 h-1.5 bg-green-400 rounded-full animate-fall-delayed opacity-50"></div>
-        <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-green-600 rounded-full animate-fall-slow opacity-40"></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-500 to-cyan-400 relative">
       
       {/* Header */}
-      <header className="bg-black/90 backdrop-blur-sm shadow-sm border-b border-gray-800 relative z-10">
+      <header className="bg-white/10 backdrop-blur-sm shadow-sm border-b border-white/20 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
@@ -798,7 +737,7 @@ const Index = () => {
               <h1 className="text-2xl font-roboto font-bold text-white">Полимер-проект</h1>
             </div>
             <div className="hidden md:flex items-center space-x-4">
-              <Badge variant="outline" className="bg-white/20 text-white border-white/30">
+              <Badge variant="outline" className="bg-white/15 text-white border-white/40">
                 <Icon name="Phone" size={14} className="mr-1" />
                 +7 (999) 123-45-67
               </Badge>
@@ -809,24 +748,24 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 mb-8 bg-black border-black">
-            <TabsTrigger value="main" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Главная</TabsTrigger>
-            <TabsTrigger value="calculator" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Калькулятор</TabsTrigger>
-            <TabsTrigger value="services" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Услуги</TabsTrigger>
-            <TabsTrigger value="portfolio" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Портфолио</TabsTrigger>
-            <TabsTrigger value="blueprint" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Чертежи</TabsTrigger>
-            <TabsTrigger value="techcard" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Тех. карта</TabsTrigger>
-            <TabsTrigger value="contract" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Договор</TabsTrigger>
-            <TabsTrigger value="contacts" className="text-white data-[state=active]:bg-gray-800 data-[state=active]:text-white hover:bg-gray-900">Контакты</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-8 lg:grid-cols-8 mb-8 bg-white/10 border-white/20 backdrop-blur-sm">
+            <TabsTrigger value="main" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Главная</TabsTrigger>
+            <TabsTrigger value="calculator" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Калькулятор</TabsTrigger>
+            <TabsTrigger value="services" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Услуги</TabsTrigger>
+            <TabsTrigger value="portfolio" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Портфолио</TabsTrigger>
+            <TabsTrigger value="blueprint" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Чертежи</TabsTrigger>
+            <TabsTrigger value="techcard" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Тех. карта</TabsTrigger>
+            <TabsTrigger value="contract" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Договор</TabsTrigger>
+            <TabsTrigger value="contacts" className="text-white data-[state=active]:bg-purple-600/80 data-[state=active]:text-white hover:bg-white/20">Контакты</TabsTrigger>
           </TabsList>
 
           {/* Главная */}
           <TabsContent value="main" className="space-y-8">
             <div className="text-center py-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-4xl font-bold text-white mb-4">
                 Производство мягких окон
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-white/80 mb-8">
                 Профессиональное изготовление прозрачных защитных конструкций
               </p>
               <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => setActiveTab('calculator')}>
@@ -858,33 +797,33 @@ const Index = () => {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
                 <CardHeader>
-                  <Icon name="Shield" size={40} className="text-accent mb-2" />
-                  <CardTitle>Качество</CardTitle>
+                  <Icon name="Shield" size={40} className="text-cyan-300 mb-2" />
+                  <CardTitle className="text-white">Качество</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Используем только высококачественную ПВХ пленку европейского производства</p>
+                  <p className="text-white/90">Используем только высококачественную ПВХ пленку европейского производства</p>
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
                 <CardHeader>
-                  <Icon name="Clock" size={40} className="text-primary mb-2" />
-                  <CardTitle>Скорость</CardTitle>
+                  <Icon name="Clock" size={40} className="text-purple-300 mb-2" />
+                  <CardTitle className="text-white">Скорость</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Изготовление от 1 до 5 рабочих дней в зависимости от сложности заказа</p>
+                  <p className="text-white/90">Изготовление от 1 до 5 рабочих дней в зависимости от сложности заказа</p>
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
                 <CardHeader>
-                  <Icon name="Award" size={40} className="text-destructive mb-2" />
-                  <CardTitle>Гарантия</CardTitle>
+                  <Icon name="Award" size={40} className="text-cyan-300 mb-2" />
+                  <CardTitle className="text-white">Гарантия</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Предоставляем гарантию 2 года на все изготавливаемые конструкции</p>
+                  <p className="text-white/90">Предоставляем гарантию 2 года на все изготавливаемые конструкции</p>
                 </CardContent>
               </Card>
             </div>
@@ -893,13 +832,13 @@ const Index = () => {
           {/* Калькулятор */}
           <TabsContent value="calculator" className="space-y-6">
             <div className="grid lg:grid-cols-2 gap-6">
-              <Card>
+              <Card className="bg-white/20 backdrop-blur-sm border-white/30">
                 <CardHeader>
-                  <CardTitle className="flex items-center">
+                  <CardTitle className="flex items-center text-white">
                     <Icon name="Calculator" className="mr-2" />
                     Калькулятор мягких окон
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-white/80">
                     Рассчитайте стоимость изготовления по вашим размерам
                   </CardDescription>
                 </CardHeader>
@@ -1026,29 +965,29 @@ const Index = () => {
                   </Button>
 
                   {calculation.area > 0 && (
-                    <Card className="bg-primary/5 border-primary/20">
+                    <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
                       <CardContent className="pt-4">
                         <div className="text-center space-y-2">
-                          <p className="text-lg">
+                          <p className="text-lg text-white">
                             Площадь: <strong>{calculation.area.toFixed(2)} м²</strong>
                           </p>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-white/80">
                             Периметр: <strong>{calculatePerimeter().toFixed(2)} м</strong>
                           </p>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-white/80">
                             Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter().toFixed(2)}м</strong>
                           </p>
                           {(calculation.grommets && calculation.grommetsCount > 0) && (
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-white/80">
                               Люверсы 16мм: <strong>{calculation.grommetsCount} шт</strong>
                             </p>
                           )}
                           {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-white/80">
                               Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт</strong>
                             </p>
                           )}
-                          <p className="text-2xl font-bold text-primary">
+                          <p className="text-2xl font-bold text-cyan-300">
                             Стоимость: {calculation.price.toFixed(0)} ₽
                           </p>
                           <Button onClick={generatePDF} variant="outline" className="mt-3">
@@ -1062,10 +1001,10 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-white/20 backdrop-blur-sm border-white/30">
                 <CardHeader>
-                  <CardTitle>Предварительный чертеж</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-white">Предварительный чертеж</CardTitle>
+                  <CardDescription className="text-white/80">
                     Визуализация выбранной формы с параметрами
                   </CardDescription>
                 </CardHeader>

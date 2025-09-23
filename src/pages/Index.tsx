@@ -92,10 +92,27 @@ const Index = () => {
 
   const generatePDF = async () => {
     try {
-      const pdfMake = (await import('pdfmake/build/pdfmake')).default;
-      const pdfFonts = (await import('pdfmake/build/vfs_fonts')).default;
+      const jsPDF = (await import('jspdf')).default;
       
-      pdfMake.vfs = pdfFonts.pdfMake.vfs;
+      const doc = new jsPDF('landscape', 'mm', 'a4');
+      
+      // Функция для преобразования кириллицы в читаемый формат
+      const transliterate = (text: string): string => {
+        const cyrillicToLatin: Record<string, string> = {
+          'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo',
+          'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
+          'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+          'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch',
+          'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya',
+          'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+          'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+          'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+          'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch',
+          'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+        };
+        
+        return text.replace(/[А-Яа-яЁё]/g, (char) => cyrillicToLatin[char] || char);
+      };
       
       const { area, price } = calculatePrice();
       const currentShape = shapes.find(s => s.id === calculation.shape);
@@ -108,73 +125,86 @@ const Index = () => {
       const kantWithMargin = Math.round(kantLength * 1.05);
       const totalGrommets = calculation.grommetsCount + (calculation.ringGrommets ? calculation.ringGrommetsCount : 0);
       
-      const docDefinition = {
-        pageOrientation: 'landscape' as const,
-        pageMargins: [20, 20, 20, 20],
-        content: [
-          {
-            text: 'ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА',
-            style: 'header',
-            alignment: 'center' as const,
-            margin: [0, 0, 0, 10]
-          },
-          {
-            text: `${currentShape?.name?.toUpperCase()} - ${calculation.a}×${calculation.b}мм`,
-            style: 'subheader', 
-            alignment: 'center' as const,
-            margin: [0, 0, 0, 20]
-          },
-          {
-            columns: [
-              {
-                width: '50%',
-                stack: [
-                  { text: 'СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:', style: 'sectionHeader' },
-                  { text: `Форма окна: ${currentShape?.name}`, margin: [0, 5] },
-                  { text: `Площадь: ${area.toFixed(2)} м²`, margin: [0, 2] },
-                  { text: `Материал: ${currentFilm?.name}`, margin: [0, 2] },
-                  { text: 'Толщина пленки: 0.5-0.8 мм', margin: [0, 2] },
-                  { text: `Кант: ПВХ ${calculation.kantSize}мм, цвет коричневый`, margin: [0, 2] },
-                  { text: `Периметр: ${calculatePerimeter().toFixed(2)} м`, margin: [0, 2] },
-                  { text: `Стоимость: ${price.toFixed(0)} ₽`, margin: [0, 2] },
-                  
-                  { text: 'РАЗМЕРЫ:', style: 'sectionHeader', margin: [0, 15, 0, 5] },
-                  { text: `Параметр A: ${calculation.a} мм`, margin: [0, 2] },
-                  { text: `Параметр B: ${calculation.b} мм`, margin: [0, 2] },
-                  { text: `Параметр C: ${calculation.c} мм`, margin: [0, 2] },
-                  { text: `Параметр D: ${calculation.d} мм`, margin: [0, 2] },
-                  
-                  { text: 'ЗАГОТОВКИ:', style: 'sectionHeader', margin: [0, 15, 0, 5] },
-                  { text: `Размер заготовки полотна: ${fabricWidth}×${fabricHeight}мм (с припусками)`, margin: [0, 2] },
-                  { text: `Размер заготовки канта: ${kantWithMargin}см (${kantLength}см + 5% запас)`, margin: [0, 2] },
-                  { text: `Общее количество люверсов: ${totalGrommets} шт`, margin: [0, 2] }
-                ]
-              },
-              {
-                width: '50%',
-                stack: [
-                  { text: 'ТЕХНИЧЕСКИЕ ТРЕБОВАНИЯ:', style: 'sectionHeader' },
-                  { text: '1. Материал: ПВХ пленка прозрачная, ГОСТ 16272-79', margin: [0, 5] },
-                  { text: `2. Кант: ПВХ лента шириной ${calculation.kantSize}мм, цвет коричневый`, margin: [0, 2] },
-                  { text: '3. Люверсы: металл, диаметр 16мм, с шайбами', margin: [0, 2] },
-                  { text: '4. Сварка: ультразвуковая, шов герметичный', margin: [0, 2] },
-                  { text: '5. Допуски размеров: ±2мм', margin: [0, 2] }
-                ]
-              }
-            ]
-          }
-        ],
-        styles: {
-          header: { fontSize: 16, bold: true },
-          subheader: { fontSize: 14, bold: true },
-          sectionHeader: { fontSize: 12, bold: true },
-          normal: { fontSize: 10 }
-        },
-        defaultStyle: { font: 'Roboto', fontSize: 10 }
-      };
+      // Заголовок
+      doc.setFontSize(16);
+      doc.text(transliterate('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА'), 148, 20, { align: 'center' });
+      doc.text(transliterate(`${currentShape?.name?.toUpperCase()} - ${calculation.a}x${calculation.b}мм`), 148, 30, { align: 'center' });
       
-      const pdf = pdfMake.createPdf(docDefinition);
-      pdf.download(`Технологическая-карта-${currentShape?.name}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`);
+      // Рамка документа
+      doc.rect(10, 10, 277, 190);
+      
+      // Левая часть - спецификация
+      doc.setFontSize(12);
+      let yPos = 50;
+      doc.text(transliterate('СПЕЦИФИКАЦИЯ ИЗДЕЛИЯ:'), 15, yPos);
+      
+      yPos += 10;
+      doc.setFontSize(10);
+      doc.text(transliterate(`Forma okna: ${currentShape?.name}`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Ploschad: ${area.toFixed(2)} m²`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Material: ${currentFilm?.name}`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate('Tolschina plenki: 0.5-0.8 mm'), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Kant: PVKh ${calculation.kantSize}mm, tsvet korichnevyy`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Perimetr: ${calculatePerimeter().toFixed(2)} m`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Stoimost: ${price.toFixed(0)} rub`), 15, yPos);
+      
+      // Размеры
+      yPos += 15;
+      doc.setFontSize(12);
+      doc.text(transliterate('RAZMERY:'), 15, yPos);
+      yPos += 10;
+      doc.setFontSize(10);
+      
+      doc.text(`Parametr A: ${calculation.a} mm`, 15, yPos); yPos += 6;
+      doc.text(`Parametr B: ${calculation.b} mm`, 15, yPos); yPos += 6;
+      doc.text(`Parametr C: ${calculation.c} mm`, 15, yPos); yPos += 6;
+      doc.text(`Parametr D: ${calculation.d} mm`, 15, yPos); yPos += 6;
+      
+      // Заготовки
+      yPos += 10;
+      doc.setFontSize(12);
+      doc.text(transliterate('ZAGOTOVKI:'), 15, yPos);
+      yPos += 10;
+      doc.setFontSize(10);
+      
+      doc.text(transliterate(`Razmer zagotovki polotna: ${fabricWidth}x${fabricHeight}mm (s pripuskami)`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Razmer zagotovki kanta: ${kantWithMargin}sm (${kantLength}sm + 5% zapas)`), 15, yPos);
+      yPos += 6;
+      doc.text(transliterate(`Obschee kolichestvo lyuversov: ${totalGrommets} sht`), 15, yPos);
+      
+      // Правая часть - технические требования
+      yPos = 50;
+      doc.setFontSize(12);
+      doc.text(transliterate('TEKHNICHESKIE TREBOVANIYA:'), 150, yPos);
+      yPos += 10;
+      doc.setFontSize(10);
+      
+      doc.text(transliterate('1. Material: PVKh plenka prozrachnaya, GOST 16272-79'), 150, yPos);
+      yPos += 6;
+      doc.text(transliterate(`2. Kant: PVKh lenta shirinoj ${calculation.kantSize}mm, tsvet korichnevyy`), 150, yPos);
+      yPos += 6;
+      doc.text(transliterate('3. Lyuversy: metall, diametr 16mm, s shaybami'), 150, yPos);
+      yPos += 6;
+      doc.text(transliterate('4. Svarka: ultrazvukovaya, shov germetichnyy'), 150, yPos);
+      yPos += 6;
+      doc.text(transliterate('5. Dopuski razmerov: ±2mm'), 150, yPos);
+      
+      // Подписи
+      doc.setFontSize(10);
+      doc.text(transliterate('Razrabotal: ________________'), 15, 180);
+      doc.text(transliterate('Proveril: ________________'), 150, 180);
+      doc.text(`Data: ${new Date().toLocaleDateString('ru-RU')}`, 230, 180);
+      
+      // Сохранение
+      const fileName = `Tekhnologicheskaya-karta-${transliterate(currentShape?.name || 'okno')}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`;
+      doc.save(fileName);
       
     } catch (error) {
       console.error('Ошибка при создании PDF:', error);

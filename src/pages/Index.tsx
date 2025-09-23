@@ -50,10 +50,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('calculator');
 
   const shapes = [
-    { id: 'rectangle', name: 'Прямоугольник', params: ['a', 'b'] },
-    { id: 'triangle', name: 'Треугольник', params: ['a', 'b', 'c'] },
-    { id: 'trapezoid', name: 'Трапеция', params: ['a', 'b', 'c', 'd'] },
-    { id: 'pentagon', name: 'Пятиугольник', params: ['a', 'b', 'c', 'd', 'e'] }
+    { id: 'rectangle', name: 'Прямоугольник', params: ['a', 'b'] }
   ];
 
   const filmTypes = [
@@ -63,25 +60,8 @@ const Index = () => {
   ];
 
   const calculateArea = () => {
-    const { shape, a, b, c, d, e } = calculation;
-    let area = 0;
-
-    switch (shape) {
-      case 'rectangle':
-        area = (a * b) / 10000;
-        break;
-      case 'triangle':
-        area = (a * b * 0.5) / 10000;
-        break;
-      case 'trapezoid':
-        area = ((a + c) * b * 0.5) / 10000;
-        break;
-      case 'pentagon':
-        area = (a * b + c * d * 0.5 + e * 10) / 10000;
-        break;
-    }
-
-    return area;
+    const { a, b } = calculation;
+    return (a * b) / 10000;
   };
 
   const calculatePrice = () => {
@@ -101,29 +81,8 @@ const Index = () => {
   };
 
   const calculatePerimeter = () => {
-    const { shape, a, b, c, d, e } = calculation;
-    let perimeter = 0;
-
-    switch (shape) {
-      case 'rectangle':
-        perimeter = (2 * (a + b)) / 1000; // переводим в метры
-        break;
-      case 'triangle':
-        perimeter = (a + b + c) / 1000;
-        break;
-      case 'trapezoid':
-        // Приблизительный расчет для трапеции
-        const height = b / 1000;
-        const side = Math.sqrt(Math.pow(height, 2) + Math.pow((c - a) / 2000, 2));
-        perimeter = (a + c + 2 * side * 1000) / 1000;
-        break;
-      case 'pentagon':
-        // Приблизительный расчет для пятиугольника
-        perimeter = (a + b + c + d + e) / 1000;
-        break;
-    }
-
-    return perimeter;
+    const { a, b } = calculation;
+    return (2 * (a + b)) / 1000; // переводим в метры
   };
 
   const handleCalculate = () => {
@@ -614,7 +573,7 @@ const Index = () => {
   };
 
   const renderShape = () => {
-    const { shape, a, b, c, d, e } = calculation;
+    const { shape, a, b } = calculation;
     
     switch (shape) {
       case 'rectangle':
@@ -795,364 +754,6 @@ const Index = () => {
             {/* Размер светового проёма */}
             <line x1="70" y1="270" x2="330" y2="270" stroke="#666" strokeWidth="1"/>
             <text x="200" y="285" textAnchor="middle" fontSize="10" fill="#666">260мм (световой проём)</text>
-          </svg>
-        );
-      
-      case 'triangle':
-        return (
-          <svg width="400" height="320" className="border rounded bg-white">
-            {/* Коричневый кант треугольника */}
-            <polygon points="200,40 70,260 330,260" fill="#A0522D" stroke="none"/>
-            
-            {/* Голубая прозрачная пленка */}
-            <polygon points="200,52 82,248 318,248" fill="#B3E5FC" stroke="none"/>
-            
-            {/* Размеры как на образце */}
-            <text x="200" y="30" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            <text x="200" y="285" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            <text x="50" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            <text x="350" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            
-            {/* Люверсы по периметру треугольника */}
-            {calculation.grommets && (
-              <>
-                {/* Люверсы на верхней левой стороне */}
-                {[
-                  [170, 95], [140, 135], [110, 175], [90, 215]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Люверсы на верхней правой стороне */}
-                {[
-                  [230, 95], [260, 135], [290, 175], [310, 215]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Люверсы на основании треугольника */}
-                {[
-                  [120, 260], [160, 260], [200, 260], [240, 260], [280, 260]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Люверс на вершине */}
-                <g>
-                  <circle cx="200" cy="40" r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                  <circle cx="200" cy="40" r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                  <circle cx="200" cy="40" r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                  <circle cx="198" cy="38" r="1.5" fill="rgba(255,255,255,0.8)"/>
-                </g>
-              </>
-            )}
-
-            {/* Кольцевые люверсы на треугольнике */}
-            {calculation.ringGrommets && (
-              <>
-                {[
-                  [200, 120], [170, 180], [230, 180], [200, 220]
-                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Внешнее кольцо (латунь) */}
-                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
-                    {/* Внутреннее кольцо (блестящий металл) */}
-                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    {/* Центральное отверстие (овальное) */}
-                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    {/* Блики на металле */}
-                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
-                  </g>
-                ))}
-              </>
-            )}
-
-            {/* Французский замок на треугольнике */}
-            {calculation.frenchLock && (
-              <>
-                {[
-                  [150, 150], [250, 150]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Основание замка */}
-                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
-                    {/* Металлическая планка */}
-                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
-                    {/* Защелка */}
-                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
-                    {/* Винты */}
-                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
-                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
-                  </g>
-                ))}
-              </>
-            )}
-            
-            {/* Кант */}
-            <polygon points="200,50 80,250 320,250" fill="none" stroke="#8B4513" strokeWidth="6"/>
-          </svg>
-        );
-      
-      case 'trapezoid':
-        return (
-          <svg width="400" height="320" className="border rounded bg-white">
-            {/* Коричневый кант трапеции */}
-            <polygon points="130,40 270,40 350,260 50,260" fill="#A0522D" stroke="none"/>
-            
-            {/* Голубая прозрачная пленка */}
-            <polygon points="142,52 258,52 338,248 62,248" fill="#B3E5FC" stroke="none"/>
-            
-            {/* Размеры как на образце */}
-            <text x="200" y="30" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            <text x="200" y="285" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(c/10)}</text>
-            <text x="30" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            <text x="370" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            
-            {/* Люверсы по периметру трапеции */}
-            {calculation.grommets && (
-              <>
-                {/* Верхняя сторона */}
-                {[
-                  [160, 40], [200, 40], [240, 40]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Нижняя сторона */}
-                {[
-                  [90, 260], [140, 260], [200, 260], [260, 260], [310, 260]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Левая косая сторона */}
-                {[
-                  [110, 100], [85, 150], [70, 200]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Правая косая сторона */}
-                {[
-                  [290, 100], [315, 150], [330, 200]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-              </>
-            )}
-
-            {/* Кольцевые люверсы на трапеции */}
-            {calculation.ringGrommets && (
-              <>
-                {[
-                  [200, 120], [150, 170], [250, 170], [200, 220]
-                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Внешнее кольцо (латунь) */}
-                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
-                    {/* Внутреннее кольцо (блестящий металл) */}
-                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    {/* Центральное отверстие (овальное) */}
-                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    {/* Блики на металле */}
-                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
-                  </g>
-                ))}
-              </>
-            )}
-
-            {/* Французский замок на трапеции */}
-            {calculation.frenchLock && (
-              <>
-                {[
-                  [85, 150], [315, 150]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Основание замка */}
-                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
-                    {/* Металлическая планка */}
-                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
-                    {/* Защелка */}
-                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
-                    {/* Винты */}
-                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
-                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
-                  </g>
-                ))}
-              </>
-            )}
-            
-            {/* Кант */}
-            <polygon points="120,50 280,50 350,250 50,250" fill="none" stroke="#8B4513" strokeWidth="6"/>
-          </svg>
-        );
-      
-      case 'pentagon':
-        return (
-          <svg width="400" height="320" className="border rounded bg-white">
-            {/* Коричневый кант пятиугольника */}
-            <polygon points="200,40 110,110 130,260 270,260 290,110" fill="#A0522D" stroke="none"/>
-            
-            {/* Голубая прозрачная пленка */}
-            <polygon points="200,52 122,122 142,248 258,248 278,122" fill="#B3E5FC" stroke="none"/>
-            
-            {/* Размеры как на образце */}
-            <text x="200" y="30" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            <text x="200" y="290" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(a/10)}</text>
-            <text x="30" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            <text x="370" y="160" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#000">{Math.round(b/10)}</text>
-            
-            {/* Люверсы по периметру пятиугольника */}
-            {calculation.grommets && (
-              <>
-                {/* Люверс на вершине */}
-                <g>
-                  <circle cx="200" cy="40" r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                  <circle cx="200" cy="40" r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                  <circle cx="200" cy="40" r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                  <circle cx="198" cy="38" r="1.5" fill="rgba(255,255,255,0.8)"/>
-                </g>
-                
-                {/* Верхняя левая сторона */}
-                {[
-                  [170, 65], [140, 90], [120, 115]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Верхняя правая сторона */}
-                {[
-                  [230, 65], [260, 90], [280, 115]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Левая сторона */}
-                {[
-                  [115, 150], [120, 190], [125, 230]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Правая сторона */}
-                {[
-                  [285, 150], [280, 190], [275, 230]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-                
-                {/* Нижняя сторона */}
-                {[
-                  [160, 260], [200, 260], [240, 260]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
-                  </g>
-                ))}
-              </>
-            )}
-
-            {/* Кольцевые люверсы на пятиугольнике */}
-            {calculation.ringGrommets && (
-              <>
-                {[
-                  [200, 120], [170, 170], [230, 170], [200, 200]
-                ].slice(0, calculation.ringGrommetsCount).map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Внешнее кольцо (латунь) */}
-                    <ellipse cx={x} cy={y} rx="8" ry="5" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
-                    {/* Внутреннее кольцо (блестящий металл) */}
-                    <ellipse cx={x} cy={y} rx="6.5" ry="4" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                    {/* Центральное отверстие (овальное) */}
-                    <ellipse cx={x} cy={y} rx="4" ry="2.5" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                    {/* Блики на металле */}
-                    <ellipse cx={x-1.5} cy={y-1} rx="1" ry="0.8" fill="rgba(255,255,255,0.7)"/>
-                  </g>
-                ))}
-              </>
-            )}
-
-            {/* Французский замок на пятиугольнике */}
-            {calculation.frenchLock && (
-              <>
-                {[
-                  [130, 150], [270, 150]
-                ].map(([x, y], i) => (
-                  <g key={i}>
-                    {/* Основание замка */}
-                    <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
-                    {/* Металлическая планка */}
-                    <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
-                    {/* Защелка */}
-                    <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
-                    {/* Винты */}
-                    <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
-                    <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
-                  </g>
-                ))}
-              </>
-            )}
-            
-            {/* Кант */}
-            <polygon points="200,50 120,120 140,220 260,220 280,120" fill="none" stroke="#8B4513" strokeWidth="6"/>
           </svg>
         );
       
@@ -1348,34 +949,27 @@ const Index = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="shape">Форма окна</Label>
-                    <Select value={calculation.shape} onValueChange={(value) => setCalculation(prev => ({ ...prev, shape: value }))}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Выберите форму" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {shapes.map(shape => (
-                          <SelectItem key={shape.id} value={shape.id}>
-                            {shape.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+
 
                   <div className="grid grid-cols-2 gap-4">
-                    {shapes.find(s => s.id === calculation.shape)?.params.map(param => (
-                      <div key={param}>
-                        <Label htmlFor={param}>Параметр {param.toUpperCase()} (см)</Label>
-                        <Input
-                          id={param}
-                          type="number"
-                          value={calculation[param as keyof WindowCalculation] as number}
-                          onChange={(e) => setCalculation(prev => ({ ...prev, [param]: Number(e.target.value) }))}
-                        />
-                      </div>
-                    ))}
+                    <div>
+                      <Label htmlFor="a">Ширина (см)</Label>
+                      <Input
+                        id="a"
+                        type="number"
+                        value={calculation.a}
+                        onChange={(e) => setCalculation(prev => ({ ...prev, a: Number(e.target.value) }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="b">Высота (см)</Label>
+                      <Input
+                        id="b"
+                        type="number"
+                        value={calculation.b}
+                        onChange={(e) => setCalculation(prev => ({ ...prev, b: Number(e.target.value) }))}
+                      />
+                    </div>
                   </div>
 
                   <div>

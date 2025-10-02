@@ -29,7 +29,8 @@ const Index = () => {
     filmType: 'transparent',
     kantSize: 10,
     area: 0,
-    price: 0
+    price: 0,
+    quantity: 1
   });
 
   const [activeTab, setActiveTab] = useState('calculator');

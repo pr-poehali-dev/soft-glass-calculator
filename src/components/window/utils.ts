@@ -13,14 +13,18 @@ export const calculatePerimeter = (calculation: WindowCalculation) => {
 export const calculatePrice = (calculation: WindowCalculation) => {
   const area = calculateArea(calculation);
   const filmPrice = filmTypes.find(f => f.id === calculation.filmType)?.price || 450;
-  let price = area * filmPrice;
+  let pricePerWindow = area * filmPrice;
 
-  if (calculation.grommets) price += calculation.grommetsCount * 150;
-  if (calculation.ringGrommets) price += calculation.ringGrommetsCount * 180;
-  if (calculation.frenchLock) price += area * 80;
+  if (calculation.grommets) pricePerWindow += calculation.grommetsCount * 150;
+  if (calculation.ringGrommets) pricePerWindow += calculation.ringGrommetsCount * 180;
+  if (calculation.frenchLock) pricePerWindow += area * 80;
   
   const perimeter = calculatePerimeter(calculation);
-  price += perimeter * 15;
+  pricePerWindow += perimeter * 15;
 
-  return { area, price };
+  const quantity = calculation.quantity || 1;
+  const totalPrice = pricePerWindow * quantity;
+  const totalArea = area * quantity;
+
+  return { area, price: pricePerWindow, totalPrice, totalArea, quantity };
 };

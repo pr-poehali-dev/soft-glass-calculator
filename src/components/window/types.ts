@@ -14,6 +14,7 @@ export interface WindowCalculation {
   kantSize: number;
   area: number;
   price: number;
+  quantity: number;
 }
 
 export const shapes = [

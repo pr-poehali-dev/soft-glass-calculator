@@ -73,6 +73,18 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             </div>
 
             <div>
+              <Label htmlFor="quantity">Количество окон</Label>
+              <Input
+                id="quantity"
+                type="number"
+                min="1"
+                max="100"
+                value={calculation.quantity}
+                onChange={(e) => setCalculation(prev => ({ ...prev, quantity: Number(e.target.value) || 1 }))}
+              />
+            </div>
+
+            <div>
               <Label htmlFor="filmType">Тип ПВХ пленки</Label>
               <Select value={calculation.filmType} onValueChange={(value) => setCalculation(prev => ({ ...prev, filmType: value }))}>
                 <SelectTrigger>
@@ -170,40 +182,67 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               Рассчитать
             </Button>
 
-            {calculation.area > 0 && (
-              <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
-                <CardContent className="pt-4">
-                  <div className="text-center space-y-2">
-                    <p className="text-lg text-white">
-                      Площадь: <strong>{calculation.area.toFixed(2)} м²</strong>
-                    </p>
-                    <p className="text-sm text-white/80">
-                      Периметр: <strong>{calculatePerimeter(calculation).toFixed(2)} м</strong>
-                    </p>
-                    <p className="text-sm text-white/80">
-                      Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter(calculation).toFixed(2)}м</strong>
-                    </p>
-                    {(calculation.grommets && calculation.grommetsCount > 0) && (
+            {calculation.area > 0 && (() => {
+              const { area, price, totalPrice, totalArea, quantity } = calculatePerimeter(calculation) && 
+                { area: calculation.area, price: calculation.price, 
+                  totalPrice: calculation.price * (calculation.quantity || 1), 
+                  totalArea: calculation.area * (calculation.quantity || 1),
+                  quantity: calculation.quantity || 1 };
+              return (
+                <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
+                  <CardContent className="pt-4">
+                    <div className="text-center space-y-2">
                       <p className="text-sm text-white/80">
-                        Люверсы 16мм: <strong>{calculation.grommetsCount} шт</strong>
+                        Количество: <strong>{quantity} {quantity === 1 ? 'окно' : quantity < 5 ? 'окна' : 'окон'}</strong>
                       </p>
-                    )}
-                    {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
+                      <p className="text-lg text-white">
+                        Площадь одного окна: <strong>{area.toFixed(2)} м²</strong>
+                      </p>
+                      {quantity > 1 && (
+                        <p className="text-sm text-white/80">
+                          Общая площадь: <strong>{totalArea.toFixed(2)} м²</strong>
+                        </p>
+                      )}
                       <p className="text-sm text-white/80">
-                        Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт</strong>
+                        Периметр: <strong>{calculatePerimeter(calculation).toFixed(2)} м</strong>
                       </p>
-                    )}
-                    <p className="text-2xl font-bold text-cyan-300">
-                      Стоимость: {calculation.price.toFixed(0)} ₽
-                    </p>
-                    <Button onClick={() => generatePDF(calculation)} variant="outline" className="mt-3">
-                      <Icon name="Download" className="mr-2" />
-                      Скачать чертеж PDF
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+                      <p className="text-sm text-white/80">
+                        Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter(calculation).toFixed(2)}м</strong>
+                      </p>
+                      {(calculation.grommets && calculation.grommetsCount > 0) && (
+                        <p className="text-sm text-white/80">
+                          Люверсы 16мм: <strong>{calculation.grommetsCount} шт на окно</strong>
+                        </p>
+                      )}
+                      {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
+                        <p className="text-sm text-white/80">
+                          Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт на окно</strong>
+                        </p>
+                      )}
+                      <div className="pt-2 border-t border-white/20 mt-3">
+                        <p className="text-lg text-white/90">
+                          Цена за одно окно: <strong>{price.toFixed(0)} ₽</strong>
+                        </p>
+                        {quantity > 1 && (
+                          <p className="text-2xl font-bold text-cyan-300 mt-2">
+                            Итого за {quantity} {quantity === 1 ? 'окно' : quantity < 5 ? 'окна' : 'окон'}: {totalPrice.toFixed(0)} ₽
+                          </p>
+                        )}
+                        {quantity === 1 && (
+                          <p className="text-2xl font-bold text-cyan-300 mt-2">
+                            Итого: {price.toFixed(0)} ₽
+                          </p>
+                        )}
+                      </div>
+                      <Button onClick={() => generatePDF(calculation)} variant="outline" className="mt-3">
+                        <Icon name="Download" className="mr-2" />
+                        Скачать чертеж PDF
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })()}
           </CardContent>
         </Card>
 

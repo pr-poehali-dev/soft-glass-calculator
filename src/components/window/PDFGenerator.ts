@@ -99,7 +99,7 @@ export const generatePDF = async (calculation: WindowCalculation) => {
       yPos += 6;
     }
     if (calculation.ringGrommets && calculation.ringGrommetsCount > 0) {
-      doc.text(transliterate(`4. Koltsevye lyuversy 42x22mm: ${calculation.ringGrommetsCount} sht, levyy/pravyy/nizhniy kant, shag 35mm`), 150, yPos);
+      doc.text(transliterate(`4. Koltsevye lyuversy 42x22mm: ${calculation.ringGrommetsCount} sht, levyy/pravyy/nizhniy kant, shag 350mm`), 150, yPos);
       yPos += 6;
     }
     doc.text(transliterate('5. Svarka: ultrazvukovaya, shov germetichnyy'), 150, yPos);

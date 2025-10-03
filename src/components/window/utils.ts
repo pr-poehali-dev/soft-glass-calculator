@@ -15,7 +15,7 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, grommetsS
   return Math.ceil(topSideMeters / grommetsStep);
 };
 
-export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 35) => {
+export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
   const leftSideMm = calculation.d;
   const rightSideMm = calculation.b;
   const bottomSideMm = calculation.c;

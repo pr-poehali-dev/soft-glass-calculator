@@ -222,7 +222,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 {calculation.ringGrommets && (
                   <div className="ml-6 space-y-2">
                     <p className="text-xs text-white/60">
-                      Рекомендуется: {calculateRingGrommetsCount(calculation)} шт (л/п/н, шаг 35мм)
+                      Рекомендуется: {calculateRingGrommetsCount(calculation)} шт (л/п/н, шаг 350мм)
                     </p>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="ringGrommetsCount" className="text-sm">Количество:</Label>

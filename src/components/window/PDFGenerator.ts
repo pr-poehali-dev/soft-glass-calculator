@@ -95,11 +95,11 @@ export const generatePDF = async (calculation: WindowCalculation) => {
     doc.text(transliterate(`2. Kant: PVKh lenta shirinoj ${calculation.kantSize}mm, tsvet korichnevyy`), 150, yPos);
     yPos += 6;
     if (calculation.grommets && calculation.grommetsCount > 0) {
-      doc.text(transliterate(`3. Lyuversy 16mm: ${calculation.grommetsCount} sht, po perimetru s shagom 30cm`), 150, yPos);
+      doc.text(transliterate(`3. Lyuversy 16mm: ${calculation.grommetsCount} sht, TOLKO verkhniy kant, shag 30cm`), 150, yPos);
       yPos += 6;
     }
     if (calculation.ringGrommets && calculation.ringGrommetsCount > 0) {
-      doc.text(transliterate(`4. Koltsevye lyuversy 42x22mm: ${calculation.ringGrommetsCount} sht, s shagom 50cm`), 150, yPos);
+      doc.text(transliterate(`4. Koltsevye lyuversy 42x22mm: ${calculation.ringGrommetsCount} sht, levyy/pravyy/nizhniy kant, shag 50cm`), 150, yPos);
       yPos += 6;
     }
     doc.text(transliterate('5. Svarka: ultrazvukovaya, shov germetichnyy'), 150, yPos);

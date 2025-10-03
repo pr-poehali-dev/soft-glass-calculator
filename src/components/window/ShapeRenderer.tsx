@@ -49,37 +49,16 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
           <>
             {(() => {
               const positions = [];
-              const topCount = distributeGrommetsOnSide(a / 1000, perimeter, calculation.grommetsCount);
-              const rightCount = distributeGrommetsOnSide(b / 1000, perimeter, calculation.grommetsCount);
-              const bottomCount = distributeGrommetsOnSide(c / 1000, perimeter, calculation.grommetsCount);
-              const leftCount = distributeGrommetsOnSide(d / 1000, perimeter, calculation.grommetsCount);
+              const count = calculation.grommetsCount;
               
-              // Верхняя сторона
-              const topSpacing = 270 / (topCount - 1 || 1);
-              for (let i = 0; i < topCount; i++) {
-                positions.push([65 + i * topSpacing, 52, 'top']);
-              }
-              
-              // Правая сторона
-              const rightSpacing = 170 / (rightCount - 1 || 1);
-              for (let i = 0; i < rightCount; i++) {
-                positions.push([348, 65 + i * rightSpacing, 'right']);
-              }
-              
-              // Нижняя сторона
-              const bottomSpacing = 270 / (bottomCount - 1 || 1);
-              for (let i = 0; i < bottomCount; i++) {
-                positions.push([335 - i * bottomSpacing, 248, 'bottom']);
-              }
-              
-              // Левая сторона
-              const leftSpacing = 170 / (leftCount - 1 || 1);
-              for (let i = 0; i < leftCount; i++) {
-                positions.push([52, 235 - i * leftSpacing, 'left']);
+              // Только верхняя сторона
+              const topSpacing = 270 / (count - 1 || 1);
+              for (let i = 0; i < count; i++) {
+                positions.push([65 + i * topSpacing, 52]);
               }
               
               return positions;
-            })().map(([x, y, side], i) => (
+            })().map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
                 <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
@@ -88,7 +67,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               </g>
             ))}
             <text x="200" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
-              Люверсы 16мм: {calculation.grommetsCount} шт
+              Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>
         )}
@@ -97,15 +76,18 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
           <>
             {(() => {
               const positions = [];
-              const topCount = distributeGrommetsOnSide(a / 1000, perimeter, calculation.ringGrommetsCount);
-              const rightCount = distributeGrommetsOnSide(b / 1000, perimeter, calculation.ringGrommetsCount);
-              const bottomCount = distributeGrommetsOnSide(c / 1000, perimeter, calculation.ringGrommetsCount);
-              const leftCount = distributeGrommetsOnSide(d / 1000, perimeter, calculation.ringGrommetsCount);
+              const totalCount = calculation.ringGrommetsCount;
               
-              // Верхняя сторона
-              const topSpacing = 270 / (topCount - 1 || 1);
-              for (let i = 0; i < topCount; i++) {
-                positions.push([65 + i * topSpacing, 52, 'top']);
+              // Распределяем по 3 сторонам (левая, правая, нижняя)
+              const sidesPerimeter = (b + c + d) / 1000;
+              const leftCount = Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount));
+              const rightCount = Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount));
+              const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
+              
+              // Левая сторона
+              const leftSpacing = 170 / (leftCount - 1 || 1);
+              for (let i = 0; i < leftCount; i++) {
+                positions.push([52, 65 + i * leftSpacing, 'left']);
               }
               
               // Правая сторона
@@ -117,13 +99,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Нижняя сторона
               const bottomSpacing = 270 / (bottomCount - 1 || 1);
               for (let i = 0; i < bottomCount; i++) {
-                positions.push([335 - i * bottomSpacing, 248, 'bottom']);
-              }
-              
-              // Левая сторона
-              const leftSpacing = 170 / (leftCount - 1 || 1);
-              for (let i = 0; i < leftCount; i++) {
-                positions.push([52, 235 - i * leftSpacing, 'left']);
+                positions.push([65 + i * bottomSpacing, 248, 'bottom']);
               }
               
               return positions;
@@ -136,7 +112,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               </g>
             ))}
             <text x="200" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
-              Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт
+              Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>
           </>
         )}

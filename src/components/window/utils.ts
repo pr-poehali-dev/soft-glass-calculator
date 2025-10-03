@@ -10,8 +10,17 @@ export const calculatePerimeter = (calculation: WindowCalculation) => {
   return (a + b + c + d) / 1000;
 };
 
-export const calculateGrommetsCount = (perimeterMeters: number, grommetsStep: number = 0.3) => {
-  return Math.ceil(perimeterMeters / grommetsStep);
+export const calculateGrommetsCount = (calculation: WindowCalculation, grommetsStep: number = 0.3) => {
+  const topSideMeters = calculation.a / 1000;
+  return Math.ceil(topSideMeters / grommetsStep);
+};
+
+export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStep: number = 0.5) => {
+  const leftSideMeters = calculation.d / 1000;
+  const rightSideMeters = calculation.b / 1000;
+  const bottomSideMeters = calculation.c / 1000;
+  const threesSidesPerimeter = leftSideMeters + rightSideMeters + bottomSideMeters;
+  return Math.ceil(threesSidesPerimeter / grommetsStep);
 };
 
 export const calculatePrice = (calculation: WindowCalculation) => {

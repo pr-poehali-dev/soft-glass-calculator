@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { WindowCalculation, WindowItem, shapes, filmTypes } from '@/components/window/types';
-import { calculatePerimeter, calculateGrommetsCount } from '@/components/window/utils';
+import { calculatePerimeter, calculateGrommetsCount, calculateRingGrommetsCount } from '@/components/window/utils';
 import { generatePDF } from '@/components/window/PDFGenerator';
 import ShapeRenderer from '@/components/window/ShapeRenderer';
 
@@ -173,8 +173,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     id="grommets"
                     checked={calculation.grommets}
                     onCheckedChange={(checked) => {
-                      const perimeter = calculatePerimeter(calculation);
-                      const autoCount = calculateGrommetsCount(perimeter);
+                      const autoCount = calculateGrommetsCount(calculation);
                       setCalculation(prev => ({ 
                         ...prev, 
                         grommets: checked as boolean, 
@@ -182,12 +181,12 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }));
                     }}
                   />
-                  <Label htmlFor="grommets">Люверсы 16мм (150 ₽/шт)</Label>
+                  <Label htmlFor="grommets">Люверсы 16мм - только верхний кант (150 ₽/шт)</Label>
                 </div>
                 {calculation.grommets && (
                   <div className="ml-6 space-y-2">
                     <p className="text-xs text-white/60">
-                      Рекомендуется: {calculateGrommetsCount(calculatePerimeter(calculation))} шт (шаг 30см)
+                      Рекомендуется: {calculateGrommetsCount(calculation)} шт (верх, шаг 30см)
                     </p>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="grommetsCount" className="text-sm">Количество:</Label>
@@ -210,8 +209,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     id="ringGrommets"
                     checked={calculation.ringGrommets}
                     onCheckedChange={(checked) => {
-                      const perimeter = calculatePerimeter(calculation);
-                      const autoCount = calculateGrommetsCount(perimeter, 0.5);
+                      const autoCount = calculateRingGrommetsCount(calculation);
                       setCalculation(prev => ({ 
                         ...prev, 
                         ringGrommets: checked as boolean, 
@@ -219,12 +217,12 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }));
                     }}
                   />
-                  <Label htmlFor="ringGrommets">Кольцевые люверсы 42×22мм (180 ₽/шт)</Label>
+                  <Label htmlFor="ringGrommets">Кольцевые люверсы 42×22мм - левый/правый/нижний кант (180 ₽/шт)</Label>
                 </div>
                 {calculation.ringGrommets && (
                   <div className="ml-6 space-y-2">
                     <p className="text-xs text-white/60">
-                      Рекомендуется: {calculateGrommetsCount(calculatePerimeter(calculation), 0.5)} шт (шаг 50см)
+                      Рекомендуется: {calculateRingGrommetsCount(calculation)} шт (л/п/н, шаг 50см)
                     </p>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="ringGrommetsCount" className="text-sm">Количество:</Label>

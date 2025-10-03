@@ -15,6 +15,26 @@ export interface WindowCalculation {
   area: number;
   price: number;
   quantity: number;
+  windows?: WindowItem[];
+}
+
+export interface WindowItem {
+  id: string;
+  shape: string;
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+  e: number;
+  grommets: boolean;
+  grommetsCount: number;
+  frenchLock: boolean;
+  ringGrommets: boolean;
+  ringGrommetsCount: number;
+  filmType: string;
+  kantSize: number;
+  area: number;
+  price: number;
 }
 
 export const shapes = [

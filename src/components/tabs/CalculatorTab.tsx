@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
-import { WindowCalculation, shapes, filmTypes } from '@/components/window/types';
+import { WindowCalculation, WindowItem, shapes, filmTypes } from '@/components/window/types';
 import { calculatePerimeter } from '@/components/window/utils';
 import { generatePDF } from '@/components/window/PDFGenerator';
 import ShapeRenderer from '@/components/window/ShapeRenderer';
@@ -19,6 +19,55 @@ interface CalculatorTabProps {
 }
 
 const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate }) => {
+  const [windows, setWindows] = useState<WindowItem[]>([]);
+  const [showMultiWindow, setShowMultiWindow] = useState(false);
+
+  const addWindow = () => {
+    const newWindow: WindowItem = {
+      id: Date.now().toString(),
+      shape: calculation.shape,
+      a: calculation.a,
+      b: calculation.b,
+      c: calculation.c,
+      d: calculation.d,
+      e: calculation.e,
+      grommets: calculation.grommets,
+      grommetsCount: calculation.grommetsCount,
+      ringGrommets: calculation.ringGrommets,
+      ringGrommetsCount: calculation.ringGrommetsCount,
+      frenchLock: calculation.frenchLock,
+      filmType: calculation.filmType,
+      kantSize: calculation.kantSize,
+      area: calculation.area,
+      price: calculation.price
+    };
+    setWindows([...windows, newWindow]);
+  };
+
+  const removeWindow = (id: string) => {
+    setWindows(windows.filter(w => w.id !== id));
+  };
+
+  const updateWindow = (id: string, field: keyof WindowItem, value: number | boolean | string) => {
+    setWindows(windows.map(w => w.id === id ? { ...w, [field]: value } : w));
+  };
+
+  const calculateTotal = () => {
+    let total = calculation.price;
+    windows.forEach(w => {
+      total += w.price;
+    });
+    return total;
+  };
+
+  const calculateTotalArea = () => {
+    let total = calculation.area;
+    windows.forEach(w => {
+      total += w.area;
+    });
+    return total;
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid lg:grid-cols-2 gap-6">
@@ -72,16 +121,16 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="quantity">Количество окон</Label>
-              <Input
-                id="quantity"
-                type="number"
-                min="1"
-                max="100"
-                value={calculation.quantity}
-                onChange={(e) => setCalculation(prev => ({ ...prev, quantity: Number(e.target.value) || 1 }))}
-              />
+            <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
+              <Label className="text-white">Добавить окна с другими размерами</Label>
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                onClick={() => setShowMultiWindow(!showMultiWindow)}
+              >
+                {showMultiWindow ? 'Скрыть' : 'Показать'}
+              </Button>
             </div>
 
             <div>
@@ -182,67 +231,98 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               Рассчитать
             </Button>
 
-            {calculation.area > 0 && (() => {
-              const { area, price, totalPrice, totalArea, quantity } = calculatePerimeter(calculation) && 
-                { area: calculation.area, price: calculation.price, 
-                  totalPrice: calculation.price * (calculation.quantity || 1), 
-                  totalArea: calculation.area * (calculation.quantity || 1),
-                  quantity: calculation.quantity || 1 };
-              return (
-                <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
-                  <CardContent className="pt-4">
-                    <div className="text-center space-y-2">
+            {showMultiWindow && calculation.area > 0 && (
+              <div className="space-y-3">
+                <Button 
+                  onClick={addWindow} 
+                  variant="outline" 
+                  className="w-full"
+                >
+                  <Icon name="Plus" className="mr-2" />
+                  Добавить окно с текущими параметрами
+                </Button>
+
+                {windows.length > 0 && (
+                  <div className="space-y-2">
+                    <Label className="text-white">Добавленные окна:</Label>
+                    {windows.map((window, index) => (
+                      <Card key={window.id} className="bg-white/20 border-white/30">
+                        <CardContent className="p-3">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1 text-sm text-white/90">
+                              <p className="font-semibold">Окно {index + 2}</p>
+                              <p className="text-xs">A:{window.a}, B:{window.b}, C:{window.c}, D:{window.d}мм</p>
+                              <p className="text-xs">{window.area.toFixed(2)} м² • {window.price.toFixed(0)} ₽</p>
+                            </div>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => removeWindow(window.id)}
+                              className="text-white/70 hover:text-red-400"
+                            >
+                              <Icon name="X" size={16} />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {calculation.area > 0 && (
+              <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
+                <CardContent className="pt-4">
+                  <div className="text-center space-y-2">
+                    <p className="text-lg text-white font-semibold">
+                      Окно 1
+                    </p>
+                    <p className="text-sm text-white/80">
+                      Площадь: <strong>{calculation.area.toFixed(2)} м²</strong>
+                    </p>
+                    <p className="text-sm text-white/80">
+                      Периметр: <strong>{calculatePerimeter(calculation).toFixed(2)} м</strong>
+                    </p>
+                    <p className="text-sm text-white/80">
+                      Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter(calculation).toFixed(2)}м</strong>
+                    </p>
+                    {(calculation.grommets && calculation.grommetsCount > 0) && (
                       <p className="text-sm text-white/80">
-                        Количество: <strong>{quantity} {quantity === 1 ? 'окно' : quantity < 5 ? 'окна' : 'окон'}</strong>
+                        Люверсы 16мм: <strong>{calculation.grommetsCount} шт</strong>
                       </p>
-                      <p className="text-lg text-white">
-                        Площадь одного окна: <strong>{area.toFixed(2)} м²</strong>
-                      </p>
-                      {quantity > 1 && (
-                        <p className="text-sm text-white/80">
-                          Общая площадь: <strong>{totalArea.toFixed(2)} м²</strong>
-                        </p>
-                      )}
+                    )}
+                    {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
                       <p className="text-sm text-white/80">
-                        Периметр: <strong>{calculatePerimeter(calculation).toFixed(2)} м</strong>
+                        Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт</strong>
                       </p>
-                      <p className="text-sm text-white/80">
-                        Кант: <strong>{calculation.kantSize}мм × {calculatePerimeter(calculation).toFixed(2)}м</strong>
-                      </p>
-                      {(calculation.grommets && calculation.grommetsCount > 0) && (
+                    )}
+                    <p className="text-lg text-white/90">
+                      Цена: <strong>{calculation.price.toFixed(0)} ₽</strong>
+                    </p>
+
+                    {windows.length > 0 && (
+                      <div className="pt-3 border-t border-white/20 mt-3 space-y-1">
                         <p className="text-sm text-white/80">
-                          Люверсы 16мм: <strong>{calculation.grommetsCount} шт на окно</strong>
+                          Всего окон: <strong>{windows.length + 1}</strong>
                         </p>
-                      )}
-                      {(calculation.ringGrommets && calculation.ringGrommetsCount > 0) && (
                         <p className="text-sm text-white/80">
-                          Кольцевые люверсы 42×22мм: <strong>{calculation.ringGrommetsCount} шт на окно</strong>
+                          Общая площадь: <strong>{calculateTotalArea().toFixed(2)} м²</strong>
                         </p>
-                      )}
-                      <div className="pt-2 border-t border-white/20 mt-3">
-                        <p className="text-lg text-white/90">
-                          Цена за одно окно: <strong>{price.toFixed(0)} ₽</strong>
+                        <p className="text-2xl font-bold text-cyan-300 mt-2">
+                          Итого: {calculateTotal().toFixed(0)} ₽
                         </p>
-                        {quantity > 1 && (
-                          <p className="text-2xl font-bold text-cyan-300 mt-2">
-                            Итого за {quantity} {quantity === 1 ? 'окно' : quantity < 5 ? 'окна' : 'окон'}: {totalPrice.toFixed(0)} ₽
-                          </p>
-                        )}
-                        {quantity === 1 && (
-                          <p className="text-2xl font-bold text-cyan-300 mt-2">
-                            Итого: {price.toFixed(0)} ₽
-                          </p>
-                        )}
                       </div>
-                      <Button onClick={() => generatePDF(calculation)} variant="outline" className="mt-3">
-                        <Icon name="Download" className="mr-2" />
-                        Скачать чертеж PDF
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })()}
+                    )}
+
+                    <Button onClick={() => generatePDF(calculation)} variant="outline" className="mt-3">
+                      <Icon name="Download" className="mr-2" />
+                      Скачать чертеж PDF
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </CardContent>
         </Card>
 

@@ -39,6 +39,16 @@ export const generatePDF = async (calculation: WindowCalculation) => {
     doc.text(transliterate('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА'), 148, 20, { align: 'center' });
     doc.text(transliterate(`${currentShape?.name?.toUpperCase()} - ${calculation.a}x${calculation.b}мм`), 148, 30, { align: 'center' });
     
+    if (calculation.grommets && calculation.grommetsCount > 0) {
+      doc.setFontSize(9);
+      doc.text('Shag lyuversov 16mm: 300mm', 200, 15);
+    }
+    if (calculation.ringGrommets && calculation.ringGrommetsCount > 0) {
+      doc.setFontSize(9);
+      const yPosition = calculation.grommets ? 20 : 15;
+      doc.text('Shag koltsevykh lyuversov: 350mm', 200, yPosition);
+    }
+    
     doc.rect(10, 10, 277, 190);
     
     doc.setFontSize(12);

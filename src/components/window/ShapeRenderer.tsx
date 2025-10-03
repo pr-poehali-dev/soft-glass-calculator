@@ -20,6 +20,17 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
   if (shape === 'rectangle') {
     return (
       <svg width="400" height="320" className="border rounded bg-white">
+        {calculation.grommets && calculation.grommetsCount > 0 && (
+          <text x="350" y="15" textAnchor="end" fontSize="11" fill="#0066CC" fontWeight="bold">
+            Шаг 300мм
+          </text>
+        )}
+        {calculation.ringGrommets && calculation.ringGrommetsCount > 0 && (
+          <text x="350" y={calculation.grommets ? 28 : 15} textAnchor="end" fontSize="11" fill="#B8860B" fontWeight="bold">
+            Шаг 350мм
+          </text>
+        )}
+        
         <rect x="40" y="40" width="320" height="220" fill="#A0522D" stroke="none"/>
         <rect x="65" y="65" width="270" height="170" fill="#B3E5FC" stroke="none"/>
         

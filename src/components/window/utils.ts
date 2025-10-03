@@ -10,6 +10,10 @@ export const calculatePerimeter = (calculation: WindowCalculation) => {
   return (a + b + c + d) / 1000;
 };
 
+export const calculateGrommetsCount = (perimeterMeters: number, grommetsStep: number = 0.3) => {
+  return Math.ceil(perimeterMeters / grommetsStep);
+};
+
 export const calculatePrice = (calculation: WindowCalculation) => {
   const area = calculateArea(calculation);
   const filmPrice = filmTypes.find(f => f.id === calculation.filmType)?.price || 450;

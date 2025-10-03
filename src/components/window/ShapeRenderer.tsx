@@ -26,7 +26,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
           </text>
         )}
         {calculation.ringGrommets && calculation.ringGrommetsCount > 0 && (
-          <text x="350" y={calculation.grommets ? 28 : 15} textAnchor="end" fontSize="11" fill="#B8860B" fontWeight="bold">
+          <text x="50" y="305" textAnchor="start" fontSize="11" fill="#B8860B" fontWeight="bold">
             Шаг 350мм
           </text>
         )}

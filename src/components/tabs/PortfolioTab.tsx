@@ -6,11 +6,11 @@ import Icon from '@/components/ui/icon';
 
 const PortfolioTab: React.FC = () => {
   const projects = [
-    { img: '/img/1f0cdb80-d24a-4c4d-aae3-2fa47ab4b79a.jpg', title: 'Деревянная терраса', desc: 'Частный дом, 24 м²', badge: 'Люверсы', year: '2023' },
-    { img: '/img/030dde9c-1053-4d06-ae96-48a660afbcda.jpg', title: 'Ресторан "Вилла"', desc: 'Летняя терраса, 48 м²', badge: 'Французские замки', year: '2023' },
-    { img: '/img/12a3c78a-02a5-4344-84cb-630e3b321bb1.jpg', title: 'Складской комплекс', desc: 'Промышленное здание, 120 м²', badge: 'Большие размеры', year: '2024' },
-    { img: '/img/1988cf49-6d49-4dbb-a464-0b5444f7b9e7.jpg', title: 'Кафе "Уют"', desc: 'Зимняя веранда, 32 м²', badge: 'Утепленные', year: '2024' },
-    { img: '/img/b753cc35-620e-4299-975b-7e963f4b67be.jpg', title: 'Яхт-клуб "Neva"', desc: 'Морская пристань, 85 м²', badge: 'Морская среда', year: '2024' }
+    { img: 'https://cdn.poehali.dev/files/659b2281-04ac-4280-af02-6b57db47a3a8.jpg', title: 'Навес с арочной крышей', desc: 'Частный дом, автомобильный навес', badge: 'Люверсы', year: '2024' },
+    { img: 'https://cdn.poehali.dev/files/b6148cba-9a9c-40c3-b00b-e5a7b2cb80dd.jpg', title: 'Открытая терраса', desc: 'Загородный дом, 35 м²', badge: 'Французские замки', year: '2024' },
+    { img: 'https://cdn.poehali.dev/files/e117fb58-dd83-4458-af88-a9877651331b.png', title: 'Беседка с деревянными элементами', desc: 'Кафе-веранда, 28 м²', badge: 'Комбинированные', year: '2024' },
+    { img: 'https://cdn.poehali.dev/files/8dbbc950-deb3-4831-b743-376fe08f1e02.JPG', title: 'Павильон на зеленом газоне', desc: 'Зона отдыха, 24 м²', badge: 'Люверсы', year: '2024' },
+    { img: 'https://cdn.poehali.dev/files/f8dcf2ff-17d5-4aad-9bc4-06f8fb74b7e8.JPG', title: 'Деревянная веранда', desc: 'Дачный домик, 18 м²', badge: 'Кольцевые люверсы', year: '2024' }
   ];
 
   const reviews = [

@@ -50,7 +50,7 @@ const Index = () => {
                 <img 
                   src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
                   alt="Полимер-проект логотип" 
-                  className="h-72 object-contain"
+                  className="h-64 object-contain"
                 />
                 <p className="text-white/90 text-center mt-3 font-bold" style={{fontSize: '80px'}}>Мягкие окна</p>
               </div>

@@ -102,34 +102,34 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white/20 backdrop-blur-sm border-white/30">
+      <Card className="bg-white border-gray-200">
         <CardHeader>
-          <CardTitle className="flex items-center justify-between text-white">
+          <CardTitle className="flex items-center justify-between text-gray-900">
             <div className="flex items-center">
               <Icon name="Calculator" className="mr-2" />
               Калькулятор мягких окон
             </div>
-            <Button onClick={addWindow} variant="outline" size="sm">
+            <Button onClick={addWindow} variant="outline" size="sm" className="border-blue-600 text-blue-600 hover:bg-blue-50">
               <Icon name="Plus" className="mr-1" size={16} />
               Добавить окно
             </Button>
           </CardTitle>
-          <CardDescription className="text-white/80">
+          <CardDescription className="text-gray-600">
             Рассчитайте стоимость изготовления по вашим размерам
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {windows.map((window, index) => (
-            <Card key={window.id} className="bg-white/10 border-white/20">
+            <Card key={window.id} className="bg-gray-50 border-gray-200">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-white text-lg">Окно {index + 1}</CardTitle>
+                  <CardTitle className="text-gray-900 text-lg">Окно {index + 1}</CardTitle>
                   {windows.length > 1 && (
                     <Button 
                       variant="ghost" 
                       size="sm"
                       onClick={() => removeWindow(window.id)}
-                      className="text-white/70 hover:text-red-400"
+                      className="text-gray-500 hover:text-red-500"
                     >
                       <Icon name="X" size={18} />
                     </Button>
@@ -139,7 +139,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-white/90 text-sm">Сторона A (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Сторона A (мм)</Label>
                     <Input
                       type="number"
                       value={window.a}
@@ -148,7 +148,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     />
                   </div>
                   <div>
-                    <Label className="text-white/90 text-sm">Сторона B (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Сторона B (мм)</Label>
                     <Input
                       type="number"
                       value={window.b}
@@ -157,7 +157,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     />
                   </div>
                   <div>
-                    <Label className="text-white/90 text-sm">Сторона C (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Сторона C (мм)</Label>
                     <Input
                       type="number"
                       value={window.c}
@@ -166,7 +166,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     />
                   </div>
                   <div>
-                    <Label className="text-white/90 text-sm">Сторона D (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Сторона D (мм)</Label>
                     <Input
                       type="number"
                       value={window.d}
@@ -177,7 +177,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 </div>
 
                 <div>
-                  <Label className="text-white/90 text-sm">Тип ПВХ пленки</Label>
+                  <Label className="text-gray-700 text-sm">Тип ПВХ пленки</Label>
                   <Select value={window.filmType} onValueChange={(value) => updateWindow(window.id, 'filmType', value)}>
                     <SelectTrigger className="h-9">
                       <SelectValue />
@@ -206,7 +206,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         setWindows(updatedWindows);
                       }}
                     />
-                    <Label htmlFor={`grommets-${window.id}`} className="text-white/90 text-sm cursor-pointer">
+                    <Label htmlFor={`grommets-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
                       Люверсы 16мм (150 ₽/шт)
                     </Label>
                   </div>
@@ -235,7 +235,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         setWindows(updatedWindows);
                       }}
                     />
-                    <Label htmlFor={`ring-${window.id}`} className="text-white/90 text-sm cursor-pointer">
+                    <Label htmlFor={`ring-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
                       Кольцевые люверсы (180 ₽/шт)
                     </Label>
                   </div>
@@ -261,18 +261,18 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         setWindows(updatedWindows);
                       }}
                     />
-                    <Label htmlFor={`french-${window.id}`} className="text-white/90 text-sm cursor-pointer">
+                    <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
                       Французский замок (+80 ₽/м²)
                     </Label>
                   </div>
                 </div>
 
                 {window.area > 0 && (
-                  <div className="bg-white/10 p-3 rounded-lg">
-                    <p className="text-white text-sm">
+                  <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                    <p className="text-gray-700 text-sm">
                       Площадь: <strong>{window.area.toFixed(2)} м²</strong>
                     </p>
-                    <p className="text-white text-lg font-bold">
+                    <p className="text-gray-900 text-lg font-bold">
                       {window.price.toFixed(0)} ₽
                     </p>
                   </div>
@@ -281,24 +281,24 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             </Card>
           ))}
 
-          <Button onClick={calculateAllWindows} className="w-full" size="lg">
+          <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
             <Icon name="Calculator" className="mr-2" />
             Рассчитать все окна
           </Button>
 
           {windows.some(w => w.area > 0) && (
-            <Card className="bg-white/30 border-white/40 backdrop-blur-sm">
+            <Card className="bg-blue-50 border-blue-200">
               <CardContent className="p-6">
                 <div className="space-y-2">
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-gray-900">
                     <span>Количество окон:</span>
                     <strong>{windows.length} шт</strong>
                   </div>
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-gray-900">
                     <span>Общая площадь:</span>
                     <strong>{calculateTotalArea().toFixed(2)} м²</strong>
                   </div>
-                  <div className="flex justify-between text-white text-2xl font-bold pt-3 border-t border-white/30">
+                  <div className="flex justify-between text-gray-900 text-2xl font-bold pt-3 border-t border-blue-300">
                     <span>Итого:</span>
                     <span>{calculateTotal().toFixed(0)} ₽</span>
                   </div>
@@ -310,9 +310,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       </Card>
 
       {windows[0] && windows[0].area > 0 && (
-        <Card className="bg-white/20 backdrop-blur-sm border-white/30">
+        <Card className="bg-white border-gray-200">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
+            <CardTitle className="flex items-center text-gray-900">
               <Icon name="FileText" className="mr-2" />
               Предварительный чертеж
             </CardTitle>

@@ -26,8 +26,8 @@ const PortfolioTab: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-center py-8">
-        <h2 className="text-3xl font-bold text-white mb-4">Наши проекты</h2>
-        <p className="text-xl text-white/90 mb-6">Более 500 успешно реализованных объектов</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Наши проекты</h2>
+        <p className="text-xl text-gray-700 mb-6">Более 500 успешно реализованных объектов</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -48,9 +48,9 @@ const PortfolioTab: React.FC = () => {
 
       </div>
 
-      <Card>
+      <Card className="bg-white border-gray-200">
         <CardHeader>
-          <CardTitle className="text-center text-white mb-4">
+          <CardTitle className="text-center text-gray-900 mb-4">
             <Icon name="MessageSquare" className="mr-2 inline" />
             Отзывы наших клиентов
           </CardTitle>
@@ -58,7 +58,7 @@ const PortfolioTab: React.FC = () => {
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((review, idx) => (
-              <div key={idx} className={`${review.bg} p-4 rounded-lg`}>
+              <div key={idx} className={`${review.bg} p-4 rounded-lg border border-gray-100`}>
                 <div className="flex items-center mb-3">
                   <div className="flex text-yellow-400">
                     {"★★★★★".split('').map((star, i) => (
@@ -76,7 +76,7 @@ const PortfolioTab: React.FC = () => {
           </div>
 
           <div className="text-center pt-6">
-            <Button size="lg" className="bg-white text-primary hover:bg-gray-50">
+            <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700">
               <Icon name="Phone" className="mr-2" />
               Заказать консультацию
             </Button>

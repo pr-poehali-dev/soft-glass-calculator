@@ -12,13 +12,13 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
   return (
     <div className="space-y-8">
       <div className="text-center py-12">
-        <h2 className="text-4xl font-bold text-white mb-4">
+        <h2 className="text-4xl font-bold text-gray-900 mb-4">
           Производство мягких окон
         </h2>
-        <p className="text-xl text-white/80 mb-8">
+        <p className="text-xl text-gray-700 mb-8">
           Профессиональное изготовление прозрачных защитных конструкций
         </p>
-        <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={onNavigateToCalculator}>
+        <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={onNavigateToCalculator}>
           <Icon name="Calculator" className="mr-2" />
           Рассчитать стоимость
         </Button>
@@ -46,33 +46,33 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
+        <Card className="bg-white border-gray-200 hover:shadow-xl transition-all">
           <CardHeader>
-            <Icon name="Shield" size={40} className="text-cyan-300 mb-2" />
-            <CardTitle className="text-white">Качество</CardTitle>
+            <Icon name="Shield" size={40} className="text-blue-600 mb-2" />
+            <CardTitle className="text-gray-900">Качество</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-white/90">Используем только высококачественную ПВХ пленку европейского производства</p>
+            <p className="text-gray-700">Используем только высококачественную ПВХ пленку европейского производства</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
+        <Card className="bg-white border-gray-200 hover:shadow-xl transition-all">
           <CardHeader>
-            <Icon name="Clock" size={40} className="text-purple-300 mb-2" />
-            <CardTitle className="text-white">Скорость</CardTitle>
+            <Icon name="Clock" size={40} className="text-blue-600 mb-2" />
+            <CardTitle className="text-gray-900">Скорость</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-white/90">Изготовление от 1 до 5 рабочих дней в зависимости от сложности заказа</p>
+            <p className="text-gray-700">Изготовление от 1 до 5 рабочих дней в зависимости от сложности заказа</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/25 transition-all hover:shadow-xl">
+        <Card className="bg-white border-gray-200 hover:shadow-xl transition-all">
           <CardHeader>
-            <Icon name="Award" size={40} className="text-cyan-300 mb-2" />
-            <CardTitle className="text-white">Гарантия</CardTitle>
+            <Icon name="Award" size={40} className="text-blue-600 mb-2" />
+            <CardTitle className="text-gray-900">Гарантия</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-white/90">Предоставляем гарантию 2 года на все изготавливаемые конструкции</p>
+            <p className="text-gray-700">Предоставляем гарантию 2 года на все изготавливаемые конструкции</p>
           </CardContent>
         </Card>
       </div>

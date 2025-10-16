@@ -52,7 +52,7 @@ const Index = () => {
                   alt="Полимер-проект логотип" 
                   className="h-72 object-contain"
                 />
-                <p className="text-white/90 text-center mt-3 font-bold" style={{fontSize: '108px'}}>Мягкие окна</p>
+                <p className="text-white/90 text-center mt-3 font-bold" style={{fontSize: '80px'}}>Мягкие окна</p>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-4">

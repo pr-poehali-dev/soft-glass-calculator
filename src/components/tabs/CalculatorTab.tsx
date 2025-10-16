@@ -156,6 +156,24 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       className="h-9"
                     />
                   </div>
+                  <div>
+                    <Label className="text-white/90 text-sm">Сторона C (мм)</Label>
+                    <Input
+                      type="number"
+                      value={window.c}
+                      onChange={(e) => updateWindow(window.id, 'c', Number(e.target.value))}
+                      className="h-9"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-white/90 text-sm">Сторона D (мм)</Label>
+                    <Input
+                      type="number"
+                      value={window.d}
+                      onChange={(e) => updateWindow(window.id, 'd', Number(e.target.value))}
+                      className="h-9"
+                    />
+                  </div>
                 </div>
 
                 <div>

@@ -47,11 +47,10 @@ const Index = () => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               <img 
-                src="https://cdn.poehali.dev/files/3aa9eb72-6b55-45bf-b151-00df591113ad.png" 
+                src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
                 alt="Полимер-проект логотип" 
-                className="w-12 h-12 object-contain"
+                className="h-16 object-contain"
               />
-              <h1 className="text-2xl font-roboto font-bold text-white">Полимер-проект</h1>
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <Badge variant="outline" className="bg-white/15 text-white border-white/40">

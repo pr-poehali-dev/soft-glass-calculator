@@ -180,14 +180,15 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       id={`grommets-${window.id}`}
                       checked={window.grommets}
                       onCheckedChange={(checked) => {
-                        updateWindow(window.id, 'grommets', checked as boolean);
-                        if (checked) {
-                          const count = Math.ceil((window.a / 1000) / 0.3);
-                          updateWindow(window.id, 'grommetsCount', count);
-                        }
+                        const isChecked = checked === true;
+                        const count = isChecked ? Math.ceil((window.a / 1000) / 0.3) : 0;
+                        const updatedWindows = windows.map(w => 
+                          w.id === window.id ? { ...w, grommets: isChecked, grommetsCount: count } : w
+                        );
+                        setWindows(updatedWindows);
                       }}
                     />
-                    <Label htmlFor={`grommets-${window.id}`} className="text-white/90 text-sm">
+                    <Label htmlFor={`grommets-${window.id}`} className="text-white/90 text-sm cursor-pointer">
                       Люверсы 16мм (150 ₽/шт)
                     </Label>
                   </div>
@@ -207,15 +208,16 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       id={`ring-${window.id}`}
                       checked={window.ringGrommets}
                       onCheckedChange={(checked) => {
-                        updateWindow(window.id, 'ringGrommets', checked as boolean);
-                        if (checked) {
-                          const perimeter = (window.a + window.b * 2) / 1000;
-                          const count = Math.ceil(perimeter / 0.35);
-                          updateWindow(window.id, 'ringGrommetsCount', count);
-                        }
+                        const isChecked = checked === true;
+                        const perimeter = (window.a + window.b * 2) / 1000;
+                        const count = isChecked ? Math.ceil(perimeter / 0.35) : 0;
+                        const updatedWindows = windows.map(w => 
+                          w.id === window.id ? { ...w, ringGrommets: isChecked, ringGrommetsCount: count } : w
+                        );
+                        setWindows(updatedWindows);
                       }}
                     />
-                    <Label htmlFor={`ring-${window.id}`} className="text-white/90 text-sm">
+                    <Label htmlFor={`ring-${window.id}`} className="text-white/90 text-sm cursor-pointer">
                       Кольцевые люверсы (180 ₽/шт)
                     </Label>
                   </div>
@@ -234,9 +236,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Checkbox
                       id={`french-${window.id}`}
                       checked={window.frenchLock}
-                      onCheckedChange={(checked) => updateWindow(window.id, 'frenchLock', checked as boolean)}
+                      onCheckedChange={(checked) => {
+                        const updatedWindows = windows.map(w => 
+                          w.id === window.id ? { ...w, frenchLock: checked === true } : w
+                        );
+                        setWindows(updatedWindows);
+                      }}
                     />
-                    <Label htmlFor={`french-${window.id}`} className="text-white/90 text-sm">
+                    <Label htmlFor={`french-${window.id}`} className="text-white/90 text-sm cursor-pointer">
                       Французский замок (+80 ₽/м²)
                     </Label>
                   </div>

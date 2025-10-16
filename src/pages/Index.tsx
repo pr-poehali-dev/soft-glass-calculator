@@ -46,11 +46,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-4">
-              <img 
-                src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
-                alt="Полимер-проект логотип" 
-                className="h-64 object-contain"
-              />
+              <h1 className="text-2xl font-roboto font-bold text-white">Полимер-проект</h1>
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <Badge variant="outline" className="bg-white/15 text-white border-white/40">
@@ -112,6 +108,16 @@ const Index = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      <footer className="bg-white/10 backdrop-blur-sm border-t border-white/20 py-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+          <img 
+            src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
+            alt="Полимер-проект логотип" 
+            className="h-64 object-contain"
+          />
+        </div>
+      </footer>
     </div>
   );
 };

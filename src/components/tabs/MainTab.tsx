@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
 
 interface MainTabProps {
   onNavigateToCalculator: () => void;
 }
 
 const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, заполните все поля',
+        variant: 'destructive'
+      });
+      return;
+    }
+    toast({
+      title: 'Заявка отправлена!',
+      description: 'Мы свяжемся с вами в ближайшее время'
+    });
+    setIsDialogOpen(false);
+    setName('');
+    setPhone('');
+  };
   return (
     <div className="space-y-8">
       <div className="text-center py-12">
@@ -23,7 +50,7 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
             <Icon name="Calculator" className="mr-2" />
             Рассчитать стоимость
           </Button>
-          <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+          <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50" onClick={() => setIsDialogOpen(true)}>
             <Icon name="Phone" className="mr-2" />
             Заказать консультацию
           </Button>
@@ -82,6 +109,44 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Заказать консультацию</DialogTitle>
+            <DialogDescription>
+              Оставьте свои контакты и мы свяжемся с вами в ближайшее время
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Имя</Label>
+              <Input
+                id="name"
+                placeholder="Введите ваше имя"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Телефон</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="+7 (___) ___-__-__"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Icon name="Send" className="mr-2" />
+              Отправить заявку
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

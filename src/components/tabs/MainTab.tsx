@@ -18,10 +18,16 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
         <p className="text-xl text-gray-700 mb-8">
           Профессиональное изготовление прозрачных защитных конструкций
         </p>
-        <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={onNavigateToCalculator}>
-          <Icon name="Calculator" className="mr-2" />
-          Рассчитать стоимость
-        </Button>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={onNavigateToCalculator}>
+            <Icon name="Calculator" className="mr-2" />
+            Рассчитать стоимость
+          </Button>
+          <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+            <Icon name="Phone" className="mr-2" />
+            Заказать консультацию
+          </Button>
+        </div>
       </div>
 
       <div className="relative max-w-4xl mx-auto mb-12">

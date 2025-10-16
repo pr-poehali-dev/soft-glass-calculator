@@ -33,7 +33,7 @@ const Index = () => {
     quantity: 1
   });
 
-  const [activeTab, setActiveTab] = useState('calculator');
+  const [activeTab, setActiveTab] = useState('main');
 
   const handleCalculate = () => {
     const { area, price } = calculatePrice(calculation);

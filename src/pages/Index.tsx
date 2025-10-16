@@ -45,12 +45,15 @@ const Index = () => {
       <header className="bg-white/10 backdrop-blur-sm shadow-sm border-b border-white/20 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <img 
-                src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
-                alt="Полимер-проект логотип" 
-                className="h-24 object-contain"
-              />
+            <div className="flex items-center space-x-4">
+              <div>
+                <img 
+                  src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
+                  alt="Полимер-проект логотип" 
+                  className="h-28 object-contain"
+                />
+                <p className="text-white/80 text-sm text-center mt-1">Мягкие окна для беседок и террас</p>
+              </div>
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <Badge variant="outline" className="bg-white/15 text-white border-white/40">

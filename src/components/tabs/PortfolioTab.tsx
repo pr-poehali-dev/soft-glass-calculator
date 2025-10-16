@@ -10,7 +10,8 @@ const PortfolioTab: React.FC = () => {
     { img: 'https://cdn.poehali.dev/files/b6148cba-9a9c-40c3-b00b-e5a7b2cb80dd.jpg', title: 'Открытая терраса', desc: 'Загородный дом, 35 м²', badge: 'Французские замки', year: '2024' },
     { img: 'https://cdn.poehali.dev/files/e117fb58-dd83-4458-af88-a9877651331b.png', title: 'Беседка с деревянными элементами', desc: 'Кафе-веранда, 28 м²', badge: 'Комбинированные', year: '2024' },
     { img: 'https://cdn.poehali.dev/files/8dbbc950-deb3-4831-b743-376fe08f1e02.JPG', title: 'Павильон на зеленом газоне', desc: 'Зона отдыха, 24 м²', badge: 'Люверсы', year: '2024' },
-    { img: 'https://cdn.poehali.dev/files/f8dcf2ff-17d5-4aad-9bc4-06f8fb74b7e8.JPG', title: 'Деревянная веранда', desc: 'Дачный домик, 18 м²', badge: 'Кольцевые люверсы', year: '2024' }
+    { img: 'https://cdn.poehali.dev/files/f8dcf2ff-17d5-4aad-9bc4-06f8fb74b7e8.JPG', title: 'Деревянная веранда', desc: 'Дачный домик, 18 м²', badge: 'Кольцевые люверсы', year: '2024' },
+    { img: 'https://cdn.poehali.dev/files/7abde0f5-5511-4584-959f-00dbd9b7660d.JPG', title: 'Садовая беседка', desc: 'Дачный участок, 16 м²', badge: 'Кольцевые люверсы', year: '2024' }
   ];
 
   const reviews = [
@@ -44,22 +45,7 @@ const PortfolioTab: React.FC = () => {
           </div>
         ))}
 
-        <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-          <div className="bg-gradient-to-br from-blue-100 to-green-100 w-full h-48 flex items-center justify-center">
-            <div className="text-center">
-              <Icon name="Home" size={48} className="text-blue-600 mb-2 mx-auto" />
-              <p className="text-gray-600">Загородный дом</p>
-            </div>
-          </div>
-          <div className="p-4">
-            <h3 className="font-bold text-lg mb-2">Дом в Павловске</h3>
-            <p className="text-gray-600 text-sm mb-3">Беседка и терраса, 28 м²</p>
-            <div className="flex justify-between items-center">
-              <Badge variant="outline">Комбинированные</Badge>
-              <span className="text-sm text-gray-500">2024</span>
-            </div>
-          </div>
-        </div>
+
       </div>
 
       <Card>

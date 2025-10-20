@@ -40,6 +40,35 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     price: 0
   }]);
 
+  const downloadBlueprint = () => {
+    const svg = document.querySelector('.blueprint-svg') as SVGElement;
+    if (!svg) return;
+
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    canvas.width = 400;
+    canvas.height = 320;
+
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0);
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `чертеж-окно-${windows[0].a}x${windows[0].b}.png`;
+          link.click();
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+  };
+
   const addWindow = () => {
     const newWindow: WindowItem = {
       id: Date.now().toString(),
@@ -320,15 +349,26 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   <Icon name="FileText" className="mr-2" />
                   Предварительный чертеж
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setBlueprintOpen(true)}
-                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
-                >
-                  <Icon name="Maximize2" className="mr-1" size={16} />
-                  Развернуть
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={downloadBlueprint}
+                    className="border-green-600 text-green-600 hover:bg-green-50"
+                  >
+                    <Icon name="Download" className="mr-1" size={16} />
+                    Скачать
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setBlueprintOpen(true)}
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                  >
+                    <Icon name="Maximize2" className="mr-1" size={16} />
+                    Развернуть
+                  </Button>
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="cursor-pointer" onClick={() => setBlueprintOpen(true)}>
@@ -343,14 +383,27 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
           <Dialog open={blueprintOpen} onOpenChange={setBlueprintOpen}>
             <DialogContent className="max-w-6xl w-full h-[90vh] p-0">
-              <div className="flex items-center justify-center h-full p-8 bg-gray-50">
-                <div className="transform scale-150">
-                  <ShapeRenderer 
-                    calculation={{
-                      ...windows[0],
-                      quantity: 1
-                    }}
-                  />
+              <div className="flex flex-col h-full">
+                <div className="p-4 border-b bg-white flex justify-end">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={downloadBlueprint}
+                    className="border-green-600 text-green-600 hover:bg-green-50"
+                  >
+                    <Icon name="Download" className="mr-1" size={16} />
+                    Скачать как изображение
+                  </Button>
+                </div>
+                <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">
+                  <div className="transform scale-150">
+                    <ShapeRenderer 
+                      calculation={{
+                        ...windows[0],
+                        quantity: 1
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </DialogContent>

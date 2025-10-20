@@ -18,7 +18,7 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
   const [phone, setPhone] = useState('');
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !phone) {
       toast({
@@ -28,13 +28,40 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
       });
       return;
     }
-    toast({
-      title: 'Заявка отправлена!',
-      description: 'Мы свяжемся с вами в ближайшее время'
-    });
-    setIsDialogOpen(false);
-    setName('');
-    setPhone('');
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/7b82e4c1-b1f6-44f5-82a8-362d75543dee', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, phone })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast({
+          title: 'Заявка отправлена!',
+          description: 'Мы свяжемся с вами в ближайшее время'
+        });
+        setIsDialogOpen(false);
+        setName('');
+        setPhone('');
+      } else {
+        toast({
+          title: 'Ошибка отправки',
+          description: 'Попробуйте позже или позвоните нам напрямую',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка соединения',
+        description: 'Проверьте интернет-соединение',
+        variant: 'destructive'
+      });
+    }
   };
   return (
     <div className="space-y-8">

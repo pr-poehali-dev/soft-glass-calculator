@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import { WindowCalculation, WindowItem, filmTypes } from '@/components/window/types';
 import { calculateGrommetsCount, calculateRingGrommetsCount } from '@/components/window/utils';
@@ -19,6 +20,7 @@ interface CalculatorTabProps {
 }
 
 const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate }) => {
+  const [blueprintOpen, setBlueprintOpen] = useState(false);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -310,23 +312,50 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       </Card>
 
       {windows[0] && windows[0].area > 0 && (
-        <Card className="bg-white border-gray-200">
-          <CardHeader>
-            <CardTitle className="flex items-center text-gray-900">
-              <Icon name="FileText" className="mr-2" />
-              Предварительный чертеж
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ShapeRenderer 
-              shape={windows[0].shape}
-              calculation={{
-                ...windows[0],
-                quantity: 1
-              }}
-            />
-          </CardContent>
-        </Card>
+        <>
+          <Card className="bg-white border-gray-200">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between text-gray-900">
+                <div className="flex items-center">
+                  <Icon name="FileText" className="mr-2" />
+                  Предварительный чертеж
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setBlueprintOpen(true)}
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                >
+                  <Icon name="Maximize2" className="mr-1" size={16} />
+                  Развернуть
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="cursor-pointer" onClick={() => setBlueprintOpen(true)}>
+              <ShapeRenderer 
+                calculation={{
+                  ...windows[0],
+                  quantity: 1
+                }}
+              />
+            </CardContent>
+          </Card>
+
+          <Dialog open={blueprintOpen} onOpenChange={setBlueprintOpen}>
+            <DialogContent className="max-w-6xl w-full h-[90vh] p-0">
+              <div className="flex items-center justify-center h-full p-8 bg-gray-50">
+                <div className="transform scale-150">
+                  <ShapeRenderer 
+                    calculation={{
+                      ...windows[0],
+                      quantity: 1
+                    }}
+                  />
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </>
       )}
     </div>
   );

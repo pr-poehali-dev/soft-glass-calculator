@@ -167,7 +167,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             <Card key={window.id} className="bg-gray-50 border-gray-200">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-gray-900 text-lg">Окно {index + 1}</CardTitle>
+                  <CardTitle className="text-gray-900 text-lg">
+                    Окно {index + 1} <span className="text-sm font-normal text-gray-500">(Внесите сюда чистые размеры проема)</span>
+                  </CardTitle>
                   {windows.length > 1 && (
                     <Button 
                       variant="ghost" 

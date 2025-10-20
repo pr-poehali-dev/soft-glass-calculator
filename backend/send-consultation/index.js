@@ -6,7 +6,7 @@
 
 const { Resend } = require('resend');
 
-module.exports.handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const { httpMethod, body } = event;
 
   if (httpMethod === 'OPTIONS') {

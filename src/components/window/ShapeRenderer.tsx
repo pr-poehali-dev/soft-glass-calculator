@@ -54,7 +54,24 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d} мм</text>
         
-        <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">Кант: {calculation.kantSize}мм</text>
+        {/* Размеры канта */}
+        <line x1="60" y1="52" x2="85" y2="52" stroke="#FF6600" strokeWidth="1.5"/>
+        <line x1="60" y1="49" x2="60" y2="55" stroke="#FF6600" strokeWidth="1.5"/>
+        <line x1="85" y1="49" x2="85" y2="55" stroke="#FF6600" strokeWidth="1.5"/>
+        <text x="72.5" y="48" textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">{calculation.kantSize}мм</text>
+        
+        {/* Размеры ПВХ с припуском */}
+        <line x1="85" y1="75" x2="355" y2="75" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="85" y1="72" x2="85" y2="78" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="355" y1="72" x2="355" y2="78" stroke="#2E7D32" strokeWidth="1"/>
+        <text x="220" y="72" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a - 2 * calculation.kantSize + 50} мм</text>
+        
+        <line x1="356" y1="65" x2="356" y2="235" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="353" y1="65" x2="359" y2="65" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="353" y1="235" x2="359" y2="235" stroke="#2E7D32" strokeWidth="1"/>
+        <text x="370" y="155" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(90 370 155)">ПВХ: {b - 2 * calculation.kantSize + 50} мм</text>
+        
+        <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">Кант: {calculation.kantSize}мм | Припуск ПВХ: +25мм с каждой стороны</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>

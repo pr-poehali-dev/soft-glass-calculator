@@ -219,20 +219,36 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   </div>
                 </div>
 
-                <div>
-                  <Label className="text-gray-700 text-sm">Тип ПВХ пленки</Label>
-                  <Select value={window.filmType} onValueChange={(value) => updateWindow(window.id, 'filmType', value)}>
-                    <SelectTrigger className="h-9">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filmTypes.map(type => (
-                        <SelectItem key={type.id} value={type.id}>
-                          {type.name} - {type.price} ₽/м²
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-gray-700 text-sm">Тип ПВХ пленки</Label>
+                    <Select value={window.filmType} onValueChange={(value) => updateWindow(window.id, 'filmType', value)}>
+                      <SelectTrigger className="h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {filmTypes.map(type => (
+                          <SelectItem key={type.id} value={type.id}>
+                            {type.name} - {type.price} ₽/м²
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-gray-700 text-sm">Размер канта</Label>
+                    <Select value={window.kantSize.toString()} onValueChange={(value) => updateWindow(window.id, 'kantSize', Number(value))}>
+                      <SelectTrigger className="h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="10">10 мм</SelectItem>
+                        <SelectItem value="16">16 мм</SelectItem>
+                        <SelectItem value="20">20 мм</SelectItem>
+                        <SelectItem value="30">30 мм</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

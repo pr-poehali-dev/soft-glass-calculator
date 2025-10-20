@@ -118,7 +118,12 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const filmType = filmTypes.find(f => f.id === window.filmType);
     if (!filmType) return { area: 0, price: 0 };
 
-    const area = (window.a * window.b) / 1000000;
+    // Добавляем половину размера канта к каждой стороне
+    const kantAddition = window.kantSize / 2;
+    const adjustedA = window.a + kantAddition;
+    const adjustedB = window.b + kantAddition;
+
+    const area = (adjustedA * adjustedB) / 1000000;
     let price = area * filmType.price;
 
     if (window.grommets) price += window.grommetsCount * 150;

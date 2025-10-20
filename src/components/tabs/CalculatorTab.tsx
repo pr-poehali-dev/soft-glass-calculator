@@ -21,6 +21,7 @@ interface CalculatorTabProps {
 
 const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate }) => {
   const [blueprintOpen, setBlueprintOpen] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string>('');
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -370,13 +371,78 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
       {windows[0] && windows[0].area > 0 && (
         <>
-          <Card className="bg-white border-gray-200">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between text-gray-900">
-                <div className="flex items-center">
-                  <Icon name="FileText" className="mr-2" />
-                  Предварительный чертеж
-                </div>
+          <div className="space-y-4">
+            {uploadedImage && (
+              <Card className="bg-white border-gray-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between text-gray-900">
+                    <div className="flex items-center">
+                      <Icon name="Image" className="mr-2" />
+                      Ваше фото беседки
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setUploadedImage('')}
+                      className="border-gray-400 text-gray-600 hover:bg-gray-50"
+                    >
+                      <Icon name="X" className="mr-1" size={16} />
+                      Удалить
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <img 
+                    src={uploadedImage} 
+                    alt="Загруженное фото беседки" 
+                    className="w-full h-auto rounded-lg border border-gray-200"
+                  />
+                </CardContent>
+              </Card>
+            )}
+
+            {!uploadedImage && (
+              <Card className="bg-white border-gray-200 border-dashed">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center justify-center space-y-3">
+                    <Icon name="Upload" size={32} className="text-gray-400" />
+                    <p className="text-gray-600 text-sm text-center">Загрузите фото вашей беседки для сравнения с чертежом</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = (e) => {
+                          const file = (e.target as HTMLInputElement).files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              setUploadedImage(event.target?.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        };
+                        input.click();
+                      }}
+                      className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                    >
+                      <Icon name="Upload" className="mr-1" size={16} />
+                      Выбрать фото
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            <Card className="bg-white border-gray-200">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between text-gray-900">
+                  <div className="flex items-center">
+                    <Icon name="FileText" className="mr-2" />
+                    Предварительный чертеж
+                  </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -425,7 +491,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 }}
               />
             </CardContent>
-          </Card>
+            </Card>
+          </div>
 
           <Dialog open={blueprintOpen} onOpenChange={setBlueprintOpen}>
             <DialogContent className="max-w-6xl w-full h-[90vh] p-0">

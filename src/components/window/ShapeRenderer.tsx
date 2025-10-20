@@ -77,6 +77,24 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
               </g>
             ))}
+            {calculation.grommetsCount > 1 && (() => {
+              const count = calculation.grommetsCount;
+              const topSpacing = 270 / (count - 1 || 1);
+              const x1 = 65;
+              const x2 = 65 + topSpacing;
+              const y = 30;
+              
+              return (
+                <g>
+                  <line x1={x1} y1={y} x2={x2} y2={y} stroke="#0066CC" strokeWidth="1.5"/>
+                  <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                  <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                  <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
+                    300мм
+                  </text>
+                </g>
+              );
+            })()}
             <text x="200" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
@@ -122,6 +140,30 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
               </g>
             ))}
+            {calculation.ringGrommetsCount > 1 && (() => {
+              const totalCount = calculation.ringGrommetsCount;
+              const sidesPerimeter = (b + c + d) / 1000;
+              const bottomCount = Math.max(1, totalCount - Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount)) - Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount)));
+              
+              if (bottomCount > 1) {
+                const bottomSpacing = 270 / (bottomCount - 1 || 1);
+                const x1 = 65;
+                const x2 = 65 + bottomSpacing;
+                const y = 265;
+                
+                return (
+                  <g>
+                    <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
+                    <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                    <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                    <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
+                      350мм
+                    </text>
+                  </g>
+                );
+              }
+              return null;
+            })()}
             <text x="200" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>

@@ -19,7 +19,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
   
   if (shape === 'rectangle') {
     return (
-      <svg width="400" height="320" className="border rounded bg-white blueprint-svg">
+      <svg width="450" height="340" className="border rounded bg-white blueprint-svg">
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <text x="350" y="15" textAnchor="end" fontSize="11" fill="#0066CC" fontWeight="bold">
             Шаг 300мм
@@ -39,10 +39,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="360" y1="12" x2="360" y2="18" stroke="#000" strokeWidth="1"/>
         <text x="200" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a} мм</text>
         
-        <line x1="388" y1="40" x2="388" y2="260" stroke="#000" strokeWidth="1"/>
-        <line x1="385" y1="40" x2="391" y2="40" stroke="#000" strokeWidth="1"/>
-        <line x1="385" y1="260" x2="391" y2="260" stroke="#000" strokeWidth="1"/>
-        <text x="398" y="155" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 398 155)">B = {b} мм</text>
+        <line x1="405" y1="40" x2="405" y2="260" stroke="#000" strokeWidth="1"/>
+        <line x1="402" y1="40" x2="408" y2="40" stroke="#000" strokeWidth="1"/>
+        <line x1="402" y1="260" x2="408" y2="260" stroke="#000" strokeWidth="1"/>
+        <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b} мм</text>
         
         <line x1="40" y1="285" x2="360" y2="285" stroke="#000" strokeWidth="1"/>
         <line x1="40" y1="282" x2="40" y2="288" stroke="#000" strokeWidth="1"/>
@@ -54,7 +54,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="9" y1="260" x2="15" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="2" y="155" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 2 155)">D = {d} мм</text>
         
-        <text x="200" y="310" textAnchor="middle" fontSize="12" fill="#666">Кант: {calculation.kantSize}мм</text>
+        <text x="200" y="325" textAnchor="middle" fontSize="12" fill="#666">Кант: {calculation.kantSize}мм</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>

@@ -67,7 +67,7 @@ exports.handler = async (event, context) => {
   try {
     const resend = new Resend(resendApiKey);
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'Полимер-проект <onboarding@resend.dev>',
       to: emailTo,
       subject: `Новая заявка на консультацию - ${requestData.name}`,
@@ -78,6 +78,8 @@ exports.handler = async (event, context) => {
         <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
       `
     });
+
+    console.log('Email send result:', JSON.stringify(result));
 
     return {
       statusCode: 200,
@@ -90,13 +92,14 @@ exports.handler = async (event, context) => {
     };
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Error details:', JSON.stringify(error));
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ error: 'Failed to send email' }),
+      body: JSON.stringify({ error: 'Failed to send email', details: error.message }),
       isBase64Encoded: false
     };
   }

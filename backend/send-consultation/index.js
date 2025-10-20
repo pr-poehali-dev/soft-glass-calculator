@@ -4,6 +4,8 @@
  * Returns: HTTP response with success status or error message
  */
 
+const { Resend } = require('resend');
+
 module.exports.handler = async (event, context) => {
   const { httpMethod, body } = event;
 
@@ -63,29 +65,19 @@ module.exports.handler = async (event, context) => {
   }
 
   try {
-    const emailResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${resendApiKey}`
-      },
-      body: JSON.stringify({
-        from: 'Полимер-проект <onboarding@resend.dev>',
-        to: emailTo,
-        subject: `Новая заявка на консультацию - ${requestData.name}`,
-        html: `
-          <h2>Новая заявка на консультацию</h2>
-          <p><strong>Имя:</strong> ${requestData.name}</p>
-          <p><strong>Телефон:</strong> ${requestData.phone}</p>
-          <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
-        `
-      })
-    });
+    const resend = new Resend(resendApiKey);
 
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.json();
-      throw new Error(`Resend API error: ${JSON.stringify(errorData)}`);
-    }
+    await resend.emails.send({
+      from: 'Полимер-проект <onboarding@resend.dev>',
+      to: emailTo,
+      subject: `Новая заявка на консультацию - ${requestData.name}`,
+      html: `
+        <h2>Новая заявка на консультацию</h2>
+        <p><strong>Имя:</strong> ${requestData.name}</p>
+        <p><strong>Телефон:</strong> ${requestData.phone}</p>
+        <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
+      `
+    });
 
     return {
       statusCode: 200,

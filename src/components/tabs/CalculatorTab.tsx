@@ -118,12 +118,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const filmType = filmTypes.find(f => f.id === window.filmType);
     if (!filmType) return { area: 0, price: 0 };
 
-    // Добавляем половину размера канта к каждой стороне
+    // Размеры a,b,c,d - это размеры ПВХ пленки
+    // Общий размер окна = размер ПВХ + кант/2 с каждой стороны
     const kantAddition = window.kantSize / 2;
-    const adjustedA = window.a + kantAddition;
-    const adjustedB = window.b + kantAddition;
+    const totalWidth = window.a + (2 * kantAddition);
+    const totalHeight = window.b + (2 * kantAddition);
 
-    const area = (adjustedA * adjustedB) / 1000000;
+    // Площадь считаем по общим размерам окна
+    const area = (totalWidth * totalHeight) / 1000000;
     let price = area * filmType.price;
 
     if (window.grommets) price += window.grommetsCount * 150;

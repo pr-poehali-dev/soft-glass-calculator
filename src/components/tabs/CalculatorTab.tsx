@@ -69,6 +69,18 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
   };
 
+  const shareToWhatsApp = () => {
+    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].a}x${windows[0].b} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  const shareToTelegram = () => {
+    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].a}x${windows[0].b} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
+    const url = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
   const addWindow = () => {
     const newWindow: WindowItem = {
       id: Date.now().toString(),
@@ -353,8 +365,26 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   <Button
                     variant="outline"
                     size="sm"
+                    onClick={shareToWhatsApp}
+                    className="border-green-500 text-green-600 hover:bg-green-50"
+                  >
+                    <Icon name="MessageCircle" className="mr-1" size={16} />
+                    WhatsApp
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={shareToTelegram}
+                    className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                  >
+                    <Icon name="Send" className="mr-1" size={16} />
+                    Telegram
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={downloadBlueprint}
-                    className="border-green-600 text-green-600 hover:bg-green-50"
+                    className="border-gray-400 text-gray-600 hover:bg-gray-50"
                   >
                     <Icon name="Download" className="mr-1" size={16} />
                     Скачать
@@ -363,7 +393,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     variant="outline"
                     size="sm"
                     onClick={() => setBlueprintOpen(true)}
-                    className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                    className="border-gray-400 text-gray-600 hover:bg-gray-50"
                   >
                     <Icon name="Maximize2" className="mr-1" size={16} />
                     Развернуть
@@ -384,15 +414,33 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           <Dialog open={blueprintOpen} onOpenChange={setBlueprintOpen}>
             <DialogContent className="max-w-6xl w-full h-[90vh] p-0">
               <div className="flex flex-col h-full">
-                <div className="p-4 border-b bg-white flex justify-end">
+                <div className="p-4 border-b bg-white flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={shareToWhatsApp}
+                    className="border-green-500 text-green-600 hover:bg-green-50"
+                  >
+                    <Icon name="MessageCircle" className="mr-1" size={16} />
+                    Отправить в WhatsApp
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={shareToTelegram}
+                    className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                  >
+                    <Icon name="Send" className="mr-1" size={16} />
+                    Отправить в Telegram
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={downloadBlueprint}
-                    className="border-green-600 text-green-600 hover:bg-green-50"
+                    className="border-gray-400 text-gray-600 hover:bg-gray-50"
                   >
                     <Icon name="Download" className="mr-1" size={16} />
-                    Скачать как изображение
+                    Скачать изображение
                   </Button>
                 </div>
                 <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">

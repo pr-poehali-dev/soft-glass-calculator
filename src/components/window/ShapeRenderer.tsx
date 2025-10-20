@@ -77,22 +77,42 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
               </g>
             ))}
-            {calculation.grommetsCount > 1 && (() => {
+            {(() => {
               const count = calculation.grommetsCount;
-              const topSpacing = 270 / (count - 1 || 1);
-              const x1 = 65;
-              const x2 = 65 + topSpacing;
-              const y = 30;
+              const firstGrommetX = 65;
+              const edgeX = 40;
               
               return (
-                <g>
-                  <line x1={x1} y1={y} x2={x2} y2={y} stroke="#0066CC" strokeWidth="1.5"/>
-                  <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
-                  <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
-                  <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
-                    300мм
-                  </text>
-                </g>
+                <>
+                  {/* Отступ от края до первого люверса */}
+                  <g>
+                    <line x1={edgeX} y1={35} x2={firstGrommetX} y2={35} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={32} x2={edgeX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={firstGrommetX} y1={32} x2={firstGrommetX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={(edgeX + firstGrommetX) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                      15мм
+                    </text>
+                  </g>
+                  
+                  {/* Расстояние между люверсами */}
+                  {count > 1 && (() => {
+                    const topSpacing = 270 / (count - 1 || 1);
+                    const x1 = 65;
+                    const x2 = 65 + topSpacing;
+                    const y = 30;
+                    
+                    return (
+                      <g>
+                        <line x1={x1} y1={y} x2={x2} y2={y} stroke="#0066CC" strokeWidth="1.5"/>
+                        <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                        <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                        <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
+                          300мм
+                        </text>
+                      </g>
+                    );
+                  })()}
+                </>
               );
             })()}
             <text x="200" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
@@ -140,29 +160,46 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
               </g>
             ))}
-            {calculation.ringGrommetsCount > 1 && (() => {
+            {(() => {
               const totalCount = calculation.ringGrommetsCount;
               const sidesPerimeter = (b + c + d) / 1000;
               const bottomCount = Math.max(1, totalCount - Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount)) - Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount)));
               
-              if (bottomCount > 1) {
-                const bottomSpacing = 270 / (bottomCount - 1 || 1);
-                const x1 = 65;
-                const x2 = 65 + bottomSpacing;
-                const y = 265;
-                
-                return (
+              const firstGrommetX = 65;
+              const edgeX = 40;
+              
+              return (
+                <>
+                  {/* Отступ от края до первого люверса */}
                   <g>
-                    <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
-                    <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
-                    <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
-                    <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
-                      350мм
+                    <line x1={edgeX} y1={268} x2={firstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={firstGrommetX} y1={265} x2={firstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={(edgeX + firstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                      15мм
                     </text>
                   </g>
-                );
-              }
-              return null;
+                  
+                  {/* Расстояние между кольцевыми люверсами */}
+                  {bottomCount > 1 && (() => {
+                    const bottomSpacing = 270 / (bottomCount - 1 || 1);
+                    const x1 = 65;
+                    const x2 = 65 + bottomSpacing;
+                    const y = 265;
+                    
+                    return (
+                      <g>
+                        <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
+                        <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                        <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                        <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
+                          350мм
+                        </text>
+                      </g>
+                    );
+                  })()}
+                </>
+              );
             })()}
             <text x="200" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)

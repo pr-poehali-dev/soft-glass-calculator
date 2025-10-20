@@ -163,19 +163,43 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             {(() => {
               const totalCount = calculation.ringGrommetsCount;
               const sidesPerimeter = (b + c + d) / 1000;
-              const bottomCount = Math.max(1, totalCount - Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount)) - Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount)));
+              const leftCount = Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount));
+              const rightCount = Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount));
+              const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
               const firstGrommetX = 65;
               const edgeX = 40;
+              const firstGrommetY = 65;
+              const edgeY = 40;
               
               return (
                 <>
-                  {/* Отступ от края до первого люверса */}
+                  {/* Отступ от края до первого люверса (низ) */}
                   <g>
                     <line x1={edgeX} y1={268} x2={firstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={firstGrommetX} y1={265} x2={firstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
                     <text x={(edgeX + firstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                      15мм
+                    </text>
+                  </g>
+                  
+                  {/* Отступ от края до первого люверса (левая сторона) */}
+                  <g>
+                    <line x1={35} y1={edgeY} x2={35} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={32} y1={edgeY} x2={38} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={32} y1={firstGrommetY} x2={38} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={30} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${(edgeY + firstGrommetY) / 2 + 3})`}>
+                      15мм
+                    </text>
+                  </g>
+                  
+                  {/* Отступ от края до первого люверса (правая сторона) */}
+                  <g>
+                    <line x1={365} y1={edgeY} x2={365} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={362} y1={edgeY} x2={368} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={362} y1={firstGrommetY} x2={368} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={370} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 370 ${(edgeY + firstGrommetY) / 2 + 3})`}>
                       15мм
                     </text>
                   </g>
@@ -193,6 +217,25 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
                         <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
+                          350мм
+                        </text>
+                      </g>
+                    );
+                  })()}
+                  
+                  {/* Расстояние между кольцевыми люверсами на левой стороне */}
+                  {leftCount > 1 && (() => {
+                    const leftSpacing = 170 / (leftCount - 1 || 1);
+                    const y1 = 65;
+                    const y2 = 65 + leftSpacing;
+                    const x = 35;
+                    
+                    return (
+                      <g>
+                        <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                        <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
+                        <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                        <text x={30} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 30 ${(y1 + y2) / 2 + 3})`}>
                           350мм
                         </text>
                       </g>

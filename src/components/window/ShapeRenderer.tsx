@@ -65,7 +65,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Только верхняя сторона
               const topSpacing = 270 / (count - 1 || 1);
               for (let i = 0; i < count; i++) {
-                positions.push([65 + i * topSpacing, 52]);
+                positions.push([85 + i * topSpacing, 52]);
               }
               
               return positions;
@@ -79,8 +79,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             ))}
             {(() => {
               const count = calculation.grommetsCount;
-              const firstGrommetX = 65;
-              const edgeX = 40;
+              const firstGrommetX = 85;
+              const edgeX = 60;
               
               return (
                 <>
@@ -97,8 +97,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   {/* Расстояние между люверсами */}
                   {count > 1 && (() => {
                     const topSpacing = 270 / (count - 1 || 1);
-                    const x1 = 65;
-                    const x2 = 65 + topSpacing;
+                    const x1 = 85;
+                    const x2 = 85 + topSpacing;
                     const y = 30;
                     
                     return (
@@ -115,7 +115,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="200" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
+            <text x="220" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>
@@ -136,19 +136,19 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Левая сторона
               const leftSpacing = 170 / (leftCount - 1 || 1);
               for (let i = 0; i < leftCount; i++) {
-                positions.push([52, 65 + i * leftSpacing, 'left']);
+                positions.push([72, 65 + i * leftSpacing, 'left']);
               }
               
               // Правая сторона
               const rightSpacing = 170 / (rightCount - 1 || 1);
               for (let i = 0; i < rightCount; i++) {
-                positions.push([348, 65 + i * rightSpacing, 'right']);
+                positions.push([368, 65 + i * rightSpacing, 'right']);
               }
               
               // Нижняя сторона
               const bottomSpacing = 270 / (bottomCount - 1 || 1);
               for (let i = 0; i < bottomCount; i++) {
-                positions.push([65 + i * bottomSpacing, 248, 'bottom']);
+                positions.push([85 + i * bottomSpacing, 248, 'bottom']);
               }
               
               return positions;
@@ -167,8 +167,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const rightCount = Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount));
               const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
-              const firstGrommetX = 65;
-              const edgeX = 40;
+              const firstGrommetX = 85;
+              const edgeX = 60;
               const firstGrommetY = 65;
               const edgeY = 40;
               
@@ -196,10 +196,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   
                   {/* Отступ от края до первого люверса (правая сторона) */}
                   <g>
-                    <line x1={365} y1={edgeY} x2={365} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={362} y1={edgeY} x2={368} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={362} y1={firstGrommetY} x2={368} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={370} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 370 ${(edgeY + firstGrommetY) / 2 + 3})`}>
+                    <line x1={385} y1={edgeY} x2={385} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={382} y1={edgeY} x2={388} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={382} y1={firstGrommetY} x2={388} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={390} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${(edgeY + firstGrommetY) / 2 + 3})`}>
                       15мм
                     </text>
                   </g>
@@ -207,8 +207,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   {/* Расстояние между кольцевыми люверсами */}
                   {bottomCount > 1 && (() => {
                     const bottomSpacing = 270 / (bottomCount - 1 || 1);
-                    const x1 = 65;
-                    const x2 = 65 + bottomSpacing;
+                    const x1 = 85;
+                    const x2 = 85 + bottomSpacing;
                     const y = 265;
                     
                     return (
@@ -244,7 +244,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="200" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
+            <text x="220" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>
           </>

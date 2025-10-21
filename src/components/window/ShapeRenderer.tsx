@@ -248,11 +248,14 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomY = 248;
               
               // Первый люверс на расстоянии 350-450 мм от последнего люверса на стороне d
-              const minDistanceFromLeft = 350; // мм
-              const maxDistanceFromLeft = 450; // мм
-              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromLeft, Math.max(minDistanceFromLeft, bottomSideMm * 0.3));
+              const minDistanceFromEdge = 350; // мм
+              const maxDistanceFromEdge = 450; // мм
+              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
               const bottomFirstGrommetX = bottomEdgeX + bottomDistanceFromLeftMm * bottomScaleLocal;
-              const bottomLastGrommetX = bottomRightX - kantCenterOffsetPx;
+              
+              // Последний люверс на расстоянии 350-450 мм от последнего люверса на стороне b
+              const bottomDistanceFromRightMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
+              const bottomLastGrommetX = bottomRightX - bottomDistanceFromRightMm * bottomScaleLocal;
               const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
               
               for (let i = 0; i < bottomCount; i++) {

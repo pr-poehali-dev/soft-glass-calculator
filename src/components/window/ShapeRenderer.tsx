@@ -64,12 +64,12 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="85" y1="75" x2="355" y2="75" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
         <line x1="85" y1="72" x2="85" y2="78" stroke="#2E7D32" strokeWidth="1"/>
         <line x1="355" y1="72" x2="355" y2="78" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="220" y="72" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a} мм</text>
+        <text x="220" y="72" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a + 25} мм</text>
         
         <line x1="75" y1="65" x2="75" y2="235" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
         <line x1="72" y1="65" x2="78" y2="65" stroke="#2E7D32" strokeWidth="1"/>
         <line x1="72" y1="235" x2="78" y2="235" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="50" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(-90 50 150)">ПВХ: {b} мм</text>
+        <text x="50" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(-90 50 150)">ПВХ: {b + 25} мм</text>
         
         <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
         

@@ -193,7 +193,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right', rightDistanceFromTopMm]);
               }
               
-              // Нижняя сторона (сторона c)
+              // Нижняя сторона (сторона c) - только 2 люверса по краям, без центрального
               const bottomEdgeX = 60;
               const bottomRightX = 380;
               const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
@@ -209,10 +209,13 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Последний люверс на расстоянии 350-450 мм от последнего люверса на стороне b
               const bottomDistanceFromRightMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
               const bottomLastGrommetX = bottomRightX - bottomDistanceFromRightMm * bottomScaleLocal;
-              const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
               
-              for (let i = 0; i < bottomCount; i++) {
-                positions.push([bottomFirstGrommetX + i * bottomSpacingPx, bottomY, 'bottom', bottomDistanceFromLeftMm]);
+              // Только 2 люверса - по краям
+              if (bottomCount >= 2) {
+                positions.push([bottomFirstGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
+                positions.push([bottomLastGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
+              } else if (bottomCount === 1) {
+                positions.push([bottomFirstGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
               }
               
               return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm, bottomDistanceFromLeftMm };

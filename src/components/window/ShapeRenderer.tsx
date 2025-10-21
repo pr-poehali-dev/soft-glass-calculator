@@ -66,9 +66,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="365" y1="77" x2="365" y2="83" stroke="#2E7D32" strokeWidth="1"/>
         <text x="220" y="95" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a + 25} мм</text>
         
-        <line x1="90" y1="75" x2="90" y2="225" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="87" y1="75" x2="93" y2="75" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="87" y1="225" x2="93" y2="225" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="90" y1="70" x2="90" y2="230" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="87" y1="70" x2="93" y2="70" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="87" y1="230" x2="93" y2="230" stroke="#2E7D32" strokeWidth="1"/>
         <text x="105" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(-90 105 150)">ПВХ: {d + 25} мм</text>
         
         {/* Размер ПВХ снизу (сторона C) */}
@@ -78,9 +78,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <text x="220" y="210" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {c + 25} мм</text>
         
         {/* Размер ПВХ справа (сторона B) */}
-        <line x1="350" y1="75" x2="350" y2="225" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="347" y1="75" x2="353" y2="75" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="347" y1="225" x2="353" y2="225" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="350" y1="70" x2="350" y2="230" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="347" y1="70" x2="353" y2="70" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="347" y1="230" x2="353" y2="230" stroke="#2E7D32" strokeWidth="1"/>
         <text x="335" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(90 335 150)">ПВХ: {b + 25} мм</text>
         
         <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>

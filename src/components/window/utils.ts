@@ -40,28 +40,37 @@ export const calculateRingGrommetsCount = (calculation: WindowCalculation, gromm
   const bottomSideMm = calculation.c + 25;
   const kantSize = calculation.kantSize;
   
-  // Для боковых сторон B и D - простой расчёт
-  const leftGrommets = Math.max(2, Math.ceil(leftSideMm / grommetsStepMm));
-  const rightGrommets = Math.max(2, Math.ceil(rightSideMm / grommetsStepMm));
+  // Функция расчёта люверсов для стороны с динамическим шагом 350-450 мм
+  const calculateSideGrommets = (sideMm: number) => {
+    const distanceBetweenCorners = sideMm - kantSize;
+    let count = 2; // Минимум 2 (угловые)
+    let spacing = distanceBetweenCorners / (count - 1);
+    
+    // Добавляем люверсы, пока шаг больше 450 мм
+    while (spacing > 450 && count < 50) {
+      count++;
+      spacing = distanceBetweenCorners / (count - 1);
+    }
+    
+    // Если шаг меньше 350 мм, уменьшаем количество
+    if (spacing < 350 && count > 2) {
+      count--;
+    }
+    
+    return Math.max(2, count);
+  };
   
-  // Для стороны C - динамический шаг 350-450 мм
-  const distanceBetweenCorners = bottomSideMm - kantSize;
-  let bottomGrommets = 2;
-  let spacing = distanceBetweenCorners / (bottomGrommets - 1);
+  // Рассчитываем для каждой стороны
+  const leftGrommets = calculateSideGrommets(leftSideMm);
+  const rightGrommets = calculateSideGrommets(rightSideMm);
+  const bottomGrommets = calculateSideGrommets(bottomSideMm);
   
-  // Добавляем люверсы, пока шаг больше 450 мм
-  while (spacing > 450 && bottomGrommets < 50) {
-    bottomGrommets++;
-    spacing = distanceBetweenCorners / (bottomGrommets - 1);
-  }
+  // Считаем только промежуточные люверсы (без угловых) и добавляем 2 угловых
+  const leftIntermediate = Math.max(0, leftGrommets - 2);
+  const rightIntermediate = Math.max(0, rightGrommets - 2);
+  const bottomIntermediate = Math.max(0, bottomGrommets - 2);
   
-  // Если шаг меньше 350 мм, уменьшаем количество
-  if (spacing < 350 && bottomGrommets > 2) {
-    bottomGrommets--;
-  }
-  
-  // Вычитаем угловые дубли (4 угла считаются дважды)
-  return leftGrommets + rightGrommets + bottomGrommets - 4;
+  return leftIntermediate + rightIntermediate + bottomIntermediate + 2;
 };
 
 export const calculatePrice = (calculation: WindowCalculation) => {

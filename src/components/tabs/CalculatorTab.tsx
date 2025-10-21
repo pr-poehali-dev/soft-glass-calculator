@@ -195,8 +195,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Label className="text-gray-700 text-sm">Сторона A (мм)</Label>
                     <Input
                       type="number"
-                      value={window.a}
-                      onChange={(e) => updateWindow(window.id, 'a', Number(e.target.value))}
+                      value={window.a === 0 ? '' : window.a}
+                      onChange={(e) => updateWindow(window.id, 'a', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
@@ -204,8 +204,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Label className="text-gray-700 text-sm">Сторона B (мм)</Label>
                     <Input
                       type="number"
-                      value={window.b}
-                      onChange={(e) => updateWindow(window.id, 'b', Number(e.target.value))}
+                      value={window.b === 0 ? '' : window.b}
+                      onChange={(e) => updateWindow(window.id, 'b', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
@@ -213,8 +213,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Label className="text-gray-700 text-sm">Сторона C (мм)</Label>
                     <Input
                       type="number"
-                      value={window.c}
-                      onChange={(e) => updateWindow(window.id, 'c', Number(e.target.value))}
+                      value={window.c === 0 ? '' : window.c}
+                      onChange={(e) => updateWindow(window.id, 'c', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
@@ -222,8 +222,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Label className="text-gray-700 text-sm">Сторона D (мм)</Label>
                     <Input
                       type="number"
-                      value={window.d}
-                      onChange={(e) => updateWindow(window.id, 'd', Number(e.target.value))}
+                      value={window.d === 0 ? '' : window.d}
+                      onChange={(e) => updateWindow(window.id, 'd', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>

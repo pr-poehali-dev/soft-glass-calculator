@@ -326,33 +326,33 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               return (
                 <>
-                  {/* Отступ от края до первого люверса (низ) */}
+                  {/* Размер канта (низ) */}
                   <g>
-                    <line x1={edgeX} y1={268} x2={bottomFirstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={268} x2={edgeX + (kantSize * bottomScaleLocal)} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={bottomFirstGrommetX} y1={265} x2={bottomFirstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={(edgeX + bottomFirstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
-                      {bottomDistanceFromLeftMm.toFixed(0)}мм
+                    <line x1={edgeX + (kantSize * bottomScaleLocal)} y1={265} x2={edgeX + (kantSize * bottomScaleLocal)} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={edgeX + (kantSize * bottomScaleLocal) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                      {kantSize.toFixed(0)}мм
                     </text>
                   </g>
                   
-                  {/* Отступ от края до первого люверса (левая сторона) */}
+                  {/* Размер канта (левая сторона) */}
                   <g>
-                    <line x1={35} y1={edgeY} x2={35} y2={leftFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={35} y1={edgeY} x2={35} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={32} y1={edgeY} x2={38} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={32} y1={leftFirstGrommetY} x2={38} y2={leftFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={30} y={(edgeY + leftFirstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${(edgeY + leftFirstGrommetY) / 2 + 3})`}>
-                      {leftDistanceFromTopMm.toFixed(0)}мм
+                    <line x1={32} y1={edgeY + (kantSize * leftScaleLocal)} x2={38} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={30} y={edgeY + (kantSize * leftScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${edgeY + (kantSize * leftScaleLocal) / 2 + 3})`}>
+                      {kantSize.toFixed(0)}мм
                     </text>
                   </g>
                   
-                  {/* Отступ от края до первого люверса (правая сторона) */}
+                  {/* Размер канта (правая сторона) */}
                   <g>
-                    <line x1={385} y1={edgeY} x2={385} y2={rightFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={385} y1={edgeY} x2={385} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={382} y1={edgeY} x2={388} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={382} y1={rightFirstGrommetY} x2={388} y2={rightFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={390} y={(edgeY + rightFirstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${(edgeY + rightFirstGrommetY) / 2 + 3})`}>
-                      {rightDistanceFromTopMm.toFixed(0)}мм
+                    <line x1={382} y1={edgeY + (kantSize * rightScaleLocal)} x2={388} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={390} y={edgeY + (kantSize * rightScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${edgeY + (kantSize * rightScaleLocal) / 2 + 3})`}>
+                      {kantSize.toFixed(0)}мм
                     </text>
                   </g>
                   

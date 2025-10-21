@@ -41,12 +41,12 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="402" y1="260" x2="408" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b + calculation.kantSize} мм</text>
         
-        <line x1="336" y1="84" x2="336" y2="216" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
-        <line x1="333" y1="84" x2="339" y2="84" stroke="#22C55E" strokeWidth="1.5"/>
-        <line x1="333" y1="95" x2="339" y2="95" stroke="#22C55E" strokeWidth="1.5"/>
-        <line x1="333" y1="205" x2="339" y2="205" stroke="#22C55E" strokeWidth="1.5"/>
-        <line x1="333" y1="216" x2="339" y2="216" stroke="#22C55E" strokeWidth="1.5"/>
-        <text x="343" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(90 343 150)">ПВХ: {b + 50} мм</text>
+        <line x1="325" y1="84" x2="325" y2="216" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="322" y1="84" x2="328" y2="84" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="322" y1="95" x2="328" y2="95" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="322" y1="205" x2="328" y2="205" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="322" y1="216" x2="328" y2="216" stroke="#22C55E" strokeWidth="1.5"/>
+        <text x="332" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(90 332 150)">ПВХ: {b + 50} мм</text>
         
         <line x1="60" y1="285" x2="380" y2="285" stroke="#000" strokeWidth="1"/>
         <line x1="60" y1="282" x2="60" y2="288" stroke="#000" strokeWidth="1"/>

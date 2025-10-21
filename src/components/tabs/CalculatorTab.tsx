@@ -128,9 +128,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const area = (totalWidth * totalHeight) / 1000000;
     let price = area * filmType.price;
 
-    if (window.grommets) price += window.grommetsCount * 150;
-    if (window.ringGrommets) price += window.ringGrommetsCount * 180;
-    if (window.frenchLock) price += area * 80;
+    // Расчет канта (периметр в метрах * цена за метр)
+    const perimeterMeters = ((totalWidth + totalHeight) * 2) / 1000;
+    price += perimeterMeters * 75;
+
+    if (window.grommets) price += window.grommetsCount * 40;
+    if (window.ringGrommets) price += window.ringGrommetsCount * 55;
+    if (window.frenchLock) price += area * 70;
 
     return { area, price };
   };

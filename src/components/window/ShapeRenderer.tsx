@@ -123,7 +123,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([firstGrommetXpx + i * spacingPx, 52]);
               }
               
-              return { positions, spacingMm, edgeOffsetPx, distanceBetweenCornersMm };
+              return { positions, spacingMm, kantCenterOffsetPx, distanceBetweenCornersMm };
             })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>

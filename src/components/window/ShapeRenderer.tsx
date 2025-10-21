@@ -37,22 +37,22 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="60" y1="15" x2="380" y2="15" stroke="#000" strokeWidth="1"/>
         <line x1="60" y1="12" x2="60" y2="18" stroke="#000" strokeWidth="1"/>
         <line x1="380" y1="12" x2="380" y2="18" stroke="#000" strokeWidth="1"/>
-        <text x="220" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize + 25} мм</text>
+        <text x="220" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize} мм</text>
         
         <line x1="405" y1="40" x2="405" y2="260" stroke="#000" strokeWidth="1"/>
         <line x1="402" y1="40" x2="408" y2="40" stroke="#000" strokeWidth="1"/>
         <line x1="402" y1="260" x2="408" y2="260" stroke="#000" strokeWidth="1"/>
-        <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b + calculation.kantSize + 25} мм</text>
+        <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b + calculation.kantSize} мм</text>
         
         <line x1="60" y1="285" x2="380" y2="285" stroke="#000" strokeWidth="1"/>
         <line x1="60" y1="282" x2="60" y2="288" stroke="#000" strokeWidth="1"/>
         <line x1="380" y1="282" x2="380" y2="288" stroke="#000" strokeWidth="1"/>
-        <text x="220" y="300" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize + 25} мм</text>
+        <text x="220" y="300" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
         
         <line x1="25" y1="40" x2="25" y2="260" stroke="#000" strokeWidth="1"/>
         <line x1="22" y1="40" x2="28" y2="40" stroke="#000" strokeWidth="1"/>
         <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
-        <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize + 25} мм</text>
+        <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize} мм</text>
         
         {/* Размеры канта */}
         <line x1="60" y1="52" x2="85" y2="52" stroke="#FF6600" strokeWidth="1.5"/>

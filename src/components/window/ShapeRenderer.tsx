@@ -54,12 +54,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize} мм</text>
         
-        {/* Размеры канта */}
-        <line x1="60" y1="52" x2="85" y2="52" stroke="#FF6600" strokeWidth="1.5"/>
-        <line x1="60" y1="49" x2="60" y2="55" stroke="#FF6600" strokeWidth="1.5"/>
-        <line x1="85" y1="49" x2="85" y2="55" stroke="#FF6600" strokeWidth="1.5"/>
-        <text x="72.5" y="48" textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">{calculation.kantSize}мм</text>
-        
+
         {/* Размеры ПВХ с припуском */}
         <line x1="75" y1="80" x2="365" y2="80" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
         <line x1="75" y1="77" x2="75" y2="83" stroke="#2E7D32" strokeWidth="1"/>
@@ -151,16 +146,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               return (
                 <>
-                  {/* Отступ от края до первого люверса (центр канта) */}
-                  <g>
-                    <line x1={edgeX} y1={35} x2={firstGrommetXpx} y2={35} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX} y1={32} x2={edgeX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={firstGrommetXpx} y1={32} x2={firstGrommetXpx} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={(edgeX + firstGrommetXpx) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
-                      {kantSize/2}мм
-                    </text>
-                  </g>
-                  
+
                   {/* Расстояние между люверсами */}
                   {count > 1 && (() => {
                     const x1 = firstGrommetXpx;

@@ -96,11 +96,15 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Первый и последний люверсы точно в центре углов с учетом внешнего диаметра 30мм
               const grommetOuterDiameter = 30; // Внешний диаметр люверса
               const grommetRadius = grommetOuterDiameter / 2;
-              const kantCenterOffset = kantSize / 2;
               
-              // Люверсы в центре угла = центр канта
-              const firstGrommetX = 60 + kantCenterOffset; // 60 - левый край канта
-              const lastGrommetX = 380 - kantCenterOffset; // 380 - правый край канта
+              // Координаты канта на чертеже: левый край = 60, правый край = 380
+              // Ширина канта на чертеже = 35 пикселей (было 25, стало 35)
+              const kantWidthPx = 35;
+              const kantCenterOffsetPx = kantWidthPx / 2; // 17.5 пикселей от края до центра канта
+              
+              // Люверсы в центре канта
+              const firstGrommetX = 60 + kantCenterOffsetPx; // 60 - левый край канта + центр
+              const lastGrommetX = 380 - kantCenterOffsetPx; // 380 - правый край канта - центр
               
               // Расстояние между центрами крайних люверсов в пикселях
               const totalDistancePx = lastGrommetX - firstGrommetX;
@@ -132,8 +136,11 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const count = calculation.grommetsCount;
               const kantSize = calculation.kantSize;
               const topSideMm = a + 25;
-              const kantCenterOffset = kantSize / 2;
-              const firstGrommetX = 60 + kantCenterOffset;
+              
+              // Координаты канта на чертеже
+              const kantWidthPx = 35;
+              const kantCenterOffsetPx = kantWidthPx / 2;
+              const firstGrommetX = 60 + kantCenterOffsetPx;
               const edgeX = 60;
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
@@ -148,7 +155,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                     <line x1={edgeX} y1={32} x2={edgeX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={firstGrommetX} y1={32} x2={firstGrommetX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
                     <text x={(edgeX + firstGrommetX) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
-                      {kantCenterOffset.toFixed(0)}мм
+                      {kantCenterOffsetPx.toFixed(0)}px
                     </text>
                   </g>
                   

@@ -246,7 +246,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-gray-700 text-sm">Размер канта <span className="text-xs text-gray-500">(ширина канта делится пополам!)</span></Label>
+                    <Label className="text-gray-700 text-sm">Размер канта <span className="text-sm text-gray-500">(ширина канта делится пополам!)</span></Label>
                     <Select value={window.kantSize.toString()} onValueChange={(value) => updateWindow(window.id, 'kantSize', Number(value))}>
                       <SelectTrigger className="h-9">
                         <SelectValue />

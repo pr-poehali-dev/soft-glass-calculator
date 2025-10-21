@@ -258,8 +258,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const optimalSpacing = 400;
               
               const calculateSide = (sideMm: number) => {
-                const minEdgeDistance = 100;
-                const maxEdgeDistance = 200;
+                const minEdgeDistance = kantSize / 2;
+                const maxEdgeDistance = kantSize;
                 const availableLength = sideMm - minEdgeDistance * 2;
                 
                 let count = Math.max(1, Math.round(availableLength / optimalSpacing) + 1);

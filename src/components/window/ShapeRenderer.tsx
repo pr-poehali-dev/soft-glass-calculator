@@ -163,9 +163,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Параметры
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 2;
-              const leftSideMm = d + 25; // d + кант
-              const rightSideMm = b + 25; // b + кант
-              const bottomSideMm = a + 25; // c + кант
+              const leftSideMm = d + 25;
+              const rightSideMm = b + 25;
+              const bottomSideMm = c + 25;
               
               // Распределяем по 3 сторонам (левая, правая, нижняя)
               const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
@@ -207,29 +207,20 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right', rightDistanceFromTopMm]);
               }
               
-              // Нижняя сторона (сторона c) - только 2 люверса по краям, без центрального
+              // Нижняя сторона (сторона c) - с динамическим шагом 350-450 мм
               const bottomEdgeX = 60;
               const bottomRightX = 380;
               const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
               const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
               const bottomY = 248;
+              const kantSize = calculation.kantSize;
               
-              // Первый люверс на расстоянии 350-450 мм от последнего люверса на стороне d
-              const minDistanceFromEdge = 350; // мм
-              const maxDistanceFromEdge = 450; // мм
-              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
-              const bottomFirstGrommetX = bottomEdgeX + bottomDistanceFromLeftMm * bottomScaleLocal;
+              const bottomFirstGrommetX = bottomEdgeX + kantCenterOffsetPx;
+              const bottomLastGrommetX = bottomRightX - kantCenterOffsetPx;
+              const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
               
-              // Последний люверс на расстоянии 350-450 мм от последнего люверса на стороне b
-              const bottomDistanceFromRightMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
-              const bottomLastGrommetX = bottomRightX - bottomDistanceFromRightMm * bottomScaleLocal;
-              
-              // Только 2 люверса - по краям
-              if (bottomCount >= 2) {
-                positions.push([bottomFirstGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
-                positions.push([bottomLastGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
-              } else if (bottomCount === 1) {
-                positions.push([bottomFirstGrommetX, bottomY, 'bottom', bottomDistanceFromLeftMm]);
+              for (let i = 0; i < bottomCount; i++) {
+                positions.push([bottomFirstGrommetX + i * bottomSpacingPx, bottomY, 'bottom', 0]);
               }
               
               return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm, bottomDistanceFromLeftMm };

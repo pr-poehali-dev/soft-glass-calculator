@@ -240,13 +240,27 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right', rightDistanceFromTopMm]);
               }
               
-              // Нижняя сторона
-              const bottomSpacing = 270 / (bottomCount - 1 || 1);
+              // Нижняя сторона (сторона c)
+              const bottomEdgeX = 60;
+              const bottomRightX = 380;
+              const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
+              const bottomSideMm = a + 25; // c + кант
+              const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
+              const bottomY = 248;
+              
+              // Первый люверс на расстоянии 350-450 мм от последнего люверса на стороне d
+              const minDistanceFromLeft = 350; // мм
+              const maxDistanceFromLeft = 450; // мм
+              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromLeft, Math.max(minDistanceFromLeft, bottomSideMm * 0.3));
+              const bottomFirstGrommetX = bottomEdgeX + bottomDistanceFromLeftMm * bottomScaleLocal;
+              const bottomLastGrommetX = bottomRightX - kantCenterOffsetPx;
+              const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
+              
               for (let i = 0; i < bottomCount; i++) {
-                positions.push([85 + i * bottomSpacing, 248, 'bottom']);
+                positions.push([bottomFirstGrommetX + i * bottomSpacingPx, bottomY, 'bottom', bottomDistanceFromLeftMm]);
               }
               
-              return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm };
+              return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm, bottomDistanceFromLeftMm };
             })().positions.map(([x, y, side, distanceFromTop], i) => (
               <g key={`ring-grommet-${i}`}>
                 {/* Люверсы 42х22 развернуты по вертикали на сторонах b,d */}

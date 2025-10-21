@@ -102,9 +102,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantWidthPx = 35;
               const edgeOffsetMm = 15; // Отступ от края в мм
               
-              // Масштаб: 320 пикселей = topSideMm миллиметров (нужно вычислить заранее)
+              // Масштаб: 320 пикселей = topSideMm миллиметров
               const totalWidthPx = 320;
-              const topSideMm = a + 25;
               const scale = totalWidthPx / topSideMm;
               const edgeOffsetPx = edgeOffsetMm * scale; // Перевод отступа в пиксели
               
@@ -125,7 +124,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([firstGrommetXpx + i * spacingPx, 52]);
               }
               
-              return { positions, spacingMm, kantCenterOffsetPx, distanceBetweenCornersMm };
+              return { positions, spacingMm, edgeOffsetPx, distanceBetweenCornersMm };
             })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>

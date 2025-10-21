@@ -106,8 +106,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       )}
                       {window.frenchLock && (
                         <li className="flex justify-between">
-                          <span>• Скоба поворотная ({window.frenchLockCount} шт × 350 ₽)</span>
-                          <span className="font-medium">{window.frenchLockCount * 350} ₽</span>
+                          <span>• Скоба поворотная ({window.frenchLockCount} шт × 75 ₽)</span>
+                          <span className="font-medium">{window.frenchLockCount * 75} ₽</span>
                         </li>
                       )}
                       {window.measurement && (

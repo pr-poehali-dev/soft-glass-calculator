@@ -142,7 +142,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
     if (window.grommets) price += window.grommetsCount * 40;
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
-    if (window.frenchLock) price += window.frenchLockCount * 350;
+    if (window.frenchLock) price += window.frenchLockCount * 75;
     if (window.measurement) price += 2000;
     if (window.installation) price += area * 200;
 
@@ -347,7 +347,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Скоба поворотная (350 ₽/шт)
+                      Скоба поворотная (75 ₽/шт)
                     </Label>
                   </div>
                   {window.frenchLock && (

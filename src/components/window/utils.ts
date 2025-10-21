@@ -37,9 +37,15 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
 export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
   const leftSideMm = calculation.d + 25;
   const rightSideMm = calculation.b + 25;
-  const bottomSideMm = calculation.c + 25;
-  const threesSidesPerimeterMm = leftSideMm + rightSideMm + bottomSideMm;
-  return Math.ceil(threesSidesPerimeterMm / grommetsStepMm);
+  
+  // По стороне C всегда только 2 угловых люверса
+  const bottomGrommets = 2;
+  
+  // Рассчитываем люверсы по бокам B и D
+  const leftGrommets = Math.ceil(leftSideMm / grommetsStepMm);
+  const rightGrommets = Math.ceil(rightSideMm / grommetsStepMm);
+  
+  return leftGrommets + rightGrommets + bottomGrommets;
 };
 
 export const calculatePrice = (calculation: WindowCalculation) => {

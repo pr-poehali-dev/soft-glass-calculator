@@ -209,31 +209,35 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Левая сторона (сторона d)
               const leftEdgeY = 40;
               const leftBottomY = 250;
-              const leftFirstGrommetY = leftEdgeY + kantCenterOffsetPx;
-              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
               const leftTotalHeightPx = leftBottomY - leftEdgeY;
               const leftScale = leftTotalHeightPx / leftSideMm;
-              const leftDistanceBetweenCornersMm = leftSideMm - calculation.kantSize;
-              const leftSpacingMm = leftDistanceBetweenCornersMm / (leftCount - 1 || 1);
+              
+              // Первый люверс 42х22 на расстоянии 350-450 мм от люверса 16 мм
+              const minDistanceFromTop = 350; // мм
+              const maxDistanceFromTop = 450; // мм
+              const leftDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, leftSideMm * 0.3));
+              const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScale;
+              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
               const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
               
               for (let i = 0; i < leftCount; i++) {
-                positions.push([72, leftFirstGrommetY + i * leftSpacingPx, 'left']);
+                positions.push([72, leftFirstGrommetY + i * leftSpacingPx, 'left', leftDistanceFromTopMm]);
               }
               
               // Правая сторона (сторона b)
               const rightEdgeY = 40;
               const rightBottomY = 250;
-              const rightFirstGrommetY = rightEdgeY + kantCenterOffsetPx;
-              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
               const rightTotalHeightPx = rightBottomY - rightEdgeY;
               const rightScale = rightTotalHeightPx / rightSideMm;
-              const rightDistanceBetweenCornersMm = rightSideMm - calculation.kantSize;
-              const rightSpacingMm = rightDistanceBetweenCornersMm / (rightCount - 1 || 1);
+              
+              // Первый люверс 42х22 на расстоянии 350-450 мм от люверса 16 мм
+              const rightDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, rightSideMm * 0.3));
+              const rightFirstGrommetY = rightEdgeY + rightDistanceFromTopMm * rightScale;
+              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
               const rightSpacingPx = (rightLastGrommetY - rightFirstGrommetY) / (rightCount - 1 || 1);
               
               for (let i = 0; i < rightCount; i++) {
-                positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right']);
+                positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right', rightDistanceFromTopMm]);
               }
               
               // Нижняя сторона
@@ -242,8 +246,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([85 + i * bottomSpacing, 248, 'bottom']);
               }
               
-              return { positions, leftSpacingMm, rightSpacingMm };
-            })().positions.map(([x, y, side], i) => (
+              return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm };
+            })().positions.map(([x, y, side, distanceFromTop], i) => (
               <g key={`ring-grommet-${i}`}>
                 {/* Люверсы 42х22 развернуты по вертикали на сторонах b,d */}
                 {side === 'left' || side === 'right' ? (

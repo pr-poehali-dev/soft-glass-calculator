@@ -326,36 +326,6 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               return (
                 <>
-                  {/* Размер канта (низ) */}
-                  <g>
-                    <line x1={edgeX - 15} y1={260} x2={edgeX - 15} y2={260 + kantWidthPx} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX - 18} y1={260} x2={edgeX - 12} y2={260} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX - 18} y1={260 + kantWidthPx} x2={edgeX - 12} y2={260 + kantWidthPx} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={edgeX - 23} y={260 + kantWidthPx/2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 ${edgeX - 23} ${260 + kantWidthPx/2 + 3})`}>
-                      {kantSize.toFixed(0)}мм
-                    </text>
-                  </g>
-                  
-                  {/* Размер канта (левая сторона) */}
-                  <g>
-                    <line x1={60 + kantWidthPx/2} y1={edgeY} x2={60 + kantWidthPx/2} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={60} y1={edgeY} x2={60 + kantWidthPx} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={60} y1={edgeY + (kantSize * leftScaleLocal)} x2={60 + kantWidthPx} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={60 + kantWidthPx/2 - 7} y={edgeY + (kantSize * leftScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 ${60 + kantWidthPx/2 - 7} ${edgeY + (kantSize * leftScaleLocal) / 2 + 3})`}>
-                      {kantSize.toFixed(0)}мм
-                    </text>
-                  </g>
-                  
-                  {/* Размер канта (правая сторона) */}
-                  <g>
-                    <line x1={380 - kantWidthPx/2} y1={edgeY} x2={380 - kantWidthPx/2} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={380 - kantWidthPx} y1={edgeY} x2={380} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={380 - kantWidthPx} y1={edgeY + (kantSize * rightScaleLocal)} x2={380} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={380 - kantWidthPx/2 + 7} y={edgeY + (kantSize * rightScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 ${380 - kantWidthPx/2 + 7} ${edgeY + (kantSize * rightScaleLocal) / 2 + 3})`}>
-                      {kantSize.toFixed(0)}мм
-                    </text>
-                  </g>
-                  
                   {/* Расстояние между кольцевыми люверсами (низ) */}
                   {bottomCount > 1 && (() => {
                     const x1 = bottomFirstGrommetX;

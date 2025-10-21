@@ -285,54 +285,93 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             ))}
             {(() => {
               const totalCount = calculation.ringGrommetsCount;
-              const sidesPerimeter = (b + c + d) / 1000;
-              const leftCount = Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount));
-              const rightCount = Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount));
+              const kantWidthPx = 35;
+              const kantCenterOffsetPx = kantWidthPx / 2;
+              const leftSideMm = d + 25;
+              const rightSideMm = b + 25;
+              const bottomSideMm = a + 25;
+              
+              const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
+              const leftCount = Math.max(1, Math.round((leftSideMm / 1000 / sidesPerimeter) * totalCount));
+              const rightCount = Math.max(1, Math.round((rightSideMm / 1000 / sidesPerimeter) * totalCount));
               const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
-              const firstGrommetX = 85;
+              // Левая сторона
+              const leftEdgeY = 40;
+              const leftBottomY = 260;
+              const leftTotalHeightPx = leftBottomY - leftEdgeY;
+              const leftScaleLocal = leftTotalHeightPx / leftSideMm;
+              const minDistanceFromTop = 350;
+              const maxDistanceFromTop = 450;
+              const leftDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, leftSideMm * 0.3));
+              const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScaleLocal;
+              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
+              const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
+              
+              // Правая сторона
+              const rightEdgeY = 40;
+              const rightBottomY = 260;
+              const rightTotalHeightPx = rightBottomY - rightEdgeY;
+              const rightScaleLocal = rightTotalHeightPx / rightSideMm;
+              const rightDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, rightSideMm * 0.3));
+              const rightFirstGrommetY = rightEdgeY + rightDistanceFromTopMm * rightScaleLocal;
+              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
+              const rightSpacingPx = (rightLastGrommetY - rightFirstGrommetY) / (rightCount - 1 || 1);
+              
+              // Нижняя сторона
+              const bottomEdgeX = 60;
+              const bottomRightX = 380;
+              const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
+              const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
+              const minDistanceFromEdge = 350;
+              const maxDistanceFromEdge = 450;
+              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
+              const bottomFirstGrommetX = bottomEdgeX + bottomDistanceFromLeftMm * bottomScaleLocal;
+              const bottomDistanceFromRightMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
+              const bottomLastGrommetX = bottomRightX - bottomDistanceFromRightMm * bottomScaleLocal;
+              const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
+              
               const edgeX = 60;
-              const firstGrommetY = 65;
               const edgeY = 40;
               
               return (
                 <>
                   {/* Отступ от края до первого люверса (низ) */}
                   <g>
-                    <line x1={edgeX} y1={268} x2={firstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={268} x2={bottomFirstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={firstGrommetX} y1={265} x2={firstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={(edgeX + firstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
-                      15мм
+                    <line x1={bottomFirstGrommetX} y1={265} x2={bottomFirstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={(edgeX + bottomFirstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                      {bottomDistanceFromLeftMm.toFixed(0)}мм
                     </text>
                   </g>
                   
                   {/* Отступ от края до первого люверса (левая сторона) */}
                   <g>
-                    <line x1={35} y1={edgeY} x2={35} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={35} y1={edgeY} x2={35} y2={leftFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={32} y1={edgeY} x2={38} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={32} y1={firstGrommetY} x2={38} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={30} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${(edgeY + firstGrommetY) / 2 + 3})`}>
-                      15мм
+                    <line x1={32} y1={leftFirstGrommetY} x2={38} y2={leftFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={30} y={(edgeY + leftFirstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${(edgeY + leftFirstGrommetY) / 2 + 3})`}>
+                      {leftDistanceFromTopMm.toFixed(0)}мм
                     </text>
                   </g>
                   
                   {/* Отступ от края до первого люверса (правая сторона) */}
                   <g>
-                    <line x1={385} y1={edgeY} x2={385} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={385} y1={edgeY} x2={385} y2={rightFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={382} y1={edgeY} x2={388} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={382} y1={firstGrommetY} x2={388} y2={firstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={390} y={(edgeY + firstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${(edgeY + firstGrommetY) / 2 + 3})`}>
-                      15мм
+                    <line x1={382} y1={rightFirstGrommetY} x2={388} y2={rightFirstGrommetY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={390} y={(edgeY + rightFirstGrommetY) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${(edgeY + rightFirstGrommetY) / 2 + 3})`}>
+                      {rightDistanceFromTopMm.toFixed(0)}мм
                     </text>
                   </g>
                   
-                  {/* Расстояние между кольцевыми люверсами */}
+                  {/* Расстояние между кольцевыми люверсами (низ) */}
                   {bottomCount > 1 && (() => {
-                    const bottomSpacing = 270 / (bottomCount - 1 || 1);
-                    const x1 = 85;
-                    const x2 = 85 + bottomSpacing;
+                    const x1 = bottomFirstGrommetX;
+                    const x2 = bottomFirstGrommetX + bottomSpacingPx;
                     const y = 265;
+                    const spacingMm = (bottomLastGrommetX - bottomFirstGrommetX) / bottomScaleLocal / (bottomCount - 1);
                     
                     return (
                       <g>
@@ -340,7 +379,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
                         <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
-                          350мм
+                          {spacingMm.toFixed(0)}мм
                         </text>
                       </g>
                     );
@@ -348,10 +387,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   
                   {/* Расстояние между кольцевыми люверсами на левой стороне */}
                   {leftCount > 1 && (() => {
-                    const leftSpacing = 170 / (leftCount - 1 || 1);
-                    const y1 = 65;
-                    const y2 = 65 + leftSpacing;
+                    const y1 = leftFirstGrommetY;
+                    const y2 = leftFirstGrommetY + leftSpacingPx;
                     const x = 35;
+                    const spacingMm = (leftLastGrommetY - leftFirstGrommetY) / leftScaleLocal / (leftCount - 1);
                     
                     return (
                       <g>
@@ -359,7 +398,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
                         <text x={30} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 30 ${(y1 + y2) / 2 + 3})`}>
-                          350мм
+                          {spacingMm.toFixed(0)}мм
                         </text>
                       </g>
                     );

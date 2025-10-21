@@ -193,6 +193,61 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
           <div className="mt-8 text-center text-sm text-gray-500">
             <p>Коммерческое предложение действительно 30 дней с даты формирования</p>
           </div>
+
+          <div className="mt-12 pt-8 border-t-2 border-gray-300">
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-4">От исполнителя:</p>
+                <div className="space-y-4">
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-600 mb-1">Дата:</p>
+                      <div className="border-b border-gray-400 pb-1">
+                        <span className="text-sm">___ . ___ . 20___</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-600 mb-1">Подпись:</p>
+                      <div className="border-b border-gray-400 pb-1 h-12"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-gray-400 text-center">М.П.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-4">От заказчика:</p>
+                <div className="space-y-4">
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-600 mb-1">Дата:</p>
+                      <div className="border-b border-gray-400 pb-1">
+                        <span className="text-sm">___ . ___ . 20___</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-600 mb-1">Подпись:</p>
+                      <div className="border-b border-gray-400 pb-1 h-12"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-600 mb-1">ФИО:</p>
+                      <div className="border-b border-gray-400 pb-1 h-8"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -19,7 +19,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
   
   if (shape === 'rectangle') {
     return (
-      <svg width="900" height="680" viewBox="0 0 450 370" className="border rounded bg-white blueprint-svg">
+      <svg width="900" height="680" viewBox="0 0 450 400" className="border rounded bg-white blueprint-svg">
         
         <rect x="60" y="40" width="320" height="220" fill="#A0522D" stroke="none"/>
         <rect x="95" y="75" width="250" height="150" fill="#B3E5FC" stroke="none"/>

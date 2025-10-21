@@ -96,7 +96,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Первый и последний люверсы по центру канта в углах
               const kantCenterOffset = kantSize / 2;
               const firstGrommetX = 60 + kantCenterOffset + 10; // 60 - левый край канта + 10мм сдвиг
-              const lastGrommetX = 380 - kantCenterOffset; // 380 - правый край канта
+              const lastGrommetX = 380 - kantCenterOffset - 20; // 380 - правый край канта - 20мм сдвиг влево
               
               // Расстояние между первым и последним люверсом (в пикселях)
               const totalDistancePx = lastGrommetX - firstGrommetX;

@@ -98,32 +98,32 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const grommetRadius = grommetOuterDiameter / 2;
               
               // Координаты канта на чертеже: левый край = 60, правый край = 380
-              // Ширина канта на чертеже = 35 пикселей (было 25, стало 35)
+              // Ширина канта на чертеже = 35 пикселей
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 2; // 17.5 пикселей от края до центра канта
               
-              // Люверсы в центре канта
-              const firstGrommetX = 60 + kantCenterOffsetPx; // 60 - левый край канта + центр
-              const lastGrommetX = 380 - kantCenterOffsetPx; // 380 - правый край канта - центр
+              // Люверсы в центре канта (в углах)
+              const firstGrommetXpx = 60 + kantCenterOffsetPx; // Левый угол
+              const lastGrommetXpx = 380 - kantCenterOffsetPx; // Правый угол
               
-              // Расстояние между центрами крайних люверсов в пикселях
-              const totalDistancePx = lastGrommetX - firstGrommetX;
-              
-              // Масштаб: вся длина ПВХ = 320 пикселей (380-60)
+              // Масштаб: 320 пикселей = topSideMm миллиметров
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
               
-              // Расстояние между центрами крайних люверсов в мм
-              const distanceMm = topSideMm - kantSize;
+              // Расстояние между угловыми люверсами в мм (от центра канта до центра канта)
+              const distanceBetweenCornersMm = topSideMm - kantSize;
               
-              // Расчет шага между люверсами с учетом того, что они не должны касаться (диаметр 30мм)
-              const spacingMm = distanceMm / (count - 1 || 1);
+              // Расчет оптимального шага (250-350 мм) для равномерного распределения
+              const spacingMm = distanceBetweenCornersMm / (count - 1 || 1);
+              
+              // Расстояние в пикселях между люверсами
+              const spacingPx = (lastGrommetXpx - firstGrommetXpx) / (count - 1 || 1);
               
               for (let i = 0; i < count; i++) {
-                positions.push([firstGrommetX + i * spacingMm * scale, 52]);
+                positions.push([firstGrommetXpx + i * spacingPx, 52]);
               }
               
-              return { positions, spacingMm, kantCenterOffsetPx, distanceMm };
+              return { positions, spacingMm, kantCenterOffsetPx, distanceBetweenCornersMm };
             })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
@@ -140,29 +140,31 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Координаты канта на чертеже
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 2;
-              const firstGrommetX = 60 + kantCenterOffsetPx;
+              const firstGrommetXpx = 60 + kantCenterOffsetPx;
+              const lastGrommetXpx = 380 - kantCenterOffsetPx;
               const edgeX = 60;
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
-              const distanceMm = topSideMm - kantSize;
-              const spacingMm = distanceMm / (count - 1 || 1);
+              const distanceBetweenCornersMm = topSideMm - kantSize;
+              const spacingMm = distanceBetweenCornersMm / (count - 1 || 1);
+              const spacingPx = (lastGrommetXpx - firstGrommetXpx) / (count - 1 || 1);
               
               return (
                 <>
                   {/* Отступ от края до первого люверса (центр канта) */}
                   <g>
-                    <line x1={edgeX} y1={35} x2={firstGrommetX} y2={35} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={35} x2={firstGrommetXpx} y2={35} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={32} x2={edgeX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={firstGrommetX} y1={32} x2={firstGrommetX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={(edgeX + firstGrommetX) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                    <line x1={firstGrommetXpx} y1={32} x2={firstGrommetXpx} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={(edgeX + firstGrommetXpx) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
                       {kantCenterOffsetPx.toFixed(0)}px
                     </text>
                   </g>
                   
                   {/* Расстояние между люверсами */}
                   {count > 1 && (() => {
-                    const x1 = firstGrommetX;
-                    const x2 = firstGrommetX + spacingMm * scale;
+                    const x1 = firstGrommetXpx;
+                    const x2 = firstGrommetXpx + spacingPx;
                     const y = 30;
                     
                     return (

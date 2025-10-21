@@ -18,8 +18,16 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
   const perimeter = calculatePerimeter(calculation);
   
   if (shape === 'rectangle') {
+    // Динамический размер чертежа в зависимости от количества люверсов
+    const totalGrommets = (calculation.grommetsCount || 0) + (calculation.ringGrommetsCount || 0);
+    const minHeight = 340;
+    const baseHeight = 340;
+    const heightPerGrommet = 15; // Дополнительные пиксели на каждый люверс
+    const dynamicHeight = Math.max(minHeight, baseHeight + (totalGrommets > 10 ? (totalGrommets - 10) * heightPerGrommet : 0));
+    const scale = dynamicHeight / baseHeight;
+    
     return (
-      <svg width="450" height="340" className="border rounded bg-white blueprint-svg">
+      <svg width="450" height={dynamicHeight} className="border rounded bg-white blueprint-svg">
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <text x="350" y="15" textAnchor="end" fontSize="11" fill="#0066CC" fontWeight="bold">
             Шаг 300мм
@@ -31,28 +39,28 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
           </text>
         )}
         
-        <rect x="60" y="40" width="320" height="220" fill="#A0522D" stroke="none"/>
-        <rect x="95" y="75" width="250" height="150" fill="#B3E5FC" stroke="none"/>
+        <rect x="60" y={40 * scale} width="320" height={220 * scale} fill="#A0522D" stroke="none"/>
+        <rect x="95" y={75 * scale} width="250" height={150 * scale} fill="#B3E5FC" stroke="none"/>
         
         <line x1="60" y1="15" x2="380" y2="15" stroke="#000" strokeWidth="1"/>
         <line x1="60" y1="12" x2="60" y2="18" stroke="#000" strokeWidth="1"/>
         <line x1="380" y1="12" x2="380" y2="18" stroke="#000" strokeWidth="1"/>
         <text x="220" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize} мм</text>
         
-        <line x1="405" y1="40" x2="405" y2="260" stroke="#000" strokeWidth="1"/>
-        <line x1="402" y1="40" x2="408" y2="40" stroke="#000" strokeWidth="1"/>
-        <line x1="402" y1="260" x2="408" y2="260" stroke="#000" strokeWidth="1"/>
-        <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b + calculation.kantSize} мм</text>
+        <line x1="405" y1={40 * scale} x2="405" y2={260 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="402" y1={40 * scale} x2="408" y2={40 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="402" y1={260 * scale} x2="408" y2={260 * scale} stroke="#000" strokeWidth="1"/>
+        <text x="420" y={150 * scale} textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform={`rotate(90 420 ${150 * scale})`}>B = {b + calculation.kantSize} мм</text>
         
-        <line x1="60" y1="285" x2="380" y2="285" stroke="#000" strokeWidth="1"/>
-        <line x1="60" y1="282" x2="60" y2="288" stroke="#000" strokeWidth="1"/>
-        <line x1="380" y1="282" x2="380" y2="288" stroke="#000" strokeWidth="1"/>
-        <text x="220" y="300" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
+        <line x1="60" y1={285 * scale} x2="380" y2={285 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="60" y1={282 * scale} x2="60" y2={288 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="380" y1={282 * scale} x2="380" y2={288 * scale} stroke="#000" strokeWidth="1"/>
+        <text x="220" y={300 * scale} textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
         
-        <line x1="25" y1="40" x2="25" y2="260" stroke="#000" strokeWidth="1"/>
-        <line x1="22" y1="40" x2="28" y2="40" stroke="#000" strokeWidth="1"/>
-        <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
-        <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize} мм</text>
+        <line x1="25" y1={40 * scale} x2="25" y2={260 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="22" y1={40 * scale} x2="28" y2={40 * scale} stroke="#000" strokeWidth="1"/>
+        <line x1="22" y1={260 * scale} x2="28" y2={260 * scale} stroke="#000" strokeWidth="1"/>
+        <text x="15" y={150 * scale} textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform={`rotate(-90 15 ${150 * scale})`}>D = {d + calculation.kantSize} мм</text>
         
         {/* Размеры канта */}
         <line x1="60" y1="52" x2="85" y2="52" stroke="#FF6600" strokeWidth="1.5"/>
@@ -61,29 +69,29 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <text x="72.5" y="48" textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">{calculation.kantSize}мм</text>
         
         {/* Размеры ПВХ с припуском */}
-        <line x1="75" y1="80" x2="365" y2="80" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="75" y1="77" x2="75" y2="83" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="365" y1="77" x2="365" y2="83" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="220" y="95" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a + 25} мм</text>
+        <line x1="75" y1={80 * scale} x2="365" y2={80 * scale} stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="75" y1={77 * scale} x2="75" y2={83 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="365" y1={77 * scale} x2="365" y2={83 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <text x="220" y={95 * scale} textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {a + 25} мм</text>
         
-        <line x1="90" y1="70" x2="90" y2="230" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="87" y1="70" x2="93" y2="70" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="87" y1="230" x2="93" y2="230" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="105" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(-90 105 150)">ПВХ: {d + 25} мм</text>
+        <line x1="90" y1={70 * scale} x2="90" y2={230 * scale} stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="87" y1={70 * scale} x2="93" y2={70 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="87" y1={230 * scale} x2="93" y2={230 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <text x="105" y={150 * scale} textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform={`rotate(-90 105 ${150 * scale})`}>ПВХ: {d + 25} мм</text>
         
         {/* Размер ПВХ снизу (сторона C) */}
-        <line x1="75" y1="220" x2="365" y2="220" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="75" y1="217" x2="75" y2="223" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="365" y1="217" x2="365" y2="223" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="220" y="210" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {c + 25} мм</text>
+        <line x1="75" y1={220 * scale} x2="365" y2={220 * scale} stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="75" y1={217 * scale} x2="75" y2={223 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="365" y1={217 * scale} x2="365" y2={223 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <text x="220" y={210 * scale} textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {c + 25} мм</text>
         
         {/* Размер ПВХ справа (сторона B) */}
-        <line x1="350" y1="70" x2="350" y2="230" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
-        <line x1="347" y1="70" x2="353" y2="70" stroke="#2E7D32" strokeWidth="1"/>
-        <line x1="347" y1="230" x2="353" y2="230" stroke="#2E7D32" strokeWidth="1"/>
-        <text x="335" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(90 335 150)">ПВХ: {b + 25} мм</text>
+        <line x1="350" y1={70 * scale} x2="350" y2={230 * scale} stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="347" y1={70 * scale} x2="353" y2={70 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="347" y1={230 * scale} x2="353" y2={230 * scale} stroke="#2E7D32" strokeWidth="1"/>
+        <text x="335" y={150 * scale} textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform={`rotate(90 335 ${150 * scale})`}>ПВХ: {b + 25} мм</text>
         
-        <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
+        <text x="220" y={325 * scale} textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>
@@ -181,7 +189,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
+            <text x="220" y={150 * scale} textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>
@@ -207,17 +215,17 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
               // Левая сторона (сторона d)
-              const leftEdgeY = 40;
-              const leftBottomY = 250;
+              const leftEdgeY = 40 * scale;
+              const leftBottomY = 260 * scale;
               const leftTotalHeightPx = leftBottomY - leftEdgeY;
-              const leftScale = leftTotalHeightPx / leftSideMm;
+              const leftScaleLocal = leftTotalHeightPx / leftSideMm;
               
               // Первый люверс 42х22 на расстоянии 350-450 мм от люверса 16 мм
               const minDistanceFromTop = 350; // мм
               const maxDistanceFromTop = 450; // мм
               const leftDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, leftSideMm * 0.3));
-              const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScale;
-              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
+              const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScaleLocal;
+              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx * scale;
               const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
               
               for (let i = 0; i < leftCount; i++) {
@@ -225,15 +233,15 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               }
               
               // Правая сторона (сторона b)
-              const rightEdgeY = 40;
-              const rightBottomY = 250;
+              const rightEdgeY = 40 * scale;
+              const rightBottomY = 260 * scale;
               const rightTotalHeightPx = rightBottomY - rightEdgeY;
-              const rightScale = rightTotalHeightPx / rightSideMm;
+              const rightScaleLocal = rightTotalHeightPx / rightSideMm;
               
               // Первый люверс 42х22 на расстоянии 350-450 мм от люверса 16 мм
               const rightDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, rightSideMm * 0.3));
-              const rightFirstGrommetY = rightEdgeY + rightDistanceFromTopMm * rightScale;
-              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
+              const rightFirstGrommetY = rightEdgeY + rightDistanceFromTopMm * rightScaleLocal;
+              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx * scale;
               const rightSpacingPx = (rightLastGrommetY - rightFirstGrommetY) / (rightCount - 1 || 1);
               
               for (let i = 0; i < rightCount; i++) {
@@ -241,9 +249,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               }
               
               // Нижняя сторона
+              const bottomY = 260 * scale - kantCenterOffsetPx * scale;
               const bottomSpacing = 270 / (bottomCount - 1 || 1);
               for (let i = 0; i < bottomCount; i++) {
-                positions.push([85 + i * bottomSpacing, 248, 'bottom']);
+                positions.push([85 + i * bottomSpacing, bottomY, 'bottom']);
               }
               
               return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm };
@@ -276,17 +285,17 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               const firstGrommetX = 85;
               const edgeX = 60;
-              const firstGrommetY = 65;
-              const edgeY = 40;
+              const firstGrommetY = 65 * scale;
+              const edgeY = 40 * scale;
               
               return (
                 <>
                   {/* Отступ от края до первого люверса (низ) */}
                   <g>
-                    <line x1={edgeX} y1={268} x2={firstGrommetX} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={firstGrommetX} y1={265} x2={firstGrommetX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={(edgeX + firstGrommetX) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                    <line x1={edgeX} y1={268 * scale} x2={firstGrommetX} y2={268 * scale} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={265 * scale} x2={edgeX} y2={271 * scale} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={firstGrommetX} y1={265 * scale} x2={firstGrommetX} y2={271 * scale} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={(edgeX + firstGrommetX) / 2} y={279 * scale} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
                       15мм
                     </text>
                   </g>
@@ -316,7 +325,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                     const bottomSpacing = 270 / (bottomCount - 1 || 1);
                     const x1 = 85;
                     const x2 = 85 + bottomSpacing;
-                    const y = 265;
+                    const y = 265 * scale;
                     
                     return (
                       <g>
@@ -332,9 +341,18 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   
                   {/* Расстояние между кольцевыми люверсами на левой стороне */}
                   {leftCount > 1 && (() => {
-                    const leftSpacing = 170 / (leftCount - 1 || 1);
-                    const y1 = 65;
-                    const y2 = 65 + leftSpacing;
+                    const leftEdgeY = 40 * scale;
+                    const leftSideMm = d + 25;
+                    const leftTotalHeightPx = (260 - 40) * scale;
+                    const leftScaleLocal = leftTotalHeightPx / leftSideMm;
+                    const minDistanceFromTop = 350;
+                    const maxDistanceFromTop = 450;
+                    const leftDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, leftSideMm * 0.3));
+                    const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScaleLocal;
+                    const leftLastGrommetY = 260 * scale - (35 / 2) * scale;
+                    const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
+                    const y1 = leftFirstGrommetY;
+                    const y2 = leftFirstGrommetY + leftSpacingPx;
                     const x = 35;
                     
                     return (
@@ -351,7 +369,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
+            <text x="220" y={165 * scale} textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>
           </>

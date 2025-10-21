@@ -193,22 +193,47 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const positions = [];
               const totalCount = calculation.ringGrommetsCount;
               
+              // Параметры
+              const kantWidthPx = 35;
+              const kantCenterOffsetPx = kantWidthPx / 2;
+              const leftSideMm = d + 25; // d + кант
+              const rightSideMm = b + 25; // b + кант
+              const bottomSideMm = a + 25; // c + кант
+              
               // Распределяем по 3 сторонам (левая, правая, нижняя)
-              const sidesPerimeter = (b + c + d) / 1000;
-              const leftCount = Math.max(1, Math.round((d / 1000 / sidesPerimeter) * totalCount));
-              const rightCount = Math.max(1, Math.round((b / 1000 / sidesPerimeter) * totalCount));
+              const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
+              const leftCount = Math.max(1, Math.round((leftSideMm / 1000 / sidesPerimeter) * totalCount));
+              const rightCount = Math.max(1, Math.round((rightSideMm / 1000 / sidesPerimeter) * totalCount));
               const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
-              // Левая сторона
-              const leftSpacing = 170 / (leftCount - 1 || 1);
+              // Левая сторона (сторона d)
+              const leftEdgeY = 40;
+              const leftBottomY = 250;
+              const leftFirstGrommetY = leftEdgeY + kantCenterOffsetPx;
+              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
+              const leftTotalHeightPx = leftBottomY - leftEdgeY;
+              const leftScale = leftTotalHeightPx / leftSideMm;
+              const leftDistanceBetweenCornersMm = leftSideMm - calculation.kantSize;
+              const leftSpacingMm = leftDistanceBetweenCornersMm / (leftCount - 1 || 1);
+              const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
+              
               for (let i = 0; i < leftCount; i++) {
-                positions.push([72, 65 + i * leftSpacing, 'left']);
+                positions.push([72, leftFirstGrommetY + i * leftSpacingPx, 'left']);
               }
               
-              // Правая сторона
-              const rightSpacing = 170 / (rightCount - 1 || 1);
+              // Правая сторона (сторона b)
+              const rightEdgeY = 40;
+              const rightBottomY = 250;
+              const rightFirstGrommetY = rightEdgeY + kantCenterOffsetPx;
+              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
+              const rightTotalHeightPx = rightBottomY - rightEdgeY;
+              const rightScale = rightTotalHeightPx / rightSideMm;
+              const rightDistanceBetweenCornersMm = rightSideMm - calculation.kantSize;
+              const rightSpacingMm = rightDistanceBetweenCornersMm / (rightCount - 1 || 1);
+              const rightSpacingPx = (rightLastGrommetY - rightFirstGrommetY) / (rightCount - 1 || 1);
+              
               for (let i = 0; i < rightCount; i++) {
-                positions.push([368, 65 + i * rightSpacing, 'right']);
+                positions.push([368, rightFirstGrommetY + i * rightSpacingPx, 'right']);
               }
               
               // Нижняя сторона
@@ -217,13 +242,25 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([85 + i * bottomSpacing, 248, 'bottom']);
               }
               
-              return positions;
-            })().map(([x, y, side], i) => (
+              return { positions, leftSpacingMm, rightSpacingMm };
+            })().positions.map(([x, y, side], i) => (
               <g key={`ring-grommet-${i}`}>
-                <ellipse cx={x} cy={y} rx="11" ry="6" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
-                <ellipse cx={x} cy={y} rx="9" ry="4.5" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                <ellipse cx={x} cy={y} rx="6" ry="3" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
+                {/* Люверсы 42х22 развернуты по вертикали на сторонах b,d */}
+                {side === 'left' || side === 'right' ? (
+                  <>
+                    <ellipse cx={x} cy={y} rx="6" ry="11" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="4.5" ry="9" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="3" ry="6" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    <ellipse cx={x-1} cy={y-2} rx="1" ry="2" fill="rgba(255,255,255,0.7)"/>
+                  </>
+                ) : (
+                  <>
+                    <ellipse cx={x} cy={y} rx="11" ry="6" fill="#B8860B" stroke="#A0700B" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="9" ry="4.5" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                    <ellipse cx={x} cy={y} rx="6" ry="3" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                    <ellipse cx={x-2} cy={y-1} rx="2" ry="1" fill="rgba(255,255,255,0.7)"/>
+                  </>
+                )}
               </g>
             ))}
             {(() => {

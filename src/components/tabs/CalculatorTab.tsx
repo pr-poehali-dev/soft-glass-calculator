@@ -38,7 +38,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     filmType: 'transparent',
     kantSize: 10,
     area: 0,
-    price: 0
+    price: 0,
+    measurement: false,
+    installation: false
   }]);
 
   const downloadBlueprint = () => {
@@ -99,7 +101,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       filmType: 'transparent',
       kantSize: 100,
       area: 0,
-      price: 0
+      price: 0,
+      measurement: false,
+      installation: false
     };
     setWindows([...windows, newWindow]);
   };
@@ -135,6 +139,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     if (window.grommets) price += window.grommetsCount * 40;
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
     if (window.frenchLock) price += area * 70;
+    if (window.measurement) price += 2000;
+    if (window.installation) price += area * 200;
 
     return { area, price };
   };
@@ -280,7 +286,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`grommets-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Люверсы 16мм (150 ₽/шт)
+                      Люверсы 16мм (40 ₽/шт)
                     </Label>
                   </div>
                   {window.grommets && (
@@ -309,7 +315,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`ring-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Кольцевые люверсы (180 ₽/шт)
+                      Кольцевые люверсы 42х22 (55 ₽/шт)
                     </Label>
                   </div>
                   {window.ringGrommets && (
@@ -335,7 +341,39 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Французский замок (+80 ₽/м²)
+                      Французский замок (+70 ₽/м²)
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`measurement-${window.id}`}
+                      checked={window.measurement}
+                      onCheckedChange={(checked) => {
+                        const updatedWindows = windows.map(w => 
+                          w.id === window.id ? { ...w, measurement: checked === true } : w
+                        );
+                        setWindows(updatedWindows);
+                      }}
+                    />
+                    <Label htmlFor={`measurement-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
+                      Выполнить замер (+2000 ₽)
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`installation-${window.id}`}
+                      checked={window.installation}
+                      onCheckedChange={(checked) => {
+                        const updatedWindows = windows.map(w => 
+                          w.id === window.id ? { ...w, installation: checked === true } : w
+                        );
+                        setWindows(updatedWindows);
+                      }}
+                    />
+                    <Label htmlFor={`installation-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
+                      Монтаж (+200 ₽/м²)
                     </Label>
                   </div>
                 </div>

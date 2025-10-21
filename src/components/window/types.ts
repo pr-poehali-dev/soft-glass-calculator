@@ -15,6 +15,8 @@ export interface WindowCalculation {
   area: number;
   price: number;
   quantity: number;
+  measurement: boolean;
+  installation: boolean;
   windows?: WindowItem[];
 }
 
@@ -35,6 +37,8 @@ export interface WindowItem {
   kantSize: number;
   area: number;
   price: number;
+  measurement: boolean;
+  installation: boolean;
 }
 
 export const shapes = [

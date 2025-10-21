@@ -29,9 +29,11 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="380" y1="12" x2="380" y2="18" stroke="#000" strokeWidth="1"/>
         <text x="220" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize} мм</text>
         
-        <line x1="115" y1="90" x2="325" y2="90" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="106" y1="90" x2="334" y2="90" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="106" y1="87" x2="106" y2="93" stroke="#22C55E" strokeWidth="1.5"/>
         <line x1="115" y1="87" x2="115" y2="93" stroke="#22C55E" strokeWidth="1.5"/>
         <line x1="325" y1="87" x2="325" y2="93" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="334" y1="87" x2="334" y2="93" stroke="#22C55E" strokeWidth="1.5"/>
         <text x="220" y="86" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E">ПВХ: {a + 50} мм</text>
         
         <line x1="405" y1="40" x2="405" y2="260" stroke="#000" strokeWidth="1"/>
@@ -39,9 +41,11 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="402" y1="260" x2="408" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="420" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(90 420 150)">B = {b + calculation.kantSize} мм</text>
         
-        <line x1="355" y1="95" x2="355" y2="205" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="355" y1="86" x2="355" y2="214" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="352" y1="86" x2="358" y2="86" stroke="#22C55E" strokeWidth="1.5"/>
         <line x1="352" y1="95" x2="358" y2="95" stroke="#22C55E" strokeWidth="1.5"/>
         <line x1="352" y1="205" x2="358" y2="205" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="352" y1="214" x2="358" y2="214" stroke="#22C55E" strokeWidth="1.5"/>
         <text x="362" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(90 362 150)">ПВХ: {b + 50} мм</text>
         
         <line x1="60" y1="285" x2="380" y2="285" stroke="#000" strokeWidth="1"/>

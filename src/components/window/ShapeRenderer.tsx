@@ -223,7 +223,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 positions.push([bottomFirstGrommetX + i * bottomSpacingPx, bottomY, 'bottom', 0]);
               }
               
-              return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm, bottomDistanceFromLeftMm };
+              return { positions, leftDistanceFromTopMm, rightDistanceFromTopMm };
             })().positions.map(([x, y, side, distanceFromTop], i) => (
               <g key={`ring-grommet-${i}`}>
                 {/* Люверсы 42х22 развернуты по вертикали на сторонах b,d */}

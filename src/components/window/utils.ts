@@ -41,33 +41,32 @@ export const calculateRingGrommetsCount = (calculation: WindowCalculation, gromm
   const kantSize = calculation.kantSize;
   
   // Функция расчёта люверсов для стороны с динамическим шагом 350-450 мм
-  const calculateSideGrommets = (sideMm: number) => {
+  const calculateSideGrommets = (sideMm: number, sideName: string) => {
     const distanceBetweenCorners = sideMm - kantSize;
-    let count = 2; // Минимум 2 (угловые)
+    let count = 2;
     let spacing = distanceBetweenCorners / (count - 1);
     
-    // Добавляем люверсы, пока шаг больше 450 мм
     while (spacing > 450 && count < 50) {
       count++;
       spacing = distanceBetweenCorners / (count - 1);
     }
     
-    // Если шаг меньше 350 мм, уменьшаем количество
     if (spacing < 350 && count > 2) {
       count--;
     }
     
+    console.log(`Сторона ${sideName}: длина=${sideMm}мм, расстояние=${distanceBetweenCorners}мм, люверсов=${count}, шаг=${spacing.toFixed(0)}мм`);
     return Math.max(2, count);
   };
   
-  // Рассчитываем для каждой стороны
-  const leftGrommets = calculateSideGrommets(leftSideMm);
-  const rightGrommets = calculateSideGrommets(rightSideMm);
-  const bottomGrommets = calculateSideGrommets(bottomSideMm);
+  const leftGrommets = calculateSideGrommets(leftSideMm, 'D');
+  const rightGrommets = calculateSideGrommets(rightSideMm, 'B');
+  const bottomGrommets = calculateSideGrommets(bottomSideMm, 'C');
   
-  // Для трёх сторон: вычитаем угловые дубли
-  // У нас 2 нижних угла общие между сторонами, поэтому -2
-  return leftGrommets + rightGrommets + bottomGrommets - 2;
+  const total = leftGrommets + rightGrommets + bottomGrommets - 2;
+  console.log(`ИТОГО люверсов 42х22: D=${leftGrommets} + B=${rightGrommets} + C=${bottomGrommets} - 2 угла = ${total}`);
+  
+  return total;
 };
 
 export const calculatePrice = (calculation: WindowCalculation) => {

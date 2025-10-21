@@ -78,7 +78,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="347" y1="230" x2="353" y2="230" stroke="#2E7D32" strokeWidth="1"/>
         <text x="335" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(90 335 150)">ПВХ: {b + 25} мм</text>
         
-        <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
+        <text x="220" y="310" textAnchor="middle" fontSize="11" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>
@@ -167,7 +167,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="310" textAnchor="middle" fontSize="11" fill="#0066CC">
+            <text x="220" y="323" textAnchor="middle" fontSize="11" fill="#0066CC">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>
@@ -418,7 +418,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="325" textAnchor="middle" fontSize="11" fill="#B8860B">
+            <text x="220" y="336" textAnchor="middle" fontSize="11" fill="#B8860B">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>
           </>

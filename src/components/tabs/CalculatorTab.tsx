@@ -97,7 +97,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       ringGrommetsCount: 0,
       frenchLock: false,
       filmType: 'transparent',
-      kantSize: 10,
+      kantSize: 100,
       area: 0,
       price: 0
     };
@@ -252,10 +252,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="10">10 мм</SelectItem>
-                        <SelectItem value="16">16 мм</SelectItem>
-                        <SelectItem value="20">20 мм</SelectItem>
-                        <SelectItem value="30">30 мм</SelectItem>
+                        <SelectItem value="100">100 мм</SelectItem>
+                        <SelectItem value="160">160 мм</SelectItem>
+                        <SelectItem value="200">200 мм</SelectItem>
+                        <SelectItem value="300">300 мм</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

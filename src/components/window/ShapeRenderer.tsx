@@ -328,30 +328,30 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <>
                   {/* Размер канта (низ) */}
                   <g>
-                    <line x1={edgeX} y1={268} x2={edgeX + (kantSize * bottomScaleLocal)} y2={268} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX} y1={265} x2={edgeX} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={edgeX + (kantSize * bottomScaleLocal)} y1={265} x2={edgeX + (kantSize * bottomScaleLocal)} y2={271} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={edgeX + (kantSize * bottomScaleLocal) / 2} y={279} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
+                    <line x1={edgeX} y1={260 + kantWidthPx/2} x2={edgeX + (kantSize * bottomScaleLocal)} y2={260 + kantWidthPx/2} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={260} x2={edgeX} y2={260 + kantWidthPx} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={edgeX + (kantSize * bottomScaleLocal)} y1={260} x2={edgeX + (kantSize * bottomScaleLocal)} y2={260 + kantWidthPx} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={edgeX + (kantSize * bottomScaleLocal) / 2} y={260 + kantWidthPx + 11} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
                       {kantSize.toFixed(0)}мм
                     </text>
                   </g>
                   
                   {/* Размер канта (левая сторона) */}
                   <g>
-                    <line x1={35} y1={edgeY} x2={35} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={32} y1={edgeY} x2={38} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={32} y1={edgeY + (kantSize * leftScaleLocal)} x2={38} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={30} y={edgeY + (kantSize * leftScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 30 ${edgeY + (kantSize * leftScaleLocal) / 2 + 3})`}>
+                    <line x1={60 + kantWidthPx/2} y1={edgeY} x2={60 + kantWidthPx/2} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={60} y1={edgeY} x2={60 + kantWidthPx} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={60} y1={edgeY + (kantSize * leftScaleLocal)} x2={60 + kantWidthPx} y2={edgeY + (kantSize * leftScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={60 + kantWidthPx/2 - 7} y={edgeY + (kantSize * leftScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(-90 ${60 + kantWidthPx/2 - 7} ${edgeY + (kantSize * leftScaleLocal) / 2 + 3})`}>
                       {kantSize.toFixed(0)}мм
                     </text>
                   </g>
                   
                   {/* Размер канта (правая сторона) */}
                   <g>
-                    <line x1={385} y1={edgeY} x2={385} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={382} y1={edgeY} x2={388} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
-                    <line x1={382} y1={edgeY + (kantSize * rightScaleLocal)} x2={388} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
-                    <text x={390} y={edgeY + (kantSize * rightScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 390 ${edgeY + (kantSize * rightScaleLocal) / 2 + 3})`}>
+                    <line x1={380 - kantWidthPx/2} y1={edgeY} x2={380 - kantWidthPx/2} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={380 - kantWidthPx} y1={edgeY} x2={380} y2={edgeY} stroke="#FF6600" strokeWidth="1.5"/>
+                    <line x1={380 - kantWidthPx} y1={edgeY + (kantSize * rightScaleLocal)} x2={380} y2={edgeY + (kantSize * rightScaleLocal)} stroke="#FF6600" strokeWidth="1.5"/>
+                    <text x={380 - kantWidthPx/2 + 7} y={edgeY + (kantSize * rightScaleLocal) / 2 + 3} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold" transform={`rotate(90 ${380 - kantWidthPx/2 + 7} ${edgeY + (kantSize * rightScaleLocal) / 2 + 3})`}>
                       {kantSize.toFixed(0)}мм
                     </text>
                   </g>

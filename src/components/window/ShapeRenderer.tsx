@@ -19,7 +19,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
   
   if (shape === 'rectangle') {
     return (
-      <svg width="450" height="340" className="border rounded bg-white blueprint-svg">
+      <svg width="900" height="680" viewBox="0 0 450 340" className="border rounded bg-white blueprint-svg">
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <text x="350" y="15" textAnchor="end" fontSize="11" fill="#0066CC" fontWeight="bold">
             Шаг 300мм

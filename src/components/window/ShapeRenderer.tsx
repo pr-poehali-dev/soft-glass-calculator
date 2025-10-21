@@ -284,28 +284,56 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               </g>
             ))}
             {(() => {
-              const totalCount = calculation.ringGrommetsCount;
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 2;
               const leftSideMm = d + 25;
               const rightSideMm = b + 25;
               const bottomSideMm = a + 25;
               
-              const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
-              const leftCount = Math.max(1, Math.round((leftSideMm / 1000 / sidesPerimeter) * totalCount));
-              const rightCount = Math.max(1, Math.round((rightSideMm / 1000 / sidesPerimeter) * totalCount));
-              const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
+              const minSpacing = 350;
+              const maxSpacing = 450;
+              const optimalSpacing = 400;
+              
+              const calculateSide = (sideMm: number) => {
+                const minEdgeDistance = 100;
+                const maxEdgeDistance = 200;
+                const availableLength = sideMm - minEdgeDistance * 2;
+                
+                let count = Math.max(1, Math.round(availableLength / optimalSpacing) + 1);
+                let spacing = availableLength / (count - 1 || 1);
+                
+                while (spacing < minSpacing && count > 1) {
+                  count--;
+                  spacing = availableLength / (count - 1 || 1);
+                }
+                
+                while (spacing > maxSpacing) {
+                  count++;
+                  spacing = availableLength / (count - 1 || 1);
+                }
+                
+                const actualSpacing = count > 1 ? availableLength / (count - 1) : 0;
+                const edgeDistance = (sideMm - availableLength) / 2;
+                
+                return { count, spacing: actualSpacing, edgeDistance };
+              };
+              
+              const left = calculateSide(leftSideMm);
+              const right = calculateSide(rightSideMm);
+              const bottom = calculateSide(bottomSideMm);
+              
+              const leftCount = left.count;
+              const rightCount = right.count;
+              const bottomCount = bottom.count;
               
               // Левая сторона
               const leftEdgeY = 40;
               const leftBottomY = 260;
               const leftTotalHeightPx = leftBottomY - leftEdgeY;
               const leftScaleLocal = leftTotalHeightPx / leftSideMm;
-              const minDistanceFromTop = 350;
-              const maxDistanceFromTop = 450;
-              const leftDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, leftSideMm * 0.3));
+              const leftDistanceFromTopMm = left.edgeDistance;
               const leftFirstGrommetY = leftEdgeY + leftDistanceFromTopMm * leftScaleLocal;
-              const leftLastGrommetY = leftBottomY - kantCenterOffsetPx;
+              const leftLastGrommetY = leftBottomY - (left.edgeDistance * leftScaleLocal);
               const leftSpacingPx = (leftLastGrommetY - leftFirstGrommetY) / (leftCount - 1 || 1);
               
               // Правая сторона
@@ -313,9 +341,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const rightBottomY = 260;
               const rightTotalHeightPx = rightBottomY - rightEdgeY;
               const rightScaleLocal = rightTotalHeightPx / rightSideMm;
-              const rightDistanceFromTopMm = Math.min(maxDistanceFromTop, Math.max(minDistanceFromTop, rightSideMm * 0.3));
+              const rightDistanceFromTopMm = right.edgeDistance;
               const rightFirstGrommetY = rightEdgeY + rightDistanceFromTopMm * rightScaleLocal;
-              const rightLastGrommetY = rightBottomY - kantCenterOffsetPx;
+              const rightLastGrommetY = rightBottomY - (right.edgeDistance * rightScaleLocal);
               const rightSpacingPx = (rightLastGrommetY - rightFirstGrommetY) / (rightCount - 1 || 1);
               
               // Нижняя сторона
@@ -323,11 +351,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomRightX = 380;
               const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
               const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
-              const minDistanceFromEdge = 350;
-              const maxDistanceFromEdge = 450;
-              const bottomDistanceFromLeftMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
+              const bottomDistanceFromLeftMm = bottom.edgeDistance;
               const bottomFirstGrommetX = bottomEdgeX + bottomDistanceFromLeftMm * bottomScaleLocal;
-              const bottomDistanceFromRightMm = Math.min(maxDistanceFromEdge, Math.max(minDistanceFromEdge, bottomSideMm * 0.3));
+              const bottomDistanceFromRightMm = bottom.edgeDistance;
               const bottomLastGrommetX = bottomRightX - bottomDistanceFromRightMm * bottomScaleLocal;
               const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
               

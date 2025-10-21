@@ -93,20 +93,26 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantSize = calculation.kantSize;
               const topSideMm = a + 25; // Размер ПВХ с припуском
               
-              // Первый и последний люверсы по центру канта в углах
+              // Первый и последний люверсы точно в центре углов с учетом внешнего диаметра 30мм
+              const grommetOuterDiameter = 30; // Внешний диаметр люверса
+              const grommetRadius = grommetOuterDiameter / 2;
               const kantCenterOffset = kantSize / 2;
-              const firstGrommetX = 60 + kantCenterOffset + 10; // 60 - левый край канта + 10мм сдвиг
-              const lastGrommetX = 380 - kantCenterOffset - 20; // 380 - правый край канта - 20мм сдвиг влево
               
-              // Расстояние между первым и последним люверсом (в пикселях)
+              // Люверсы в центре угла = центр канта
+              const firstGrommetX = 60 + kantCenterOffset; // 60 - левый край канта
+              const lastGrommetX = 380 - kantCenterOffset; // 380 - правый край канта
+              
+              // Расстояние между центрами крайних люверсов в пикселях
               const totalDistancePx = lastGrommetX - firstGrommetX;
               
               // Масштаб: вся длина ПВХ = 320 пикселей (380-60)
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
               
-              // Расстояние между угловыми люверсами в мм
+              // Расстояние между центрами крайних люверсов в мм
               const distanceMm = topSideMm - kantSize;
+              
+              // Расчет шага между люверсами с учетом того, что они не должны касаться (диаметр 30мм)
               const spacingMm = distanceMm / (count - 1 || 1);
               
               for (let i = 0; i < count; i++) {
@@ -127,7 +133,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantSize = calculation.kantSize;
               const topSideMm = a + 25;
               const kantCenterOffset = kantSize / 2;
-              const firstGrommetX = 60 + kantCenterOffset + 10;
+              const firstGrommetX = 60 + kantCenterOffset;
               const edgeX = 60;
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;

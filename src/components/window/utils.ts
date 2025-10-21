@@ -34,43 +34,17 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
   return Math.max(2, count);
 };
 
-export const calculateRingGrommetsCount = (calculation: WindowCalculation, minStep: number = 350, maxStep: number = 450) => {
-  const kantSize = calculation.kantSize;
-  const grommetSize = 42; // Внешний размер люверса 42х22
-  
-  // Размеры сторон с припуском
+export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
   const leftSideMm = calculation.d + 25;
   const rightSideMm = calculation.b + 25;
   const bottomSideMm = calculation.c + 25;
   
-  // Функция расчёта люверсов для одной стороны
-  const calculateSideGrommets = (sideMm: number) => {
-    // Расстояние между центрами угловых люверсов
-    const distanceBetweenCorners = sideMm - kantSize;
-    
-    // Минимум 2 люверса (угловые)
-    let count = 2;
-    let spacing = distanceBetweenCorners / (count - 1);
-    
-    // Добавляем люверсы, пока шаг больше максимального
-    while (spacing > maxStep && count < 50) {
-      count++;
-      spacing = distanceBetweenCorners / (count - 1);
-    }
-    
-    // Если шаг меньше минимального, уменьшаем количество
-    if (spacing < minStep && count > 2) {
-      count--;
-    }
-    
-    return Math.max(2, count);
-  };
+  // Рассчитываем люверсы по каждой стороне отдельно
+  const leftGrommets = Math.max(2, Math.ceil(leftSideMm / grommetsStepMm));
+  const rightGrommets = Math.max(2, Math.ceil(rightSideMm / grommetsStepMm));
+  const bottomGrommets = Math.max(2, Math.ceil(bottomSideMm / grommetsStepMm));
   
-  const leftGrommets = calculateSideGrommets(leftSideMm);
-  const rightGrommets = calculateSideGrommets(rightSideMm);
-  const bottomGrommets = calculateSideGrommets(bottomSideMm);
-  
-  // Вычитаем 4 угловых люверса (они считаются в каждой стороне)
+  // Вычитаем угловые дубли (4 угла считаются дважды)
   return leftGrommets + rightGrommets + bottomGrommets - 4;
 };
 

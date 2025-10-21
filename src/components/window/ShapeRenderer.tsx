@@ -244,7 +244,6 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomEdgeX = 60;
               const bottomRightX = 380;
               const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
-              const bottomSideMm = a + 25; // c + кант
               const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
               const bottomY = 248;
               

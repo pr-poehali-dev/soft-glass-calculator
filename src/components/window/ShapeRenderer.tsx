@@ -93,23 +93,27 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantSize = calculation.kantSize;
               const topSideMm = a + 25; // Размер ПВХ с припуском
               
-              // Первый люверс по центру канта в углу
+              // Первый и последний люверсы по центру канта в углах
               const kantCenterOffset = kantSize / 2;
               const firstGrommetX = 60 + kantCenterOffset; // 60 - левый край канта
+              const lastGrommetX = 380 - kantCenterOffset; // 380 - правый край канта
               
-              // Рассчитываем оптимальный шаг между люверсами
-              // Доступная длина = длина ПВХ - отступ от первого люверса до конца канта
-              const availableLength = topSideMm - kantCenterOffset;
-              const spacingMm = availableLength / (count - 1 || 1);
+              // Расстояние между первым и последним люверсом (в пикселях)
+              const totalDistancePx = lastGrommetX - firstGrommetX;
               
-              // Масштабный коэффициент (пиксели на мм)
-              const scale = 270 / a;
+              // Масштаб: вся длина ПВХ = 320 пикселей (380-60)
+              const totalWidthPx = 320;
+              const scale = totalWidthPx / topSideMm;
+              
+              // Расстояние между угловыми люверсами в мм
+              const distanceMm = topSideMm - kantSize;
+              const spacingMm = distanceMm / (count - 1 || 1);
               
               for (let i = 0; i < count; i++) {
                 positions.push([firstGrommetX + i * spacingMm * scale, 52]);
               }
               
-              return { positions, spacingMm, kantCenterOffset, scale };
+              return { positions, spacingMm, kantCenterOffset, distanceMm };
             })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
@@ -125,9 +129,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantCenterOffset = kantSize / 2;
               const firstGrommetX = 60 + kantCenterOffset;
               const edgeX = 60;
-              const availableLength = topSideMm - kantCenterOffset;
-              const spacingMm = availableLength / (count - 1 || 1);
-              const scale = 270 / a;
+              const totalWidthPx = 320;
+              const scale = totalWidthPx / topSideMm;
+              const distanceMm = topSideMm - kantSize;
+              const spacingMm = distanceMm / (count - 1 || 1);
               
               return (
                 <>

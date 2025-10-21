@@ -8,6 +8,7 @@ export interface WindowCalculation {
   grommets: boolean;
   grommetsCount: number;
   frenchLock: boolean;
+  frenchLockCount: number;
   ringGrommets: boolean;
   ringGrommetsCount: number;
   filmType: string;
@@ -31,6 +32,7 @@ export interface WindowItem {
   grommets: boolean;
   grommetsCount: number;
   frenchLock: boolean;
+  frenchLockCount: number;
   ringGrommets: boolean;
   ringGrommetsCount: number;
   filmType: string;

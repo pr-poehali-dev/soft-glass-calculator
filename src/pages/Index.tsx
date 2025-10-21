@@ -24,13 +24,16 @@ const Index = () => {
     grommets: false,
     grommetsCount: 0,
     frenchLock: false,
+    frenchLockCount: 0,
     ringGrommets: false,
     ringGrommetsCount: 0,
     filmType: 'transparent',
     kantSize: 10,
     area: 0,
     price: 0,
-    quantity: 1
+    quantity: 1,
+    measurement: false,
+    installation: false
   });
 
   const [activeTab, setActiveTab] = useState(() => {

@@ -37,6 +37,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     ringGrommets: false,
     ringGrommetsCount: 0,
     frenchLock: false,
+    frenchLockCount: 0,
     filmType: 'transparent',
     kantSize: 10,
     area: 0,
@@ -100,6 +101,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       ringGrommets: false,
       ringGrommetsCount: 0,
       frenchLock: false,
+      frenchLockCount: 0,
       filmType: 'transparent',
       kantSize: 100,
       area: 0,
@@ -140,7 +142,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
     if (window.grommets) price += window.grommetsCount * 40;
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
-    if (window.frenchLock) price += area * 70;
+    if (window.frenchLock) price += window.frenchLockCount * 350;
     if (window.measurement) price += 2000;
     if (window.installation) price += area * 200;
 
@@ -336,16 +338,28 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       id={`french-${window.id}`}
                       checked={window.frenchLock}
                       onCheckedChange={(checked) => {
+                        const isChecked = checked === true;
+                        const count = isChecked ? 2 : 0;
                         const updatedWindows = windows.map(w => 
-                          w.id === window.id ? { ...w, frenchLock: checked === true } : w
+                          w.id === window.id ? { ...w, frenchLock: isChecked, frenchLockCount: count } : w
                         );
                         setWindows(updatedWindows);
                       }}
                     />
                     <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Французский замок (+70 ₽/м²)
+                      Французский замок (350 ₽/шт)
                     </Label>
                   </div>
+                  {window.frenchLock && (
+                    <div className="ml-6">
+                      <Input
+                        type="number"
+                        value={window.frenchLockCount}
+                        onChange={(e) => updateWindow(window.id, 'frenchLockCount', parseInt(e.target.value) || 0)}
+                        className="w-20 h-8"
+                      />
+                    </div>
+                  )}
 
                   <div className="flex items-center space-x-2">
                     <Checkbox

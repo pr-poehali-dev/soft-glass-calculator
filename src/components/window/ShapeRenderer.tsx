@@ -372,7 +372,6 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const rightCount = Math.max(1, Math.round((rightSideMm / 1000 / sidesPerimeter) * totalCount));
               const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
               
-              // На нижнем канте только 2 люверса по краям
               const actualBottomCount = Math.min(bottomCount, 2);
               
               return (
@@ -381,6 +380,26 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </text>
               );
             })()}
+          </>
+        )}
+
+        {calculation.frenchLock && calculation.frenchLockCount > 0 && (
+          <>
+            {Array.from({ length: calculation.frenchLockCount }).map((_, i) => {
+              const spacing = 320 / (calculation.frenchLockCount + 1);
+              const x = 60 + spacing * (i + 1);
+              const y = 150;
+              
+              return (
+                <g key={i}>
+                  <rect x={x-8} y={y-6} width="16" height="12" fill="#B8860B" stroke="#A0700B" strokeWidth="1" rx="2"/>
+                  <rect x={x-6} y={y-4} width="12" height="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5" rx="1"/>
+                  <rect x={x-2} y={y-2} width="4" height="4" fill="#FFD700" stroke="#B8860B" strokeWidth="0.5" rx="0.5"/>
+                  <circle cx={x-4} cy={y-2} r="0.8" fill="#808080"/>
+                  <circle cx={x+4} cy={y-2} r="0.8" fill="#808080"/>
+                </g>
+              );
+            })}
           </>
         )}
       </svg>

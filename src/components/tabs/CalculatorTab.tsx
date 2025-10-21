@@ -310,8 +310,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       checked={window.ringGrommets}
                       onCheckedChange={(checked) => {
                         const isChecked = checked === true;
-                        const perimeter = (window.a + window.b * 2) / 1000;
-                        const count = isChecked ? Math.max(2, Math.ceil(perimeter / 0.35)) : 0;
+                        const count = isChecked ? calculateRingGrommetsCount({
+                          a: window.a,
+                          b: window.b,
+                          c: window.c,
+                          d: window.d,
+                          kantSize: window.kantSize
+                        } as any) : 0;
                         const updatedWindows = windows.map(w => 
                           w.id === window.id ? { ...w, ringGrommets: isChecked, ringGrommetsCount: count } : w
                         );

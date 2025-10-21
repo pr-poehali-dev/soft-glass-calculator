@@ -347,7 +347,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Французский замок (350 ₽/шт)
+                      Скоба поворотная (350 ₽/шт)
                     </Label>
                   </div>
                   {window.frenchLock && (

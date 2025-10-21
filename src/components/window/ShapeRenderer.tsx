@@ -167,7 +167,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="150" textAnchor="middle" fontSize="12" fill="#0066CC" fontWeight="bold">
+            <text x="220" y="310" textAnchor="middle" fontSize="11" fill="#0066CC">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>
@@ -418,7 +418,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="165" textAnchor="middle" fontSize="12" fill="#B8860B" fontWeight="bold">
+            <text x="220" y="325" textAnchor="middle" fontSize="11" fill="#B8860B">
               Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт (л/п/н)
             </text>
           </>

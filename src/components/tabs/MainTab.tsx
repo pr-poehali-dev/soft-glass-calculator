@@ -64,48 +64,48 @@ const MainTab: React.FC<MainTabProps> = ({ onNavigateToCalculator }) => {
     }
   };
   return (
-    <div className="space-y-8">
-      <div className="text-center py-12">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="text-center py-8 sm:py-12 px-4">
+        <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
           Производство мягких окон
         </h2>
-        <p className="text-xl text-gray-700 mb-8">
+        <p className="text-base sm:text-xl text-gray-700 mb-6 sm:mb-8">
           Профессиональное изготовление прозрачных защитных конструкций
         </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={onNavigateToCalculator}>
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white h-12 text-base w-full sm:w-auto" onClick={onNavigateToCalculator}>
             <Icon name="Calculator" className="mr-2" />
             Рассчитать стоимость
           </Button>
-          <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50" onClick={() => setIsDialogOpen(true)}>
+          <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 h-12 text-base w-full sm:w-auto" onClick={() => setIsDialogOpen(true)}>
             <Icon name="Phone" className="mr-2" />
             Заказать консультацию
           </Button>
         </div>
       </div>
 
-      <div className="relative max-w-4xl mx-auto mb-12">
+      <div className="relative max-w-4xl mx-auto mb-8 sm:mb-12 px-4">
         <div className="relative rounded-2xl overflow-hidden shadow-2xl">
           <img 
             src="https://cdn.poehali.dev/files/26ee1f36-1533-46af-bfd4-f4c5ab65cd32.jpg" 
             alt="Мягкие окна на деревянной террасе - пример готового проекта" 
-            className="w-full h-[400px] object-cover"
+            className="w-full h-[250px] sm:h-[400px] object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-          <div className="absolute bottom-6 left-6 text-white">
-            <h3 className="text-2xl font-bold mb-2">Готовый проект</h3>
-            <p className="text-lg opacity-90">Мягкие окна на деревянной террасе с металлическими люверсами</p>
+          <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 text-white">
+            <h3 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">Готовый проект</h3>
+            <p className="text-sm sm:text-lg opacity-90">Мягкие окна на деревянной террасе с металлическими люверсами</p>
           </div>
-          <div className="absolute top-6 right-6">
-            <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-              <Icon name="CheckCircle" size={16} className="mr-1" />
+          <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
+            <Badge variant="secondary" className="bg-white/20 text-white border-white/30 text-xs sm:text-sm px-2 py-1">
+              <Icon name="CheckCircle" size={14} className="mr-1" />
               Установлено
             </Badge>
           </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-4">
         <Card className="bg-white border-gray-200 hover:shadow-xl transition-all">
           <CardHeader>
             <Icon name="Shield" size={40} className="text-blue-600 mb-2" />

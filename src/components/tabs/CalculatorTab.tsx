@@ -190,14 +190,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label className="text-gray-700 text-sm">Сторона A (мм)</Label>
                     <Input
                       type="number"
                       value={window.a}
                       onChange={(e) => updateWindow(window.id, 'a', Number(e.target.value))}
-                      className="h-9"
+                      className="h-10 text-base"
                     />
                   </div>
                   <div>
@@ -206,7 +206,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       type="number"
                       value={window.b}
                       onChange={(e) => updateWindow(window.id, 'b', Number(e.target.value))}
-                      className="h-9"
+                      className="h-10 text-base"
                     />
                   </div>
                   <div>
@@ -215,7 +215,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       type="number"
                       value={window.c}
                       onChange={(e) => updateWindow(window.id, 'c', Number(e.target.value))}
-                      className="h-9"
+                      className="h-10 text-base"
                     />
                   </div>
                   <div>
@@ -224,7 +224,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       type="number"
                       value={window.d}
                       onChange={(e) => updateWindow(window.id, 'd', Number(e.target.value))}
-                      className="h-9"
+                      className="h-10 text-base"
                     />
                   </div>
                 </div>
@@ -350,7 +350,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             </Card>
           ))}
 
-          <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg">
+          <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base" size="lg">
             <Icon name="Calculator" className="mr-2" />
             Рассчитать все окна
           </Button>
@@ -452,42 +452,46 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <Icon name="FileText" className="mr-2" />
                     Предварительный чертеж
                   </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={shareToWhatsApp}
-                    className="border-green-500 text-green-600 hover:bg-green-50"
+                    className="border-green-500 text-green-600 hover:bg-green-50 h-9 text-xs sm:text-sm px-2 sm:px-3"
                   >
-                    <Icon name="MessageCircle" className="mr-1" size={16} />
-                    WhatsApp
+                    <Icon name="MessageCircle" className="mr-1" size={14} />
+                    <span className="hidden sm:inline">WhatsApp</span>
+                    <span className="sm:hidden">WA</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={shareToTelegram}
-                    className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                    className="border-blue-500 text-blue-600 hover:bg-blue-50 h-9 text-xs sm:text-sm px-2 sm:px-3"
                   >
-                    <Icon name="Send" className="mr-1" size={16} />
-                    Telegram
+                    <Icon name="Send" className="mr-1" size={14} />
+                    <span className="hidden sm:inline">Telegram</span>
+                    <span className="sm:hidden">TG</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={downloadBlueprint}
-                    className="border-gray-400 text-gray-600 hover:bg-gray-50"
+                    className="border-gray-400 text-gray-600 hover:bg-gray-50 h-9 text-xs sm:text-sm px-2 sm:px-3"
                   >
-                    <Icon name="Download" className="mr-1" size={16} />
-                    Скачать
+                    <Icon name="Download" className="mr-1" size={14} />
+                    <span className="hidden sm:inline">Скачать</span>
+                    <span className="sm:hidden">↓</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setBlueprintOpen(true)}
-                    className="border-gray-400 text-gray-600 hover:bg-gray-50"
+                    className="border-gray-400 text-gray-600 hover:bg-gray-50 h-9 text-xs sm:text-sm px-2 sm:px-3"
                   >
-                    <Icon name="Maximize2" className="mr-1" size={16} />
-                    Развернуть
+                    <Icon name="Maximize2" className="mr-1" size={14} />
+                    <span className="hidden sm:inline">Развернуть</span>
+                    <span className="sm:hidden">⛶</span>
                   </Button>
                 </div>
               </CardTitle>

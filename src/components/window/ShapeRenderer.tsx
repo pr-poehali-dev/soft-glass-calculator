@@ -45,7 +45,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize} мм</text>
         
 
-        <text x="220" y="315" textAnchor="middle" fontSize="11" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
+        <text x="220" y="320" textAnchor="middle" fontSize="11" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>
@@ -375,7 +375,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const actualBottomCount = Math.min(bottomCount, 2);
               
               return (
-                <text x="220" y="351" textAnchor="middle" fontSize="11" fill="#B8860B">
+                <text x="220" y="366" textAnchor="middle" fontSize="11" fill="#B8860B">
                   Кольцевые люверсы 42×22мм: {leftCount + rightCount + actualBottomCount} шт (л/{leftCount} | п/{rightCount} | н/{actualBottomCount})
                 </text>
               );
@@ -384,7 +384,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         )}
 
         {calculation.frenchLock && calculation.frenchLockCount > 0 && (
-          <text x="220" y="333" textAnchor="middle" fontSize="11" fill="#8B4513">
+          <text x="220" y="343" textAnchor="middle" fontSize="11" fill="#8B4513">
             Скоба поворотная: {calculation.frenchLockCount} шт
           </text>
         )}

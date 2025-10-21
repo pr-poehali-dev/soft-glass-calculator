@@ -38,11 +38,27 @@ export const calculateRingGrommetsCount = (calculation: WindowCalculation, gromm
   const leftSideMm = calculation.d + 25;
   const rightSideMm = calculation.b + 25;
   const bottomSideMm = calculation.c + 25;
+  const kantSize = calculation.kantSize;
   
-  // Рассчитываем люверсы по каждой стороне отдельно
+  // Для боковых сторон B и D - простой расчёт
   const leftGrommets = Math.max(2, Math.ceil(leftSideMm / grommetsStepMm));
   const rightGrommets = Math.max(2, Math.ceil(rightSideMm / grommetsStepMm));
-  const bottomGrommets = Math.max(2, Math.ceil(bottomSideMm / grommetsStepMm));
+  
+  // Для стороны C - динамический шаг 350-450 мм
+  const distanceBetweenCorners = bottomSideMm - kantSize;
+  let bottomGrommets = 2;
+  let spacing = distanceBetweenCorners / (bottomGrommets - 1);
+  
+  // Добавляем люверсы, пока шаг больше 450 мм
+  while (spacing > 450 && bottomGrommets < 50) {
+    bottomGrommets++;
+    spacing = distanceBetweenCorners / (bottomGrommets - 1);
+  }
+  
+  // Если шаг меньше 350 мм, уменьшаем количество
+  if (spacing < 350 && bottomGrommets > 2) {
+    bottomGrommets--;
+  }
   
   // Вычитаем угловые дубли (4 угла считаются дважды)
   return leftGrommets + rightGrommets + bottomGrommets - 4;

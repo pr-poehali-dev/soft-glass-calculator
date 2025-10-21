@@ -382,6 +382,12 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             })()}
           </>
         )}
+
+        {calculation.frenchLock && calculation.frenchLockCount > 0 && (
+          <text x="220" y="324" textAnchor="middle" fontSize="11" fill="#8B4513">
+            Скоба поворотная: {calculation.frenchLockCount} шт
+          </text>
+        )}
       </svg>
     );
   }

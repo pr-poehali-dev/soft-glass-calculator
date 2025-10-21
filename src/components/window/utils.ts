@@ -35,9 +35,9 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
 };
 
 export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
-  const leftSideMm = calculation.d;
-  const rightSideMm = calculation.b;
-  const bottomSideMm = calculation.c;
+  const leftSideMm = calculation.d + 25;
+  const rightSideMm = calculation.b + 25;
+  const bottomSideMm = calculation.c + 25;
   const threesSidesPerimeterMm = leftSideMm + rightSideMm + bottomSideMm;
   return Math.ceil(threesSidesPerimeterMm / grommetsStepMm);
 };

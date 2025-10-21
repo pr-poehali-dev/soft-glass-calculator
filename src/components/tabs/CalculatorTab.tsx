@@ -12,6 +12,7 @@ import { WindowCalculation, WindowItem, filmTypes } from '@/components/window/ty
 import { calculateGrommetsCount, calculateRingGrommetsCount } from '@/components/window/utils';
 import { generatePDF } from '@/components/window/PDFGenerator';
 import ShapeRenderer from '@/components/window/ShapeRenderer';
+import CommercialProposal from '@/components/window/CommercialProposal';
 
 interface CalculatorTabProps {
   calculation: WindowCalculation;
@@ -22,6 +23,7 @@ interface CalculatorTabProps {
 const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate }) => {
   const [blueprintOpen, setBlueprintOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string>('');
+  const [proposalOpen, setProposalOpen] = useState(false);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -398,24 +400,35 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           </Button>
 
           {windows.some(w => w.area > 0) && (
-            <Card className="bg-blue-50 border-blue-200">
-              <CardContent className="p-6">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-gray-900">
-                    <span>Количество окон:</span>
-                    <strong>{windows.length} шт</strong>
+            <>
+              <Card className="bg-blue-50 border-blue-200">
+                <CardContent className="p-6">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-gray-900">
+                      <span>Количество окон:</span>
+                      <strong>{windows.length} шт</strong>
+                    </div>
+                    <div className="flex justify-between text-gray-900">
+                      <span>Общая площадь:</span>
+                      <strong>{calculateTotalArea().toFixed(2)} м²</strong>
+                    </div>
+                    <div className="flex justify-between text-gray-900 text-2xl font-bold pt-3 border-t border-blue-300">
+                      <span>Итого:</span>
+                      <span>{calculateTotal().toFixed(0)} ₽</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-gray-900">
-                    <span>Общая площадь:</span>
-                    <strong>{calculateTotalArea().toFixed(2)} м²</strong>
-                  </div>
-                  <div className="flex justify-between text-gray-900 text-2xl font-bold pt-3 border-t border-blue-300">
-                    <span>Итого:</span>
-                    <span>{calculateTotal().toFixed(0)} ₽</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+
+              <Button 
+                onClick={() => setProposalOpen(true)} 
+                className="w-full bg-green-600 hover:bg-green-700 text-white h-12 text-base" 
+                size="lg"
+              >
+                <Icon name="FileText" className="mr-2" />
+                Скачать коммерческое предложение
+              </Button>
+            </>
           )}
         </CardContent>
       </Card>
@@ -595,6 +608,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             </DialogContent>
           </Dialog>
         </>
+      )}
+
+      {proposalOpen && (
+        <CommercialProposal 
+          windows={windows}
+          onClose={() => setProposalOpen(false)}
+        />
       )}
     </div>
   );

@@ -252,6 +252,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const leftSideMm = d + 25;
               const rightSideMm = b + 25;
               const bottomSideMm = a + 25;
+              const kantSize = calculation.kantSize;
               
               const minSpacing = 350;
               const maxSpacing = 450;

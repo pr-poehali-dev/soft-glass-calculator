@@ -134,7 +134,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            <text x="220" y="323" textAnchor="middle" fontSize="11" fill="#0066CC">
+            <text x="220" y="389" textAnchor="middle" fontSize="11" fill="#0066CC">
               Люверсы 16мм: {calculation.grommetsCount} шт (верх)
             </text>
           </>

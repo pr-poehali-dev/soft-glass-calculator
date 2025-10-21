@@ -65,12 +65,9 @@ export const calculateRingGrommetsCount = (calculation: WindowCalculation, gromm
   const rightGrommets = calculateSideGrommets(rightSideMm);
   const bottomGrommets = calculateSideGrommets(bottomSideMm);
   
-  // Считаем только промежуточные люверсы (без угловых) и добавляем 2 угловых
-  const leftIntermediate = Math.max(0, leftGrommets - 2);
-  const rightIntermediate = Math.max(0, rightGrommets - 2);
-  const bottomIntermediate = Math.max(0, bottomGrommets - 2);
-  
-  return leftIntermediate + rightIntermediate + bottomIntermediate + 2;
+  // Для трёх сторон: вычитаем угловые дубли
+  // У нас 2 нижних угла общие между сторонами, поэтому -2
+  return leftGrommets + rightGrommets + bottomGrommets - 2;
 };
 
 export const calculatePrice = (calculation: WindowCalculation) => {

@@ -10,9 +10,26 @@ export const calculatePerimeter = (calculation: WindowCalculation) => {
   return (a + b + c + d) / 1000;
 };
 
-export const calculateGrommetsCount = (calculation: WindowCalculation, grommetsStep: number = 0.3) => {
-  const topSideMeters = calculation.a / 1000;
-  return Math.ceil(topSideMeters / grommetsStep);
+export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: number = 250, maxStep: number = 350) => {
+  const topSideMm = calculation.a + 25; // Размер ПВХ с припуском
+  const kantCenterOffset = calculation.kantSize / 2;
+  const availableLength = topSideMm - kantCenterOffset; // От первого люверса (центр канта) до края
+  
+  // Подбираем количество люверсов так, чтобы шаг был в диапазоне 250-350 мм
+  let count = 2;
+  let spacing = availableLength / (count - 1);
+  
+  while (spacing > maxStep && count < 50) {
+    count++;
+    spacing = availableLength / (count - 1);
+  }
+  
+  // Если шаг меньше минимального, уменьшаем количество
+  if (spacing < minStep && count > 2) {
+    count--;
+  }
+  
+  return Math.max(2, count);
 };
 
 export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {

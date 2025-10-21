@@ -90,15 +90,27 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             {(() => {
               const positions = [];
               const count = calculation.grommetsCount;
+              const kantSize = calculation.kantSize;
+              const topSideMm = a + 25; // Размер ПВХ с припуском
               
-              // Только верхняя сторона
-              const topSpacing = 270 / (count - 1 || 1);
+              // Первый люверс по центру канта в углу
+              const kantCenterOffset = kantSize / 2;
+              const firstGrommetX = 60 + kantCenterOffset; // 60 - левый край канта
+              
+              // Рассчитываем оптимальный шаг между люверсами
+              // Доступная длина = длина ПВХ - отступ от первого люверса до конца канта
+              const availableLength = topSideMm - kantCenterOffset;
+              const spacingMm = availableLength / (count - 1 || 1);
+              
+              // Масштабный коэффициент (пиксели на мм)
+              const scale = 270 / a;
+              
               for (let i = 0; i < count; i++) {
-                positions.push([85 + i * topSpacing, 52]);
+                positions.push([firstGrommetX + i * spacingMm * scale, 52]);
               }
               
-              return positions;
-            })().map(([x, y], i) => (
+              return { positions, spacingMm, kantCenterOffset, scale };
+            })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
                 <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
                 <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
@@ -108,26 +120,31 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             ))}
             {(() => {
               const count = calculation.grommetsCount;
-              const firstGrommetX = 85;
+              const kantSize = calculation.kantSize;
+              const topSideMm = a + 25;
+              const kantCenterOffset = kantSize / 2;
+              const firstGrommetX = 60 + kantCenterOffset;
               const edgeX = 60;
+              const availableLength = topSideMm - kantCenterOffset;
+              const spacingMm = availableLength / (count - 1 || 1);
+              const scale = 270 / a;
               
               return (
                 <>
-                  {/* Отступ от края до первого люверса */}
+                  {/* Отступ от края до первого люверса (центр канта) */}
                   <g>
                     <line x1={edgeX} y1={35} x2={firstGrommetX} y2={35} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={32} x2={edgeX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
                     <line x1={firstGrommetX} y1={32} x2={firstGrommetX} y2={38} stroke="#FF6600" strokeWidth="1.5"/>
                     <text x={(edgeX + firstGrommetX) / 2} y={33} textAnchor="middle" fontSize="10" fill="#FF6600" fontWeight="bold">
-                      15мм
+                      {kantCenterOffset.toFixed(0)}мм
                     </text>
                   </g>
                   
                   {/* Расстояние между люверсами */}
                   {count > 1 && (() => {
-                    const topSpacing = 270 / (count - 1 || 1);
-                    const x1 = 85;
-                    const x2 = 85 + topSpacing;
+                    const x1 = firstGrommetX;
+                    const x2 = firstGrommetX + spacingMm * scale;
                     const y = 30;
                     
                     return (
@@ -136,7 +153,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
                         <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
                         <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
-                          300мм
+                          {spacingMm.toFixed(0)}мм
                         </text>
                       </g>
                     );

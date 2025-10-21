@@ -71,6 +71,18 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="72" y1="235" x2="78" y2="235" stroke="#2E7D32" strokeWidth="1"/>
         <text x="50" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(-90 50 150)">ПВХ: {d + 25} мм</text>
         
+        {/* Размер ПВХ снизу (сторона C) */}
+        <line x1="85" y1="245" x2="355" y2="245" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="85" y1="242" x2="85" y2="248" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="355" y1="242" x2="355" y2="248" stroke="#2E7D32" strokeWidth="1"/>
+        <text x="220" y="260" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold">ПВХ: {c + 25} мм</text>
+        
+        {/* Размер ПВХ справа (сторона B) */}
+        <line x1="365" y1="65" x2="365" y2="235" stroke="#2E7D32" strokeWidth="1" strokeDasharray="3,3"/>
+        <line x1="362" y1="65" x2="368" y2="65" stroke="#2E7D32" strokeWidth="1"/>
+        <line x1="362" y1="235" x2="368" y2="235" stroke="#2E7D32" strokeWidth="1"/>
+        <text x="390" y="150" textAnchor="middle" fontSize="11" fill="#2E7D32" fontWeight="bold" transform="rotate(90 390 150)">ПВХ: {b + 25} мм</text>
+        
         <text x="220" y="325" textAnchor="middle" fontSize="12" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
         
         {calculation.grommets && calculation.grommetsCount > 0 && (

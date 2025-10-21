@@ -215,8 +215,12 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomY = 248;
               const kantSize = calculation.kantSize;
               
-              const bottomFirstGrommetX = bottomEdgeX + kantCenterOffsetPx;
-              const bottomLastGrommetX = bottomRightX - kantCenterOffsetPx;
+              // Отступ от углов, чтобы не накладываться на люверсы сторон B и D
+              const grommetOffsetMm = 350; // минимальное расстояние между люверсами
+              const grommetOffsetPx = grommetOffsetMm * bottomScaleLocal;
+              
+              const bottomFirstGrommetX = bottomEdgeX + kantCenterOffsetPx + grommetOffsetPx;
+              const bottomLastGrommetX = bottomRightX - kantCenterOffsetPx - grommetOffsetPx;
               const bottomSpacingPx = (bottomLastGrommetX - bottomFirstGrommetX) / (bottomCount - 1 || 1);
               
               for (let i = 0; i < bottomCount; i++) {

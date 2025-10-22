@@ -71,7 +71,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                   <tbody>
                     <tr className="border-b border-gray-200">
                       <td className="py-2 text-gray-600">Размеры проема:</td>
-                      <td className="py-2 text-right font-medium">{window.a} x {window.b} мм</td>
+                      <td className="py-2 text-right font-medium">{window.верх} x {window.право} мм</td>
                     </tr>
                     <tr className="border-b border-gray-200">
                       <td className="py-2 text-gray-600">Тип пленки:</td>

@@ -1,17 +1,17 @@
 import { WindowCalculation, filmTypes } from './types';
 
 export const calculateArea = (calculation: WindowCalculation) => {
-  const { a, b } = calculation;
-  return (a * b) / 1000000;
+  const { верх, право } = calculation;
+  return (верх * право) / 1000000;
 };
 
 export const calculatePerimeter = (calculation: WindowCalculation) => {
-  const { a, b, c, d } = calculation;
-  return (a + b + c + d) / 1000;
+  const { верх, право, низ, лево } = calculation;
+  return (верх + право + низ + лево) / 1000;
 };
 
 export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: number = 250, maxStep: number = 350) => {
-  const topSideMm = calculation.a + 25; // Размер ПВХ с припуском
+  const topSideMm = calculation.верх + 25; // Размер ПВХ с припуском
   const kantSize = calculation.kantSize;
   
   // Расстояние между угловыми люверсами по ОСЯМ (от центра до центра)
@@ -38,9 +38,9 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
 };
 
 export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
-  const leftSideMm = calculation.d + 25;
-  const rightSideMm = calculation.b + 25;
-  const bottomSideMm = calculation.c + 25;
+  const leftSideMm = calculation.лево + 25;
+  const rightSideMm = calculation.право + 25;
+  const bottomSideMm = calculation.низ + 25;
   const kantSize = calculation.kantSize;
   
   const calculateSideGrommets = (sideMm: number) => {

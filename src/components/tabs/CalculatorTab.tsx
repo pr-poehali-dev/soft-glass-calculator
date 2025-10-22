@@ -27,10 +27,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
-    a: 1000,
-    b: 1000,
-    c: 1000,
-    d: 1000,
+    верх: 1000,
+    право: 1000,
+    низ: 1000,
+    лево: 1000,
     e: 0,
     grommets: false,
     grommetsCount: 0,
@@ -66,7 +66,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = `чертеж-окно-${windows[0].a}x${windows[0].b}.png`;
+          link.download = `чертеж-окно-${windows[0].верх}x${windows[0].право}.png`;
           link.click();
           URL.revokeObjectURL(url);
         }
@@ -77,13 +77,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   };
 
   const shareToWhatsApp = () => {
-    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].a}x${windows[0].b} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
+    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].верх}x${windows[0].право} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
 
   const shareToTelegram = () => {
-    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].a}x${windows[0].b} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
+    const text = `Чертеж мягкого окна:\n- Размеры: ${windows[0].верх}x${windows[0].право} мм\n- Площадь: ${windows[0].area.toFixed(2)} м²\n- Стоимость: ${windows[0].price.toFixed(0)} ₽`;
     const url = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -92,10 +92,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const newWindow: WindowItem = {
       id: Date.now().toString(),
       shape: 'rectangle',
-      a: 1000,
-      b: 1000,
-      c: 1000,
-      d: 1000,
+      верх: 1000,
+      право: 1000,
+      низ: 1000,
+      лево: 1000,
       e: 0,
       grommets: false,
       grommetsCount: 0,
@@ -128,11 +128,11 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const filmType = filmTypes.find(f => f.id === window.filmType);
     if (!filmType) return { area: 0, price: 0, perimeter: 0 };
 
-    // Размеры a,b,c,d - это размеры ПВХ пленки
+    // Размеры верх, право, низ, лево - это размеры ПВХ пленки
     // Общий размер окна = размер ПВХ + кант/2 с каждой стороны
     const kantAddition = window.kantSize / 2;
-    const totalWidth = window.a + (2 * kantAddition);
-    const totalHeight = window.b + (2 * kantAddition);
+    const totalWidth = window.верх + (2 * kantAddition);
+    const totalHeight = window.право + (2 * kantAddition);
 
     // Площадь считаем по общим размерам окна
     const area = (totalWidth * totalHeight) / 1000000;
@@ -210,38 +210,38 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-gray-700 text-sm">Сторона A (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Верх (мм)</Label>
                     <Input
                       type="number"
-                      value={window.a === 0 ? '' : window.a}
-                      onChange={(e) => updateWindow(window.id, 'a', e.target.value === '' ? 0 : Number(e.target.value))}
+                      value={window.верх === 0 ? '' : window.верх}
+                      onChange={(e) => updateWindow(window.id, 'верх', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-700 text-sm">Сторона B (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Право (мм)</Label>
                     <Input
                       type="number"
-                      value={window.b === 0 ? '' : window.b}
-                      onChange={(e) => updateWindow(window.id, 'b', e.target.value === '' ? 0 : Number(e.target.value))}
+                      value={window.право === 0 ? '' : window.право}
+                      onChange={(e) => updateWindow(window.id, 'право', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-700 text-sm">Сторона C (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Низ (мм)</Label>
                     <Input
                       type="number"
-                      value={window.c === 0 ? '' : window.c}
-                      onChange={(e) => updateWindow(window.id, 'c', e.target.value === '' ? 0 : Number(e.target.value))}
+                      value={window.низ === 0 ? '' : window.низ}
+                      onChange={(e) => updateWindow(window.id, 'низ', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-700 text-sm">Сторона D (мм)</Label>
+                    <Label className="text-gray-700 text-sm">Лево (мм)</Label>
                     <Input
                       type="number"
-                      value={window.d === 0 ? '' : window.d}
-                      onChange={(e) => updateWindow(window.id, 'd', e.target.value === '' ? 0 : Number(e.target.value))}
+                      value={window.лево === 0 ? '' : window.лево}
+                      onChange={(e) => updateWindow(window.id, 'лево', e.target.value === '' ? 0 : Number(e.target.value))}
                       className="h-10 text-base"
                     />
                   </div>

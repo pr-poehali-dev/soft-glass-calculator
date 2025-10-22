@@ -1,9 +1,9 @@
 export interface WindowCalculation {
   shape: string;
-  a: number;
-  b: number;
-  c: number;
-  d: number;
+  верх: number;
+  право: number;
+  низ: number;
+  лево: number;
   e: number;
   grommets: boolean;
   grommetsCount: number;
@@ -25,10 +25,10 @@ export interface WindowCalculation {
 export interface WindowItem {
   id: string;
   shape: string;
-  a: number;
-  b: number;
-  c: number;
-  d: number;
+  верх: number;
+  право: number;
+  низ: number;
+  лево: number;
   e: number;
   grommets: boolean;
   grommetsCount: number;
@@ -47,7 +47,7 @@ export interface WindowItem {
 }
 
 export const shapes = [
-  { id: 'rectangle', name: 'Прямоугольник', params: ['a', 'b', 'c', 'd'] }
+  { id: 'rectangle', name: 'Прямоугольник', params: ['верх', 'право', 'низ', 'лево'] }
 ];
 
 export const filmTypes = [

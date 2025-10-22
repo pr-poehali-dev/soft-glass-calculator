@@ -8,15 +8,15 @@ interface TechCardTabProps {
 }
 
 const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
-  const { a, b, c, d, kantSize, kantColor, grommets, grommetsCount, ringGrommets, ringGrommetsCount, frenchLock, frenchLockCount } = calculation;
+  const { верх, право, низ, лево, kantSize, kantColor, grommets, grommetsCount, ringGrommets, ringGrommetsCount, frenchLock, frenchLockCount } = calculation;
   
   const kantColorName = kantColors.find(k => k.id === kantColor)?.name || 'Белый';
   const kantSizeName = kantSizes.find(k => k.size === kantSize)?.name || `${kantSize} мм`;
   
-  const pvcWidth = a + 50;
-  const pvcHeight = b + 50;
-  const totalWidth = a + kantSize;
-  const totalHeight = b + kantSize;
+  const pvcWidth = верх + 50;
+  const pvcHeight = право + 50;
+  const totalWidth = верх + kantSize;
+  const totalHeight = право + kantSize;
   const kantHalfSize = kantSize / 2;
   
   return (
@@ -28,7 +28,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
             <span>Технологическая карта производства мягких окон</span>
           </CardTitle>
           <CardDescription>
-            Пошаговые инструкции для изготовления мягкого окна с размерами: {a}×{b} мм (проем)
+            Пошаговые инструкции для изготовления мягкого окна с размерами: {верх}×{право} мм (проем)
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -38,7 +38,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
               Параметры заказа
             </h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <div><strong>Размер проема (A×B):</strong> {a}×{b} мм</div>
+              <div><strong>Размер проема (Верх×Право):</strong> {верх}×{право} мм</div>
               <div><strong>Размер ПВХ полотна:</strong> {pvcWidth}×{pvcHeight} мм</div>
               <div><strong>Общий размер с кантом:</strong> {totalWidth}×{totalHeight} мм</div>
               <div><strong>Кант ПВХ:</strong> {kantSizeName}, {kantColorName}</div>
@@ -77,10 +77,10 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <ul className="text-sm text-green-700 mt-2 space-y-1">
                       <li>• Расстелить ПВХ пленку на ровной чистой поверхности</li>
                       <li>• Разметить прямоугольник <strong>{pvcWidth}×{pvcHeight} мм</strong></li>
-                      <li className="ml-4 text-xs">→ Сторона A: {a} мм + 50 мм припуск = <strong>{pvcWidth} мм</strong></li>
-                      <li className="ml-4 text-xs">→ Сторона B: {b} мм + 50 мм припуск = <strong>{pvcHeight} мм</strong></li>
-                      <li className="ml-4 text-xs">→ Сторона C: {c} мм + 50 мм припуск = <strong>{c + 50} мм</strong></li>
-                      <li className="ml-4 text-xs">→ Сторона D: {d} мм + 50 мм припуск = <strong>{d + 50} мм</strong></li>
+                      <li className="ml-4 text-xs">→ Верх: {верх} мм + 50 мм припуск = <strong>{pvcWidth} мм</strong></li>
+                      <li className="ml-4 text-xs">→ Право: {право} мм + 50 мм припуск = <strong>{pvcHeight} мм</strong></li>
+                      <li className="ml-4 text-xs">→ Низ: {низ} мм + 50 мм припуск = <strong>{низ + 50} мм</strong></li>
+                      <li className="ml-4 text-xs">→ Лево: {лево} мм + 50 мм припуск = <strong>{лево + 50} мм</strong></li>
                       <li>• Проверить диагонали (должны быть равны ±2 мм)</li>
                       <li>• Вырезать полотно раскройным ножом по металлической линейке</li>
                       <li>• Контроль размеров кроя (допуск ±2 мм)</li>
@@ -94,10 +94,10 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <h4 className="font-medium text-teal-800">1.3. Подготовка канта</h4>
                     <ul className="text-sm text-teal-700 mt-2 space-y-1">
                       <li>• Нарезать кант ПВХ {kantSizeName}, цвет {kantColorName} на отрезки:</li>
-                      <li className="ml-4">→ Верхняя сторона (A): {(pvcWidth / 1000).toFixed(2)} м + 100 мм запас</li>
-                      <li className="ml-4">→ Правая сторона (B): {(pvcHeight / 1000).toFixed(2)} м + 100 мм запас</li>
-                      <li className="ml-4">→ Нижняя сторона (C): {((c + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
-                      <li className="ml-4">→ Левая сторона (D): {((d + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
+                      <li className="ml-4">→ Верх: {(pvcWidth / 1000).toFixed(2)} м + 100 мм запас</li>
+                      <li className="ml-4">→ Право: {(pvcHeight / 1000).toFixed(2)} м + 100 мм запас</li>
+                      <li className="ml-4">→ Низ: {((низ + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
+                      <li className="ml-4">→ Лево: {((лево + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
                       <li>• Кант укладывается: {kantHalfSize} мм на ПВХ + {kantHalfSize} мм за края</li>
                     </ul>
                     <div className="mt-3 p-2 bg-teal-100 rounded">
@@ -132,7 +132,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <ul className="text-sm text-red-700 mt-2 space-y-1">
                       <li>• Настроить сварочный аппарат ТВЧ: температура 380-420°C</li>
                       <li>• Установить скорость сварки: 2-3 м/мин</li>
-                      <li>• Начать сварку с середины стороны A ({pvcWidth} мм)</li>
+                      <li>• Начать сварку с середины верхней стороны ({pvcWidth} мм)</li>
                       <li>• Формовать углы радиусом 3-5 мм (избегать острых углов)</li>
                       <li>• Прикатать шов прикаточным роликом с усилием 3-5 кг</li>
                       <li>• Визуально проверить качество шва (без пузырей, складок)</li>

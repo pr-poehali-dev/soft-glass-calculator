@@ -28,16 +28,16 @@ export const generatePDF = async (calculation: WindowCalculation) => {
     const currentShape = shapes.find(s => s.id === calculation.shape);
     const currentFilm = filmTypes.find(f => f.id === calculation.filmType);
     
-    const fabricWidth = calculation.a + 20;
-    const fabricHeight = calculation.b + 20;
-    const kantPerimeter = (calculation.a + calculation.b) * 2;
+    const fabricWidth = calculation.верх + 20;
+    const fabricHeight = calculation.право + 20;
+    const kantPerimeter = (calculation.верх + calculation.право) * 2;
     const kantLength = Math.round(kantPerimeter / 10);
     const kantWithMargin = Math.round(kantLength * 1.05);
     const totalGrommets = calculation.grommetsCount + (calculation.ringGrommets ? calculation.ringGrommetsCount : 0);
     
     doc.setFontSize(16);
     doc.text(transliterate('ТЕХНОЛОГИЧЕСКАЯ КАРТА МЯГКОГО ОКНА'), 148, 20, { align: 'center' });
-    doc.text(transliterate(`${currentShape?.name?.toUpperCase()} - ${calculation.a}x${calculation.b}мм`), 148, 30, { align: 'center' });
+    doc.text(transliterate(`${currentShape?.name?.toUpperCase()} - ${calculation.верх}x${calculation.право}мм`), 148, 30, { align: 'center' });
     
     if (calculation.grommets && calculation.grommetsCount > 0) {
       doc.setFontSize(9);
@@ -77,10 +77,10 @@ export const generatePDF = async (calculation: WindowCalculation) => {
     yPos += 10;
     doc.setFontSize(10);
     
-    doc.text(`Parametr A: ${calculation.a} mm`, 15, yPos); yPos += 6;
-    doc.text(`Parametr B: ${calculation.b} mm`, 15, yPos); yPos += 6;
-    doc.text(`Parametr C: ${calculation.c} mm`, 15, yPos); yPos += 6;
-    doc.text(`Parametr D: ${calculation.d} mm`, 15, yPos); yPos += 6;
+    doc.text(`Parametr Verkh: ${calculation.верх} mm`, 15, yPos); yPos += 6;
+    doc.text(`Parametr Pravo: ${calculation.право} mm`, 15, yPos); yPos += 6;
+    doc.text(`Parametr Niz: ${calculation.низ} mm`, 15, yPos); yPos += 6;
+    doc.text(`Parametr Levo: ${calculation.лево} mm`, 15, yPos); yPos += 6;
     
     yPos += 10;
     doc.setFontSize(12);
@@ -121,7 +121,7 @@ export const generatePDF = async (calculation: WindowCalculation) => {
     doc.text(transliterate('Proveril: ________________'), 150, 180);
     doc.text(`Data: ${new Date().toLocaleDateString('ru-RU')}`, 230, 180);
     
-    const fileName = `Tekhnologicheskaya-karta-${transliterate(currentShape?.name || 'okno')}-A${calculation.a}xB${calculation.b}xC${calculation.c}xD${calculation.d}-${Date.now()}.pdf`;
+    const fileName = `Tekhnologicheskaya-karta-${transliterate(currentShape?.name || 'okno')}-${calculation.верх}x${calculation.право}x${calculation.низ}x${calculation.лево}-${Date.now()}.pdf`;
     doc.save(fileName);
     
   } catch (error) {

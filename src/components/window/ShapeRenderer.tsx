@@ -78,7 +78,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const positions = [];
               const count = calculation.grommetsCount;
               const kantSize = calculation.kantSize;
-              const topSideMm = a + 25; // Размер ПВХ с припуском
+              const topSideMm = a + kantSize; // Общий размер стороны А с кантом
               
               // Первый и последний люверсы точно в центре углов с учетом внешнего диаметра 30мм
               const grommetOuterDiameter = 30; // Внешний диаметр люверса
@@ -124,7 +124,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             {(() => {
               const count = calculation.grommetsCount;
               const kantSize = calculation.kantSize;
-              const topSideMm = a + 25;
+              const topSideMm = a + kantSize;
               
               // Координаты канта на чертеже
               const kantWidthPx = 35;
@@ -199,9 +199,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Параметры
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края до оси люверса
-              const leftSideMm = d + 25;
-              const rightSideMm = b + 25;
-              const bottomSideMm = c + 25;
+              const kantSize = calculation.kantSize;
+              const leftSideMm = d + kantSize;
+              const rightSideMm = b + kantSize;
+              const bottomSideMm = c + kantSize;
               
               // Распределяем по 3 сторонам (левая, правая, нижняя)
               const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
@@ -287,10 +288,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             {(() => {
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края
-              const leftSideMm = d + 25;
-              const rightSideMm = b + 25;
-              const bottomSideMm = a + 25;
               const kantSize = calculation.kantSize;
+              const leftSideMm = d + kantSize;
+              const rightSideMm = b + kantSize;
+              const bottomSideMm = a + kantSize;
               
               const minSpacing = 350;
               const maxSpacing = 450;

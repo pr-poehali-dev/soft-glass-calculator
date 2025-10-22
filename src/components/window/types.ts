@@ -51,7 +51,7 @@ export const shapes = [
 
 export const filmTypes = [
   { id: 'transparent', name: 'Прозрачная ПВХ', price: 700 },
-  { id: 'tinted', name: 'Тонированная ПВХ', price: 700 }
+  { id: 'tinted', name: 'Тонированная ПВХ', price: 800 }
 ];
 
 export const kantSizes = [

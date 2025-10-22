@@ -113,10 +113,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               return { positions, spacingMm, kantCenterOffsetPx, distanceBetweenCornersMm };
             })().positions.map(([x, y], i) => (
               <g key={`grommet-${i}`}>
-                <circle cx={x} cy={y} r="4.4" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
-                <circle cx={x} cy={y} r="3.3" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
-                <circle cx={x} cy={y} r="2.2" fill="none" stroke="#8B4513" strokeWidth="1"/>
-                <circle cx={x-1} cy={y-1} r="0.8" fill="rgba(255,255,255,0.8)"/>
+                <circle cx={x} cy={y} r="8" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="0.5"/>
+                <circle cx={x} cy={y} r="6" fill="#E8E8E8" stroke="#D0D0D0" strokeWidth="0.5"/>
+                <circle cx={x} cy={y} r="4" fill="none" stroke="#8B4513" strokeWidth="1"/>
+                <circle cx={x-2} cy={y-2} r="1.5" fill="rgba(255,255,255,0.8)"/>
               </g>
             ))}
             {(() => {

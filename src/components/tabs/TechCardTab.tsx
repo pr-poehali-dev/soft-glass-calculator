@@ -1,14 +1,17 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
-import { WindowCalculation } from '@/components/window/types';
+import { WindowCalculation, kantColors, kantSizes } from '@/components/window/types';
 
 interface TechCardTabProps {
   calculation: WindowCalculation;
 }
 
 const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
-  const { a, b, c, d, kantSize, grommets, grommetsCount, ringGrommets, ringGrommetsCount, frenchLock, frenchLockCount } = calculation;
+  const { a, b, c, d, kantSize, kantColor, grommets, grommetsCount, ringGrommets, ringGrommetsCount, frenchLock, frenchLockCount } = calculation;
+  
+  const kantColorName = kantColors.find(k => k.id === kantColor)?.name || 'Белый';
+  const kantSizeName = kantSizes.find(k => k.size === kantSize)?.name || `${kantSize} мм`;
   
   const pvcWidth = a + 50;
   const pvcHeight = b + 50;
@@ -38,7 +41,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
               <div><strong>Размер проема (A×B):</strong> {a}×{b} мм</div>
               <div><strong>Размер ПВХ полотна:</strong> {pvcWidth}×{pvcHeight} мм</div>
               <div><strong>Общий размер с кантом:</strong> {totalWidth}×{totalHeight} мм</div>
-              <div><strong>Кант ПВХ:</strong> 50 мм (25 мм с каждой стороны)</div>
+              <div><strong>Кант ПВХ:</strong> {kantSizeName}, {kantColorName}</div>
               {grommets && <div><strong>Люверсы 16мм (верх):</strong> {grommetsCount} шт</div>}
               {ringGrommets && <div><strong>Люверсы по бокам:</strong> {ringGrommetsCount} шт</div>}
               {frenchLock && <div><strong>Французские замки:</strong> {frenchLockCount} шт</div>}
@@ -57,7 +60,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <h4 className="font-medium text-blue-800">1.1. Подготовка материалов</h4>
                     <ul className="text-sm text-blue-700 mt-2 space-y-1">
                       <li>• Проверка качества ПВХ пленки (отсутствие дефектов, царапин, помутнений)</li>
-                      <li>• Подготовка ПВХ канта шириной 50 мм, длина: {((totalWidth + totalHeight) * 2 / 1000 * 1.05).toFixed(2)} м (с запасом 5%)</li>
+                      <li>• Подготовка ПВХ канта {kantSizeName}, цвет {kantColorName}, длина: {((totalWidth + totalHeight) * 2 / 1000 * 1.05).toFixed(2)} м (с запасом 5%)</li>
                       <li>• Проверка крепежных элементов на целостность</li>
                       {grommets && <li>• Люверсы 16мм: {grommetsCount} шт (внешний диаметр 30 мм)</li>}
                       {ringGrommets && <li>• Кольцевые люверсы: {ringGrommetsCount} шт</li>}
@@ -90,12 +93,12 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                   <div className="bg-teal-50 p-4 rounded-lg">
                     <h4 className="font-medium text-teal-800">1.3. Подготовка канта</h4>
                     <ul className="text-sm text-teal-700 mt-2 space-y-1">
-                      <li>• Нарезать кант ПВХ шириной 50 мм на отрезки:</li>
+                      <li>• Нарезать кант ПВХ {kantSizeName}, цвет {kantColorName} на отрезки:</li>
                       <li className="ml-4">→ Верхняя сторона (A): {(pvcWidth / 1000).toFixed(2)} м + 100 мм запас</li>
                       <li className="ml-4">→ Правая сторона (B): {(pvcHeight / 1000).toFixed(2)} м + 100 мм запас</li>
                       <li className="ml-4">→ Нижняя сторона (C): {((c + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
                       <li className="ml-4">→ Левая сторона (D): {((d + 50) / 1000).toFixed(2)} м + 100 мм запас</li>
-                      <li>• Кант укладывается так: 25 мм на ПВХ + 25 мм за края</li>
+                      <li>• Кант укладывается: {kantHalfSize} мм на ПВХ + {kantHalfSize} мм за края</li>
                     </ul>
                     <div className="mt-3 p-2 bg-teal-100 rounded">
                       <strong>Инструменты:</strong> ножницы по ПВХ, рулетка, маркер
@@ -115,7 +118,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <ul className="text-sm text-orange-700 mt-2 space-y-1">
                       <li>• Очистить края ПВХ полотна от пыли мягкой тканью</li>
                       <li>• Обезжирить зону сварки спиртом или обезжиривателем (полоса 60 мм)</li>
-                      <li>• Уложить кант по периметру: 25 мм на ПВХ, 25 мм за край</li>
+                      <li>• Уложить кант {kantSizeName} по периметру: {kantHalfSize} мм на ПВХ, {kantHalfSize} мм за край</li>
                       <li>• Зафиксировать кант зажимами через каждые 200 мм</li>
                       <li>• Проверить равномерность укладки канта по всему периметру</li>
                     </ul>
@@ -226,7 +229,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                       <li>• Размер ПВХ полотна: {pvcWidth}×{pvcHeight} мм (±3 мм)</li>
                       <li>• Общий размер с кантом: {totalWidth}×{totalHeight} мм (±3 мм)</li>
                       <li>• Диагонали должны быть равны (разница не более 5 мм)</li>
-                      <li>• Ширина канта: 50 мм (25+25 мм), допуск ±2 мм</li>
+                      <li>• Ширина канта: {kantSizeName} ({kantHalfSize}+{kantHalfSize} мм), допуск ±2 мм</li>
                       <li>• Проверка прямоугольности углов угольником</li>
                     </ul>
                     <div className="mt-3 p-2 bg-cyan-100 rounded">

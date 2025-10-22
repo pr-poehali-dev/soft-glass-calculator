@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
-import { WindowCalculation, WindowItem, filmTypes } from '@/components/window/types';
+import { WindowCalculation, WindowItem, filmTypes, kantSizes, kantColors } from '@/components/window/types';
 import { calculateGrommetsCount, calculateRingGrommetsCount } from '@/components/window/utils';
 import { generatePDF } from '@/components/window/PDFGenerator';
 import ShapeRenderer from '@/components/window/ShapeRenderer';
@@ -39,7 +39,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     frenchLock: false,
     frenchLockCount: 0,
     filmType: 'transparent',
-    kantSize: 10,
+    kantSize: 160,
+    kantColor: 'white',
     area: 0,
     price: 0,
     measurement: false,
@@ -103,7 +104,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       frenchLock: false,
       frenchLockCount: 0,
       filmType: 'transparent',
-      kantSize: 100,
+      kantSize: 160,
+      kantColor: 'white',
       area: 0,
       price: 0,
       measurement: false,
@@ -138,7 +140,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
     // Расчет канта (периметр в метрах * цена за метр)
     const perimeterMeters = ((totalWidth + totalHeight) * 2) / 1000;
-    price += perimeterMeters * 75;
+    const kantType = kantSizes.find(k => k.size === window.kantSize);
+    const kantPricePerMeter = kantType ? kantType.price : 150;
+    price += perimeterMeters * kantPricePerMeter;
 
     if (window.grommets) price += window.grommetsCount * 40;
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
@@ -260,16 +264,35 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-gray-700 text-sm">Размер канта <span className="text-sm text-gray-500">(ширина канта делится пополам!)</span></Label>
+                    <Label className="text-gray-700 text-sm">Размер канта</Label>
                     <Select value={window.kantSize.toString()} onValueChange={(value) => updateWindow(window.id, 'kantSize', Number(value))}>
                       <SelectTrigger className="h-9">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="100">100 мм</SelectItem>
-                        <SelectItem value="160">160 мм</SelectItem>
-                        <SelectItem value="200">200 мм</SelectItem>
-                        <SelectItem value="300">300 мм</SelectItem>
+                        {kantSizes.map(kant => (
+                          <SelectItem key={kant.size} value={kant.size.toString()}>
+                            {kant.name} - {kant.price} ₽/м
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3">
+                  <div>
+                    <Label className="text-gray-700 text-sm">Цвет канта</Label>
+                    <Select value={window.kantColor} onValueChange={(value) => updateWindow(window.id, 'kantColor', value)}>
+                      <SelectTrigger className="h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {kantColors.map(color => (
+                          <SelectItem key={color.id} value={color.id}>
+                            {color.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>

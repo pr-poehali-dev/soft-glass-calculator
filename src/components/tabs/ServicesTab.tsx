@@ -68,9 +68,13 @@ const ServicesTab: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="p-3 bg-blue-50 rounded">
-              <h4 className="font-medium">Кант ПВХ 50мм</h4>
-              <p className="text-sm text-gray-600">25мм с каждой стороны по периметру окна</p>
-              <Badge className="mt-1">75 ₽/м</Badge>
+              <h4 className="font-medium">Кант ПВХ</h4>
+              <p className="text-sm text-gray-600">Белый или бежевый, разные размеры:</p>
+              <div className="mt-2 space-y-1 text-xs">
+                <div>• 160 мм - <Badge variant="outline">150 ₽/м</Badge></div>
+                <div>• 200 мм - <Badge variant="outline">180 ₽/м</Badge></div>
+                <div>• 300 мм - <Badge variant="outline">210 ₽/м</Badge></div>
+              </div>
             </div>
             <div className="p-3 bg-green-50 rounded">
               <h4 className="font-medium">Замер на объекте</h4>

@@ -141,6 +141,24 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               return (
                 <>
+                  {/* Отступы от края до люверса - динамические по канту */}
+                  <g>
+                    {/* Левый отступ = kantSize/2 (25 мм для 100мм канта, до 50мм для 300мм) */}
+                    <line x1={edgeX} y1={28} x2={firstGrommetXpx} y2={28} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <line x1={edgeX} y1={25} x2={edgeX} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <line x1={firstGrommetXpx} y1={25} x2={firstGrommetXpx} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <text x={(edgeX + firstGrommetXpx) / 2} y={24} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#FF6B35">
+                      {(kantSize/2).toFixed(0)} мм
+                    </text>
+                    
+                    {/* Правый отступ = kantSize/2 */}
+                    <line x1={lastGrommetXpx} y1={28} x2={380} y2={28} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <line x1={lastGrommetXpx} y1={25} x2={lastGrommetXpx} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <line x1={380} y1={25} x2={380} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
+                    <text x={(lastGrommetXpx + 380) / 2} y={24} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#FF6B35">
+                      {(kantSize/2).toFixed(0)} мм
+                    </text>
+                  </g>
 
                   {/* Расстояние между люверсами */}
                   {count > 1 && (() => {

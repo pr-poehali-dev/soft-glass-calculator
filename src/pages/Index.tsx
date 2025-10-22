@@ -16,10 +16,10 @@ import ContactsTab from '@/components/tabs/ContactsTab';
 const Index = () => {
   const [calculation, setCalculation] = useState<WindowCalculation>({
     shape: 'rectangle',
-    a: 1000,
-    b: 1000,
-    c: 1000,
-    d: 1000,
+    верх: 1000,
+    право: 1000,
+    низ: 1000,
+    лево: 1000,
     e: 0,
     grommets: false,
     grommetsCount: 0,

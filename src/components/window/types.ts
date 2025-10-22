@@ -55,6 +55,7 @@ export const filmTypes = [
 ];
 
 export const kantSizes = [
+  { size: 100, price: 120, name: '100 мм' },
   { size: 160, price: 150, name: '160 мм' },
   { size: 200, price: 180, name: '200 мм' },
   { size: 300, price: 210, name: '300 мм' }
@@ -62,5 +63,6 @@ export const kantSizes = [
 
 export const kantColors = [
   { id: 'white', name: 'Белый' },
-  { id: 'beige', name: 'Бежевый' }
+  { id: 'beige', name: 'Бежевый' },
+  { id: 'brown', name: 'Коричневый' }
 ];

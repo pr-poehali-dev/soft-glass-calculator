@@ -87,9 +87,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               // Координаты канта на чертеже: левый край = 60, правый край = 380
               // Ширина канта на чертеже = 35 пикселей
               const kantWidthPx = 35;
-              const kantCenterOffsetPx = kantWidthPx / 2; // 17.5 пикселей от края до центра канта
+              const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края до оси углового люверса
               
-              // Люверсы в центре канта (в углах)
+              // Люверсы на расстоянии кант/4 от начала канта
               const firstGrommetXpx = 60 + kantCenterOffsetPx; // Левый угол
               const lastGrommetXpx = 380 - kantCenterOffsetPx; // Правый угол
               
@@ -97,8 +97,8 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
               
-              // Расстояние между угловыми люверсами в мм (от центра канта до центра канта)
-              const distanceBetweenCornersMm = topSideMm - kantSize;
+              // Расстояние между угловыми люверсами в мм (теперь кант/4 с каждой стороны)
+              const distanceBetweenCornersMm = topSideMm - kantSize / 2;
               
               // Расчет оптимального шага (250-350 мм) для равномерного распределения
               const spacingMm = distanceBetweenCornersMm / (count - 1 || 1);
@@ -126,7 +126,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               // Координаты канта на чертеже
               const kantWidthPx = 35;
-              const kantCenterOffsetPx = kantWidthPx / 2;
+              const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края
               const firstGrommetXpx = 60 + kantCenterOffsetPx;
               const lastGrommetXpx = 380 - kantCenterOffsetPx;
               const edgeX = 60;
@@ -140,20 +140,20 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 <>
                   {/* Отступы от края до люверса - динамические по канту */}
                   <g>
-                    {/* Левый отступ = kantSize/2 (25 мм для 100мм канта, до 50мм для 300мм) */}
+                    {/* Левый отступ = kantSize/4 */}
                     <line x1={edgeX} y1={28} x2={firstGrommetXpx} y2={28} stroke="#FF6B35" strokeWidth="1.5"/>
                     <line x1={edgeX} y1={25} x2={edgeX} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
                     <line x1={firstGrommetXpx} y1={25} x2={firstGrommetXpx} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
                     <text x={(edgeX + firstGrommetXpx) / 2} y={24} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#FF6B35">
-                      {(kantSize/2).toFixed(0)} мм
+                      {(kantSize/4).toFixed(0)} мм
                     </text>
                     
-                    {/* Правый отступ = kantSize/2 */}
+                    {/* Правый отступ = kantSize/4 */}
                     <line x1={lastGrommetXpx} y1={28} x2={380} y2={28} stroke="#FF6B35" strokeWidth="1.5"/>
                     <line x1={lastGrommetXpx} y1={25} x2={lastGrommetXpx} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
                     <line x1={380} y1={25} x2={380} y2={31} stroke="#FF6B35" strokeWidth="1.5"/>
                     <text x={(lastGrommetXpx + 380) / 2} y={24} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#FF6B35">
-                      {(kantSize/2).toFixed(0)} мм
+                      {(kantSize/4).toFixed(0)} мм
                     </text>
                   </g>
 

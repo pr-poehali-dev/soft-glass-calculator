@@ -26,6 +26,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [proposalOpen, setProposalOpen] = useState(false);
   const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
   const [cart, setCart] = useState<WindowItem[]>([]);
+  const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -709,7 +710,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
       {proposalOpen && (
         <CommercialProposal 
-          windows={windows}
+          windows={proposalWindows}
           onClose={() => setProposalOpen(false)}
         />
       )}
@@ -787,7 +788,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 className="w-full" 
                 size="lg"
                 onClick={() => {
-                  setWindows(cart);
+                  setProposalWindows(cart);
                   setProposalOpen(true);
                 }}
               >

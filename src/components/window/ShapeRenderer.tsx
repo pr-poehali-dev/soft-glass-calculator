@@ -380,7 +380,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   {bottomCount > 1 && (() => {
                     const x1 = bottomFirstGrommetX;
                     const x2 = bottomFirstGrommetX + bottomSpacingPx;
-                    const y = 270;
+                    const y = 275;
                     const spacingMm = (bottomLastGrommetX - bottomFirstGrommetX) / bottomScaleLocal / (bottomCount - 1);
                     
                     return (

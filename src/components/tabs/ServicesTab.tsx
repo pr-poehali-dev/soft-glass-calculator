@@ -23,13 +23,8 @@ const ServicesTab: React.FC = () => {
               <Badge className="mt-1">700 ₽/м²</Badge>
             </div>
             <div className="p-3 bg-green-50 rounded">
-              <h4 className="font-medium">Цветная ПВХ</h4>
-              <p className="text-sm text-gray-600">Тонированная пленка различных оттенков</p>
-              <Badge className="mt-1">700 ₽/м²</Badge>
-            </div>
-            <div className="p-3 bg-purple-50 rounded">
-              <h4 className="font-medium">Текстурированная</h4>
-              <p className="text-sm text-gray-600">Пленка с декоративной текстурой</p>
+              <h4 className="font-medium">Тонированная ПВХ</h4>
+              <p className="text-sm text-gray-600">Пленка с тонировкой различных оттенков</p>
               <Badge className="mt-1">700 ₽/м²</Badge>
             </div>
           </CardContent>

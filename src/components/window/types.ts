@@ -49,6 +49,5 @@ export const shapes = [
 
 export const filmTypes = [
   { id: 'transparent', name: 'Прозрачная ПВХ', price: 700 },
-  { id: 'colored', name: 'Цветная ПВХ', price: 700 },
-  { id: 'textured', name: 'Текстурированная ПВХ', price: 700 }
+  { id: 'tinted', name: 'Тонированная ПВХ', price: 700 }
 ];

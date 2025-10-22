@@ -288,9 +288,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const kantWidthPx = 35;
               const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края
               const kantSize = calculation.kantSize;
-              const leftSideMm = d + kantSize;
-              const rightSideMm = b + kantSize;
-              const bottomSideMm = a + kantSize;
+              const leftSideMm = лево + kantSize;
+              const rightSideMm = право + kantSize;
+              const bottomSideMm = низ + kantSize;
               
               const minSpacing = 350;
               const maxSpacing = 450;

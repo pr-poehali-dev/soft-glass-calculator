@@ -305,7 +305,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       checked={window.grommets}
                       onCheckedChange={(checked) => {
                         const isChecked = checked === true;
-                        const count = isChecked ? Math.max(2, Math.ceil((window.a / 1000) / 0.3)) : 0;
+                        const count = isChecked ? calculateGrommetsCount({
+                          a: window.a,
+                          b: window.b,
+                          c: window.c,
+                          d: window.d,
+                          kantSize: window.kantSize
+                        } as any) : 0;
                         const updatedWindows = windows.map(w => 
                           w.id === window.id ? { ...w, grommets: isChecked, grommetsCount: count } : w
                         );

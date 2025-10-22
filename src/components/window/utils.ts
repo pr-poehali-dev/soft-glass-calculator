@@ -14,16 +14,19 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
   const topSideMm = calculation.a + 25; // Размер ПВХ с припуском
   const kantSize = calculation.kantSize;
   
-  // Расстояние между угловыми люверсами (от центра канта до центра канта)
-  const distanceBetweenCorners = topSideMm - kantSize;
+  // Расстояние между угловыми люверсами по ОСЯМ (от центра до центра)
+  // Первый люверс на расстоянии kantSize/2 от края
+  // Последний люверс на расстоянии kantSize/2 от противоположного края
+  // Расстояние между их центрами = общая длина - kantSize/2 - kantSize/2 = общая длина - kantSize
+  const distanceBetweenCornerAxes = topSideMm - kantSize;
   
-  // Подбираем количество люверсов так, чтобы шаг был в диапазоне 250-350 мм
+  // Подбираем количество люверсов так, чтобы шаг между ОСЯМИ был в диапазоне 250-350 мм
   let count = 2;
-  let spacing = distanceBetweenCorners / (count - 1);
+  let spacing = distanceBetweenCornerAxes / (count - 1);
   
   while (spacing > maxStep && count < 50) {
     count++;
-    spacing = distanceBetweenCorners / (count - 1);
+    spacing = distanceBetweenCornerAxes / (count - 1);
   }
   
   // Если шаг меньше минимального, уменьшаем количество
@@ -41,16 +44,20 @@ export const calculateRingGrommetsCount = (calculation: WindowCalculation, gromm
   const kantSize = calculation.kantSize;
   
   const calculateSideGrommets = (sideMm: number) => {
-    const distanceBetweenCorners = sideMm - kantSize;
+    // Расстояние между угловыми люверсами по ОСЯМ (от центра до центра)
+    // Первый люверс на расстоянии kantSize/2 от края
+    // Последний люверс на расстоянии kantSize/2 от противоположного края
+    const distanceBetweenCornerAxes = sideMm - kantSize;
     let count = 2;
     
-    if (distanceBetweenCorners <= 0) return 2;
+    if (distanceBetweenCornerAxes <= 0) return 2;
     
-    let spacing = distanceBetweenCorners / (count - 1);
+    // Шаг между ОСЯМИ люверсов
+    let spacing = distanceBetweenCornerAxes / (count - 1);
     
     while (spacing > 450 && count < 50) {
       count++;
-      spacing = distanceBetweenCorners / (count - 1);
+      spacing = distanceBetweenCornerAxes / (count - 1);
     }
     
     if (spacing < 350 && count > 2) {

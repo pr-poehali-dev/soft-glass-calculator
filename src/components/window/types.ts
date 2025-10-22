@@ -43,6 +43,7 @@ export interface WindowItem {
   price: number;
   measurement: boolean;
   installation: boolean;
+  perimeter?: number;
 }
 
 export const shapes = [

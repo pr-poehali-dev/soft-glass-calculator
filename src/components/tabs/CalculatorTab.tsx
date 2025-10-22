@@ -126,7 +126,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
   const calculateWindowPrice = (window: WindowItem) => {
     const filmType = filmTypes.find(f => f.id === window.filmType);
-    if (!filmType) return { area: 0, price: 0 };
+    if (!filmType) return { area: 0, price: 0, perimeter: 0 };
 
     // Размеры a,b,c,d - это размеры ПВХ пленки
     // Общий размер окна = размер ПВХ + кант/2 с каждой стороны
@@ -150,13 +150,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     if (window.measurement) price += 2000;
     if (window.installation) price += area * 200;
 
-    return { area, price };
+    return { area, price, perimeter: perimeterMeters };
   };
 
   const calculateAllWindows = () => {
     const updatedWindows = windows.map(w => {
-      const { area, price } = calculateWindowPrice(w);
-      return { ...w, area, price };
+      const { area, price, perimeter } = calculateWindowPrice(w);
+      return { ...w, area, price, perimeter };
     });
     setWindows(updatedWindows);
   };
@@ -427,6 +427,11 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <p className="text-gray-700 text-sm">
                       Площадь: <strong>{window.area.toFixed(2)} м²</strong>
                     </p>
+                    {window.perimeter && (
+                      <p className="text-gray-700 text-sm">
+                        Периметр канта: <strong>{window.perimeter.toFixed(2)} м</strong>
+                      </p>
+                    )}
                     <p className="text-gray-900 text-lg font-bold">
                       {window.price.toFixed(0)} ₽
                     </p>

@@ -106,7 +106,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="techcard">
-            <TechCardTab />
+            <TechCardTab calculation={calculation} />
           </TabsContent>
 
           <TabsContent value="contract">

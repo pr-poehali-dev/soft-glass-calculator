@@ -476,27 +476,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                 </>
               );
             })()}
-            {(() => {
-              const totalCount = calculation.ringGrommetsCount;
-              const kantWidthPx = 35;
-              const kantCenterOffsetPx = kantWidthPx / 2;
-              const leftSideMm = d + 25;
-              const rightSideMm = b + 25;
-              const bottomSideMm = a + 25;
-              
-              const sidesPerimeter = (leftSideMm + rightSideMm + bottomSideMm) / 1000;
-              const leftCount = Math.max(1, Math.round((leftSideMm / 1000 / sidesPerimeter) * totalCount));
-              const rightCount = Math.max(1, Math.round((rightSideMm / 1000 / sidesPerimeter) * totalCount));
-              const bottomCount = Math.max(1, totalCount - leftCount - rightCount);
-              
-              const actualBottomCount = Math.min(bottomCount, 2);
-              
-              return (
-                <text x="220" y="366" textAnchor="middle" fontSize="11" fill="#B8860B">
-                  Кольцевые люверсы 42×22мм: {leftCount + rightCount + actualBottomCount} шт (л/{leftCount} | п/{rightCount} | н/{actualBottomCount})
-                </text>
-              );
-            })()}
+            <text x="220" y="366" textAnchor="middle" fontSize="11" fill="#B8860B">
+              Кольцевые люверсы 42×22мм: {calculation.ringGrommetsCount} шт
+            </text>
           </>
         )}
 

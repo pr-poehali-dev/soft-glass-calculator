@@ -168,7 +168,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                         <li>• Разметка позиций на расстоянии от центра канта:</li>
                         <li className="ml-4">→ Первый люверс: в центре канта левого угла</li>
                         <li className="ml-4">→ Последний люверс: в центре канта правого угла</li>
-                        <li className="ml-4">→ Расстояние между люверсами: {grommetsCount > 1 ? ((a + kantSize - kantSize) / (grommetsCount - 1)).toFixed(0) : '—'} мм</li>
+                        <li className="ml-4">→ Расстояние между люверсами: {grommetsCount > 1 ? ((верх + kantSize - kantSize) / (grommetsCount - 1)).toFixed(0) : '—'} мм</li>
                         <li>• Пробить отверстия d=8 мм пробойником</li>
                         <li>• Установить люверсы 16мм (внешний диаметр 30 мм) прессом</li>
                         <li>• Усилие установки: 500-700 кг</li>
@@ -280,7 +280,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
                     <li>• Протереть изделие от пыли и следов маркера</li>
                     <li>• Аккуратно сложить окно по линиям канта</li>
                     <li>• Упаковать в защитную пленку</li>
-                    <li>• Приклеить маркировку: "{a}×{b} мм, {totalWidth}×{totalHeight} мм с кантом"</li>
+                    <li>• Приклеить маркировку: "{верх}×{право} мм, {totalWidth}×{totalHeight} мм с кантом"</li>
                     <li>• Заполнить паспорт изделия с указанием даты изготовления</li>
                     <li>• Передать на склад готовой продукции</li>
                   </ul>

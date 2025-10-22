@@ -298,7 +298,7 @@ const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
               Изделие готово к отгрузке
             </h3>
             <p className="text-sm text-gray-700">
-              Мягкое окно размером <strong>{a}×{b} мм</strong> (общий размер с кантом: <strong>{totalWidth}×{totalHeight} мм</strong>) прошло все этапы производства и контроля качества.
+              Мягкое окно размером <strong>{верх}×{право} мм</strong> (общий размер с кантом: <strong>{totalWidth}×{totalHeight} мм</strong>) прошло все этапы производства и контроля качества.
             </p>
           </div>
         </CardContent>

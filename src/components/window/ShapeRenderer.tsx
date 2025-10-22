@@ -157,22 +157,27 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                     </text>
                   </g>
 
-                  {/* Расстояние между люверсами */}
+                  {/* Расстояние между люверсами 16мм - все промежутки */}
                   {count > 1 && (() => {
-                    const x1 = firstGrommetXpx;
-                    const x2 = firstGrommetXpx + spacingPx;
                     const y = 30;
+                    const gaps = [];
                     
-                    return (
-                      <g>
-                        <line x1={x1} y1={y} x2={x2} y2={y} stroke="#0066CC" strokeWidth="1.5"/>
-                        <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
-                        <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
-                        <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
-                          {spacingMm.toFixed(0)}мм
-                        </text>
-                      </g>
-                    );
+                    for (let i = 0; i < count - 1; i++) {
+                      const x1 = firstGrommetXpx + i * spacingPx;
+                      const x2 = x1 + spacingPx;
+                      gaps.push(
+                        <g key={`top-gap-${i}`}>
+                          <line x1={x1} y1={y} x2={x2} y2={y} stroke="#0066CC" strokeWidth="1.5"/>
+                          <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                          <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#0066CC" strokeWidth="1.5"/>
+                          <text x={(x1 + x2) / 2} y={y - 5} textAnchor="middle" fontSize="11" fill="#0066CC" fontWeight="bold">
+                            {spacingMm.toFixed(0)}мм
+                          </text>
+                        </g>
+                      );
+                    }
+                    
+                    return <>{gaps}</>;
                   })()}
                 </>
               );

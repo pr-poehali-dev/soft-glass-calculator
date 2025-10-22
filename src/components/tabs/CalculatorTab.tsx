@@ -346,9 +346,13 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                           d: window.d,
                           kantSize: window.kantSize
                         } as any) : 0;
-                        const updatedWindows = windows.map(w => 
-                          w.id === window.id ? { ...w, ringGrommets: isChecked, ringGrommetsCount: count } : w
-                        );
+                        const updatedWindows = windows.map(w => {
+                          if (w.id === window.id) {
+                            const frenchCount = w.frenchLock ? count : 0;
+                            return { ...w, ringGrommets: isChecked, ringGrommetsCount: count, frenchLockCount: frenchCount };
+                          }
+                          return w;
+                        });
                         setWindows(updatedWindows);
                       }}
                     />
@@ -361,7 +365,17 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       <Input
                         type="number"
                         value={window.ringGrommetsCount === 0 ? '' : window.ringGrommetsCount}
-                        onChange={(e) => updateWindow(window.id, 'ringGrommetsCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                        onChange={(e) => {
+                          const newCount = e.target.value === '' ? 0 : parseInt(e.target.value) || 0;
+                          const updatedWindows = windows.map(w => {
+                            if (w.id === window.id) {
+                              const frenchCount = w.frenchLock ? newCount : w.frenchLockCount;
+                              return { ...w, ringGrommetsCount: newCount, frenchLockCount: frenchCount };
+                            }
+                            return w;
+                          });
+                          setWindows(updatedWindows);
+                        }}
                         className="w-20 h-8"
                       />
                     </div>
@@ -373,7 +387,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       checked={window.frenchLock}
                       onCheckedChange={(checked) => {
                         const isChecked = checked === true;
-                        const count = isChecked ? 2 : 0;
+                        const count = isChecked ? window.ringGrommetsCount : 0;
                         const updatedWindows = windows.map(w => 
                           w.id === window.id ? { ...w, frenchLock: isChecked, frenchLockCount: count } : w
                         );

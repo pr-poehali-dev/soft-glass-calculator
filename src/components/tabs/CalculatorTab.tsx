@@ -460,14 +460,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   </div>
                 </div>
 
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => setPreviewWindowId(window.id)}
-                >
-                  <Icon name="Eye" className="mr-2" size={18} />
-                  Посмотреть чертёж
-                </Button>
+                <div className="my-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <WindowDiagram window={window} />
+                </div>
 
                 {window.area > 0 && (
                   <>

@@ -728,19 +728,24 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       <Dialog open={previewWindowId !== null} onOpenChange={() => setPreviewWindowId(null)}>
         <DialogContent className="max-w-4xl">
           <div className="p-4">
-            <h3 className="text-xl font-semibold mb-4">Предварительный чертёж окна</h3>
             {previewWindowId && (() => {
               const window = windows.find(w => w.id === previewWindowId);
+              const windowIndex = windows.findIndex(w => w.id === previewWindowId);
               if (!window) return null;
               return (
-                <div className="flex justify-center">
-                  <ShapeRenderer 
-                    calculation={{
-                      ...window,
-                      quantity: 1
-                    }}
-                  />
-                </div>
+                <>
+                  <h3 className="text-xl font-semibold mb-4">
+                    Предварительный чертёж окна {windowIndex + 1}
+                  </h3>
+                  <div className="flex justify-center">
+                    <ShapeRenderer 
+                      calculation={{
+                        ...window,
+                        quantity: 1
+                      }}
+                    />
+                  </div>
+                </>
               );
             })()}
           </div>

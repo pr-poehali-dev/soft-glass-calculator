@@ -460,6 +460,15 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   </div>
                 </div>
 
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => setPreviewWindowId(window.id)}
+                >
+                  <Icon name="Eye" className="mr-2" size={18} />
+                  Посмотреть чертёж
+                </Button>
+
                 {window.area > 0 && (
                   <>
                     <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
@@ -478,15 +487,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     
                     <div className="flex gap-2">
                       <Button 
-                        variant="outline" 
-                        className="flex-1"
-                        onClick={() => setPreviewWindowId(window.id)}
-                      >
-                        <Icon name="Eye" className="mr-2" size={18} />
-                        Посмотреть чертёж
-                      </Button>
-                      <Button 
-                        className="flex-1"
+                        className="w-full"
                         onClick={() => addToCart(window)}
                       >
                         <Icon name="ShoppingCart" className="mr-2" size={18} />

@@ -134,7 +134,9 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const edgeX = 60;
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
-              const distanceBetweenCornersMm = topSideMm - kantSize;
+              const leftEdgeOffsetMm = kantSize / 4;
+              const rightEdgeOffsetMm = kantSize / 4;
+              const distanceBetweenCornersMm = topSideMm - leftEdgeOffsetMm - rightEdgeOffsetMm;
               const spacingMm = distanceBetweenCornersMm / (count - 1 || 1);
               const spacingPx = (lastGrommetXpx - firstGrommetXpx) / (count - 1 || 1);
               

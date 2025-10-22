@@ -437,7 +437,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   {leftCount > 1 && (() => {
                     const y1 = leftFirstGrommetY;
                     const y2 = leftFirstGrommetY + leftSpacingPx;
-                    const x = 10;
+                    const x = 50;
                     const spacingMm = (leftLastGrommetY - leftFirstGrommetY) / leftScaleLocal / (leftCount - 1);
                     
                     return (
@@ -445,7 +445,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <text x={5} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 5 ${(y1 + y2) / 2 + 3})`}>
+                        <text x={45} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 45 ${(y1 + y2) / 2 + 3})`}>
                           {spacingMm.toFixed(0)}мм
                         </text>
                       </g>
@@ -456,7 +456,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                   {rightCount > 1 && (() => {
                     const y1 = rightFirstGrommetY;
                     const y2 = rightFirstGrommetY + rightSpacingPx;
-                    const x = 415;
+                    const x = 390;
                     const spacingMm = (rightLastGrommetY - rightFirstGrommetY) / rightScaleLocal / (rightCount - 1);
                     
                     return (
@@ -464,7 +464,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                         <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
                         <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <text x={420} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(90 420 ${(y1 + y2) / 2 + 3})`}>
+                        <text x={395} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(90 395 ${(y1 + y2) / 2 + 3})`}>
                           {spacingMm.toFixed(0)}мм
                         </text>
                       </g>

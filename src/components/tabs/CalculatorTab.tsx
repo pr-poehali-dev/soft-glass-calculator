@@ -165,11 +165,18 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   };
 
   const calculateAllWindows = () => {
-    const updatedWindows = windows.map(w => {
-      const { area, price, perimeter } = calculateWindowPrice(w);
-      return { ...w, area, price, perimeter };
-    });
-    setWindows(updatedWindows);
+    try {
+      console.log('Calculating windows:', windows);
+      const updatedWindows = windows.map(w => {
+        const { area, price, perimeter } = calculateWindowPrice(w);
+        console.log('Window calculated:', { id: w.id, area, price, perimeter });
+        return { ...w, area, price, perimeter };
+      });
+      console.log('Updated windows:', updatedWindows);
+      setWindows(updatedWindows);
+    } catch (error) {
+      console.error('Error calculating windows:', error);
+    }
   };
 
   const calculateTotal = () => {

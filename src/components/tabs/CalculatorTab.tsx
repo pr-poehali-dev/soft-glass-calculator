@@ -519,7 +519,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               </Card>
 
               <Button 
-                onClick={() => setProposalOpen(true)} 
+                onClick={() => {
+                  setProposalWindows(windows);
+                  setProposalOpen(true);
+                }} 
                 className="w-full bg-green-600 hover:bg-green-700 text-white h-12 text-base" 
                 size="lg"
               >

@@ -48,10 +48,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="322" y1="216" x2="328" y2="216" stroke="#22C55E" strokeWidth="1.5"/>
         <text x="332" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(90 332 150)">ПВХ: {b + 50} мм</text>
         
-        <line x1="60" y1="285" x2="380" y2="285" stroke="#000" strokeWidth="1"/>
-        <line x1="60" y1="282" x2="60" y2="288" stroke="#000" strokeWidth="1"/>
-        <line x1="380" y1="282" x2="380" y2="288" stroke="#000" strokeWidth="1"/>
-        <text x="220" y="300" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
+        <line x1="60" y1="295" x2="380" y2="295" stroke="#000" strokeWidth="1"/>
+        <line x1="60" y1="292" x2="60" y2="298" stroke="#000" strokeWidth="1"/>
+        <line x1="380" y1="292" x2="380" y2="298" stroke="#000" strokeWidth="1"/>
+        <text x="220" y="310" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
         
         <line x1="104" y1="210" x2="336" y2="210" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
         <line x1="104" y1="207" x2="104" y2="213" stroke="#22C55E" strokeWidth="1.5"/>

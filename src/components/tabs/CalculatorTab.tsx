@@ -24,6 +24,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [blueprintOpen, setBlueprintOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string>('');
   const [proposalOpen, setProposalOpen] = useState(false);
+  const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
+  const [cart, setCart] = useState<WindowItem[]>([]);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -118,6 +120,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     if (windows.length > 1) {
       setWindows(windows.filter(w => w.id !== id));
     }
+  };
+  
+  const addToCart = (window: WindowItem) => {
+    setCart([...cart, { ...window, id: Date.now().toString() }]);
+  };
+  
+  const removeFromCart = (id: string) => {
+    setCart(cart.filter(item => item.id !== id));
   };
 
   const updateWindow = (id: string, field: keyof WindowItem, value: number | boolean | string) => {
@@ -340,10 +350,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       onCheckedChange={(checked) => {
                         const isChecked = checked === true;
                         const count = isChecked ? calculateRingGrommetsCount({
-                          a: window.a,
-                          b: window.b,
-                          c: window.c,
-                          d: window.d,
+                          верх: window.верх,
+                          право: window.право,
+                          низ: window.низ,
+                          лево: window.лево,
                           kantSize: window.kantSize
                         } as any) : 0;
                         const updatedWindows = windows.map(w => {
@@ -443,19 +453,39 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 </div>
 
                 {window.area > 0 && (
-                  <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                    <p className="text-gray-700 text-sm">
-                      Площадь: <strong>{window.area.toFixed(2)} м²</strong>
-                    </p>
-                    {window.perimeter && (
+                  <>
+                    <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                       <p className="text-gray-700 text-sm">
-                        Периметр канта: <strong>{window.perimeter.toFixed(2)} м</strong>
+                        Площадь: <strong>{window.area.toFixed(2)} м²</strong>
                       </p>
-                    )}
-                    <p className="text-gray-900 text-lg font-bold">
-                      {window.price.toFixed(0)} ₽
-                    </p>
-                  </div>
+                      {window.perimeter && (
+                        <p className="text-gray-700 text-sm">
+                          Периметр канта: <strong>{window.perimeter.toFixed(2)} м</strong>
+                        </p>
+                      )}
+                      <p className="text-gray-900 text-lg font-bold">
+                        {window.price.toFixed(0)} ₽
+                      </p>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1"
+                        onClick={() => setPreviewWindowId(window.id)}
+                      >
+                        <Icon name="Eye" className="mr-2" size={18} />
+                        Посмотреть чертёж
+                      </Button>
+                      <Button 
+                        className="flex-1"
+                        onClick={() => addToCart(window)}
+                      >
+                        <Icon name="ShoppingCart" className="mr-2" size={18} />
+                        В корзину
+                      </Button>
+                    </div>
+                  </>
                 )}
               </CardContent>
             </Card>
@@ -682,6 +712,80 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           windows={windows}
           onClose={() => setProposalOpen(false)}
         />
+      )}
+      
+      <Dialog open={previewWindowId !== null} onOpenChange={() => setPreviewWindowId(null)}>
+        <DialogContent className="max-w-4xl">
+          <div className="p-4">
+            <h3 className="text-xl font-semibold mb-4">Предварительный чертёж окна</h3>
+            {previewWindowId && (() => {
+              const window = windows.find(w => w.id === previewWindowId);
+              if (!window) return null;
+              return (
+                <div className="flex justify-center">
+                  <ShapeRenderer 
+                    calculation={{
+                      ...window,
+                      quantity: 1
+                    }}
+                  />
+                </div>
+              );
+            })()}
+          </div>
+        </DialogContent>
+      </Dialog>
+      
+      {cart.length > 0 && (
+        <Card className="mt-6 bg-green-50 border-green-200">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Icon name="ShoppingCart" className="mr-2" />
+                Корзина ({cart.length})
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCart([])}
+                className="text-red-600 border-red-300"
+              >
+                <Icon name="Trash2" className="mr-1" size={16} />
+                Очистить
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {cart.map((item, index) => (
+              <div key={item.id} className="flex items-center justify-between bg-white p-3 rounded border">
+                <div>
+                  <p className="font-medium">Окно {index + 1}</p>
+                  <p className="text-sm text-gray-600">{item.верх}×{item.право} мм</p>
+                  <p className="text-sm text-gray-600">Площадь: {item.area.toFixed(2)} м²</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <p className="font-bold text-lg">{item.price.toFixed(0)} ₽</p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-red-600"
+                  >
+                    <Icon name="X" size={18} />
+                  </Button>
+                </div>
+              </div>
+            ))}
+            <div className="bg-white p-4 rounded border-2 border-green-500">
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-semibold">Итого:</span>
+                <span className="text-2xl font-bold text-green-600">
+                  {cart.reduce((sum, item) => sum + item.price, 0).toFixed(0)} ₽
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

@@ -320,8 +320,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <div className="ml-6">
                       <Input
                         type="number"
-                        value={window.grommetsCount}
-                        onChange={(e) => updateWindow(window.id, 'grommetsCount', parseInt(e.target.value) || 0)}
+                        value={window.grommetsCount === 0 ? '' : window.grommetsCount}
+                        onChange={(e) => updateWindow(window.id, 'grommetsCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
                         className="w-20 h-8"
                       />
                     </div>
@@ -354,8 +354,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <div className="ml-6">
                       <Input
                         type="number"
-                        value={window.ringGrommetsCount}
-                        onChange={(e) => updateWindow(window.id, 'ringGrommetsCount', parseInt(e.target.value) || 0)}
+                        value={window.ringGrommetsCount === 0 ? '' : window.ringGrommetsCount}
+                        onChange={(e) => updateWindow(window.id, 'ringGrommetsCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
                         className="w-20 h-8"
                       />
                     </div>
@@ -382,8 +382,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <div className="ml-6">
                       <Input
                         type="number"
-                        value={window.frenchLockCount}
-                        onChange={(e) => updateWindow(window.id, 'frenchLockCount', parseInt(e.target.value) || 0)}
+                        value={window.frenchLockCount === 0 ? '' : window.frenchLockCount}
+                        onChange={(e) => updateWindow(window.id, 'frenchLockCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
                         className="w-20 h-8"
                       />
                     </div>

@@ -196,7 +196,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               
               // Параметры
               const kantWidthPx = 35;
-              const kantCenterOffsetPx = kantWidthPx / 2;
+              const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края до оси люверса
               const leftSideMm = d + 25;
               const rightSideMm = b + 25;
               const bottomSideMm = c + 25;
@@ -284,7 +284,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             ))}
             {(() => {
               const kantWidthPx = 35;
-              const kantCenterOffsetPx = kantWidthPx / 2;
+              const kantCenterOffsetPx = kantWidthPx / 4; // кант/4 от края
               const leftSideMm = d + 25;
               const rightSideMm = b + 25;
               const bottomSideMm = a + 25;
@@ -295,7 +295,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const optimalSpacing = 400;
               
               const calculateSide = (sideMm: number) => {
-                const minEdgeDistance = kantSize / 2;
+                const minEdgeDistance = kantSize / 4; // кант/4
                 const maxEdgeDistance = kantSize;
                 const availableLength = sideMm - minEdgeDistance * 2;
                 

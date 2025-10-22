@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
-import { WindowCalculation } from '@/components/window/types';
+import { WindowCalculation, WindowItem } from '@/components/window/types';
 import { calculatePrice } from '@/components/window/utils';
 import MainTab from '@/components/tabs/MainTab';
 import CalculatorTab from '@/components/tabs/CalculatorTab';
@@ -12,8 +12,10 @@ import BlueprintTab from '@/components/tabs/BlueprintTab';
 import TechCardTab from '@/components/tabs/TechCardTab';
 import ContractTab from '@/components/tabs/ContractTab';
 import ContactsTab from '@/components/tabs/ContactsTab';
+import CartTab from '@/components/tabs/CartTab';
 
 const Index = () => {
+  const [cart, setCart] = useState<WindowItem[]>([]);
   const [calculation, setCalculation] = useState<WindowCalculation>({
     shape: 'rectangle',
     верх: 1000,
@@ -71,9 +73,17 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-9 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
             <TabsTrigger value="main" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Главная</TabsTrigger>
             <TabsTrigger value="calculator" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Калькулятор</TabsTrigger>
+            <TabsTrigger value="cart" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2 relative">
+              Корзина
+              {cart.length > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-red-500 text-white text-xs">
+                  {cart.length}
+                </Badge>
+              )}
+            </TabsTrigger>
             <TabsTrigger value="services" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Услуги</TabsTrigger>
             <TabsTrigger value="portfolio" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Портфолио</TabsTrigger>
             <TabsTrigger value="blueprint" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Чертежи</TabsTrigger>
@@ -91,6 +101,17 @@ const Index = () => {
               calculation={calculation}
               setCalculation={setCalculation}
               onCalculate={handleCalculate}
+              cart={cart}
+              setCart={setCart}
+            />
+          </TabsContent>
+
+          <TabsContent value="cart">
+            <CartTab 
+              cart={cart}
+              onRemoveFromCart={(id) => setCart(cart.filter(item => item.id !== id))}
+              onClearCart={() => setCart([])}
+              onCheckout={() => setActiveTab('calculator')}
             />
           </TabsContent>
 

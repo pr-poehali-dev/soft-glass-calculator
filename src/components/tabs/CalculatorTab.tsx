@@ -18,12 +18,13 @@ interface CalculatorTabProps {
   calculation: WindowCalculation;
   setCalculation: React.Dispatch<React.SetStateAction<WindowCalculation>>;
   onCalculate: () => void;
+  cart: WindowItem[];
+  setCart: React.Dispatch<React.SetStateAction<WindowItem[]>>;
 }
 
-const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate }) => {
+const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate, cart, setCart }) => {
   const [proposalOpen, setProposalOpen] = useState(false);
   const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
-  const [cart, setCart] = useState<WindowItem[]>([]);
   const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',

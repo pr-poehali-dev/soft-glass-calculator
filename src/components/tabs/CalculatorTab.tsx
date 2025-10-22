@@ -777,12 +777,23 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               </div>
             ))}
             <div className="bg-white p-4 rounded border-2 border-green-500">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-lg font-semibold">Итого:</span>
                 <span className="text-2xl font-bold text-green-600">
                   {cart.reduce((sum, item) => sum + item.price, 0).toFixed(0)} ₽
                 </span>
               </div>
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={() => {
+                  setWindows(cart);
+                  setProposalOpen(true);
+                }}
+              >
+                <Icon name="FileText" className="mr-2" />
+                Сформировать коммерческое предложение
+              </Button>
             </div>
           </CardContent>
         </Card>

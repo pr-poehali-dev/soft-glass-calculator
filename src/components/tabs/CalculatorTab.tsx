@@ -206,6 +206,11 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base" size="lg">
+            <Icon name="Calculator" className="mr-2" />
+            Рассчитать все окна
+          </Button>
+
           {windows.map((window, index) => (
             <Card key={window.id} className="bg-gray-50 border-gray-200">
               <CardHeader>
@@ -494,11 +499,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               </CardContent>
             </Card>
           ))}
-
-          <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base" size="lg">
-            <Icon name="Calculator" className="mr-2" />
-            Рассчитать все окна
-          </Button>
 
           {windows.some(w => w.area > 0) && (
             <>

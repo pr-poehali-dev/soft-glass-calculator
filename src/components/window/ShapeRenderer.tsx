@@ -72,9 +72,6 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="112" y1="216" x2="118" y2="216" stroke="#22C55E" strokeWidth="1.5"/>
         <text x="108" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(-90 108 150)">ПВХ: {d + 50} мм</text>
         
-
-        <text x="220" y="320" textAnchor="middle" fontSize="11" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>
-        
         {calculation.grommets && calculation.grommetsCount > 0 && (
           <>
             {(() => {

@@ -59,7 +59,7 @@ const ServicesTab: React.FC = () => {
             <div className="p-3 bg-red-50 rounded">
               <h4 className="font-medium flex items-center">
                 <Icon name="Lock" size={16} className="mr-2 text-destructive" />
-                Французский замок
+                Скобы поворотные
               </h4>
               <p className="text-sm text-gray-600">Система быстрого открывания</p>
               <Badge className="mt-1">75 ₽/шт</Badge>

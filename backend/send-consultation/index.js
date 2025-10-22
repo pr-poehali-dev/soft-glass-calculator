@@ -1,10 +1,8 @@
 /**
- * Business: Send consultation request via email using Resend API
+ * Business: Send consultation request to Telegram
  * Args: event with httpMethod POST, body with name and phone fields
  * Returns: HTTP response with success status or error message
  */
-
-const { Resend } = require('resend');
 
 exports.handler = async (event, context) => {
   const { httpMethod, body } = event;
@@ -49,37 +47,48 @@ exports.handler = async (event, context) => {
     };
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const emailTo = process.env.EMAIL_TO;
+  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (!resendApiKey || !emailTo) {
+  if (!telegramBotToken || !telegramChatId) {
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ error: 'Email service not configured' }),
+      body: JSON.stringify({ error: 'Telegram not configured' }),
       isBase64Encoded: false
     };
   }
 
   try {
-    const resend = new Resend(resendApiKey);
+    const escapeName = requestData.name.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+    const escapePhone = requestData.phone.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+    
+    const message = `🔔 *Новая заявка на консультацию\\!*\n\n👤 *Имя:* ${escapeName}\n📞 *Телефон:* ${escapePhone}\n\n⏰ Свяжитесь с клиентом в ближайшее время\\!`;
 
-    const result = await resend.emails.send({
-      from: 'Полимер-проект <onboarding@resend.dev>',
-      to: emailTo,
-      subject: `Новая заявка на консультацию - ${requestData.name}`,
-      html: `
-        <h2>Новая заявка на консультацию</h2>
-        <p><strong>Имя:</strong> ${requestData.name}</p>
-        <p><strong>Телефон:</strong> ${requestData.phone}</p>
-        <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
-      `
+    const telegramUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    
+    const response = await fetch(telegramUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: telegramChatId,
+        text: message,
+        parse_mode: 'MarkdownV2'
+      })
     });
 
-    console.log('Email send result:', JSON.stringify(result));
+    const result = await response.json();
+    
+    console.log('Telegram send result:', JSON.stringify(result));
+
+    if (!result.ok) {
+      throw new Error(`Telegram API error: ${result.description || 'Unknown error'}`);
+    }
 
     return {
       statusCode: 200,
@@ -87,11 +96,11 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ success: true, message: 'Email sent successfully' }),
+      body: JSON.stringify({ success: true, message: 'Notification sent' }),
       isBase64Encoded: false
     };
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Error sending telegram:', error);
     console.error('Error details:', JSON.stringify(error));
     return {
       statusCode: 500,
@@ -99,7 +108,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ error: 'Failed to send email', details: error.message }),
+      body: JSON.stringify({ error: 'Failed to send notification', details: error.message }),
       isBase64Encoded: false
     };
   }

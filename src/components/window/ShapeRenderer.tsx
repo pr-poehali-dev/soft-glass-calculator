@@ -376,23 +376,28 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                     </text>
                   </g>
 
-                  {/* Расстояние между кольцевыми люверсами (низ) */}
+                  {/* Расстояние между кольцевыми люверсами (низ) - все промежутки */}
                   {bottomCount > 1 && (() => {
-                    const x1 = bottomFirstGrommetX;
-                    const x2 = bottomFirstGrommetX + bottomSpacingPx;
                     const y = 275;
                     const spacingMm = (bottomLastGrommetX - bottomFirstGrommetX) / bottomScaleLocal / (bottomCount - 1);
+                    const gaps = [];
                     
-                    return (
-                      <g>
-                        <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
-                        <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
-                          {spacingMm.toFixed(0)}мм
-                        </text>
-                      </g>
-                    );
+                    for (let i = 0; i < bottomCount - 1; i++) {
+                      const x1 = bottomFirstGrommetX + i * bottomSpacingPx;
+                      const x2 = x1 + bottomSpacingPx;
+                      gaps.push(
+                        <g key={`bottom-gap-${i}`}>
+                          <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
+                          <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
+                            {spacingMm.toFixed(0)}мм
+                          </text>
+                        </g>
+                      );
+                    }
+                    
+                    return <>{gaps}</>;
                   })()}
                   
                   {/* Отступы от края до кольцевых люверсов (левая сторона) */}
@@ -433,42 +438,54 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                     </text>
                   </g>
 
-                  {/* Расстояние между кольцевыми люверсами на левой стороне */}
+                  {/* Расстояние между кольцевыми люверсами на левой стороне - все промежутки */}
                   {leftCount > 1 && (() => {
-                    const y1 = leftFirstGrommetY;
-                    const y2 = leftFirstGrommetY + leftSpacingPx;
                     const x = 50;
                     const spacingMm = (leftLastGrommetY - leftFirstGrommetY) / leftScaleLocal / (leftCount - 1);
+                    const gaps = [];
                     
-                    return (
-                      <g>
-                        <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <text x={45} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 45 ${(y1 + y2) / 2 + 3})`}>
-                          {spacingMm.toFixed(0)}мм
-                        </text>
-                      </g>
-                    );
+                    for (let i = 0; i < leftCount - 1; i++) {
+                      const y1 = leftFirstGrommetY + i * leftSpacingPx;
+                      const y2 = y1 + leftSpacingPx;
+                      const textY = (y1 + y2) / 2 + 3;
+                      gaps.push(
+                        <g key={`left-gap-${i}`}>
+                          <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                          <text x={45} y={textY} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 45 ${textY})`}>
+                            {spacingMm.toFixed(0)}мм
+                          </text>
+                        </g>
+                      );
+                    }
+                    
+                    return <>{gaps}</>;
                   })()}
                   
-                  {/* Расстояние между кольцевыми люверсами на правой стороне */}
+                  {/* Расстояние между кольцевыми люверсами на правой стороне - все промежутки */}
                   {rightCount > 1 && (() => {
-                    const y1 = rightFirstGrommetY;
-                    const y2 = rightFirstGrommetY + rightSpacingPx;
                     const x = 390;
                     const spacingMm = (rightLastGrommetY - rightFirstGrommetY) / rightScaleLocal / (rightCount - 1);
+                    const gaps = [];
                     
-                    return (
-                      <g>
-                        <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
-                        <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                        <text x={395} y={(y1 + y2) / 2 + 3} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(90 395 ${(y1 + y2) / 2 + 3})`}>
-                          {spacingMm.toFixed(0)}мм
-                        </text>
-                      </g>
-                    );
+                    for (let i = 0; i < rightCount - 1; i++) {
+                      const y1 = rightFirstGrommetY + i * rightSpacingPx;
+                      const y2 = y1 + rightSpacingPx;
+                      const textY = (y1 + y2) / 2 + 3;
+                      gaps.push(
+                        <g key={`right-gap-${i}`}>
+                          <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
+                          <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
+                          <text x={395} y={textY} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(90 395 ${textY})`}>
+                            {spacingMm.toFixed(0)}мм
+                          </text>
+                        </g>
+                      );
+                    }
+                    
+                    return <>{gaps}</>;
                   })()}
                 </>
               );

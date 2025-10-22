@@ -299,25 +299,29 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const calculateSide = (sideMm: number) => {
                 const minEdgeDistance = kantSize / 4; // кант/4
                 const maxEdgeDistance = kantSize;
-                const availableLength = sideMm - minEdgeDistance * 2;
                 
-                let count = Math.max(1, Math.round(availableLength / optimalSpacing) + 1);
-                let spacing = availableLength / (count - 1 || 1);
+                // Пробуем разные количества люверсов для оптимального шага
+                let bestCount = 1;
+                let bestSpacing = 0;
+                let bestEdgeDistance = minEdgeDistance;
                 
-                while (spacing < minSpacing && count > 1) {
-                  count--;
-                  spacing = availableLength / (count - 1 || 1);
+                for (let testCount = 1; testCount <= 20; testCount++) {
+                  // Для данного количества люверсов вычисляем шаг
+                  const availableLength = sideMm - minEdgeDistance * 2;
+                  const testSpacing = testCount > 1 ? availableLength / (testCount - 1) : 0;
+                  
+                  // Проверяем, попадает ли шаг в допустимый диапазон
+                  if (testCount === 1 || (testSpacing >= minSpacing && testSpacing <= maxSpacing)) {
+                    bestCount = testCount;
+                    bestSpacing = testSpacing;
+                    bestEdgeDistance = minEdgeDistance;
+                  } else if (testSpacing < minSpacing) {
+                    // Шаг слишком мал, останавливаемся
+                    break;
+                  }
                 }
                 
-                while (spacing > maxSpacing) {
-                  count++;
-                  spacing = availableLength / (count - 1 || 1);
-                }
-                
-                const actualSpacing = count > 1 ? availableLength / (count - 1) : 0;
-                const edgeDistance = (sideMm - availableLength) / 2;
-                
-                return { count, spacing: actualSpacing, edgeDistance };
+                return { count: bestCount, spacing: bestSpacing, edgeDistance: bestEdgeDistance };
               };
               
               const left = calculateSide(leftSideMm);

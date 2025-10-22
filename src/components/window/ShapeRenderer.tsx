@@ -362,6 +362,12 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const edgeX = 60;
               const edgeY = 40;
               
+              // Динамический размер текста в зависимости от количества размеров
+              const totalDimensions = (leftCount - 1) + (rightCount - 1) + (bottomCount - 1);
+              const baseFontSize = 11;
+              const minFontSize = 7;
+              const dynamicFontSize = Math.max(minFontSize, baseFontSize - Math.floor(totalDimensions / 8));
+              
               return (
                 <>
                   {/* Отступы от края до кольцевых люверсов (низ) - динамические по канту */}
@@ -397,7 +403,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                           <line x1={x1} y1={y} x2={x2} y2={y} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x1} y1={y-3} x2={x1} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x2} y1={y-3} x2={x2} y2={y+3} stroke="#B8860B" strokeWidth="1.5"/>
-                          <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold">
+                          <text x={(x1 + x2) / 2} y={y + 12} textAnchor="middle" fontSize={dynamicFontSize} fill="#B8860B" fontWeight="bold">
                             {spacingMm.toFixed(0)}мм
                           </text>
                         </g>
@@ -460,7 +466,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                           <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                          <text x={45} y={textY} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(-90 45 ${textY})`}>
+                          <text x={45} y={textY} textAnchor="middle" fontSize={dynamicFontSize} fill="#B8860B" fontWeight="bold" transform={`rotate(-90 45 ${textY})`}>
                             {spacingMm.toFixed(0)}мм
                           </text>
                         </g>
@@ -485,7 +491,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
                           <line x1={x} y1={y1} x2={x} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x-3} y1={y1} x2={x+3} y2={y1} stroke="#B8860B" strokeWidth="1.5"/>
                           <line x1={x-3} y1={y2} x2={x+3} y2={y2} stroke="#B8860B" strokeWidth="1.5"/>
-                          <text x={395} y={textY} textAnchor="middle" fontSize="11" fill="#B8860B" fontWeight="bold" transform={`rotate(90 395 ${textY})`}>
+                          <text x={395} y={textY} textAnchor="middle" fontSize={dynamicFontSize} fill="#B8860B" fontWeight="bold" transform={`rotate(90 395 ${textY})`}>
                             {spacingMm.toFixed(0)}мм
                           </text>
                         </g>

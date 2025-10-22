@@ -250,7 +250,6 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const bottomTotalWidthPx = bottomRightX - bottomEdgeX;
               const bottomScaleLocal = bottomTotalWidthPx / bottomSideMm;
               const bottomY = 248;
-              const kantSize = calculation.kantSize;
               
               // Отступ от углов, чтобы не накладываться на люверсы сторон B и D
               const grommetOffsetMm = 350; // минимальное расстояние между люверсами

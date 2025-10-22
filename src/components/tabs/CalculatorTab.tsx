@@ -465,6 +465,37 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   </div>
                 </div>
 
+                <Button 
+                  onClick={() => {
+                    const updatedWindows = windows.map(w => {
+                      if (w.id === window.id) {
+                        const area = (w.верх * w.право) / 1000000;
+                        const perimeter = (w.верх + w.право + w.низ + w.лево + w.kantSize * 4) / 1000;
+                        
+                        const filmPrice = filmTypes.find(f => f.id === w.filmType)?.price || 450;
+                        const kantPrice = kantSizes.find(k => k.size === w.kantSize)?.price || 15;
+                        
+                        let price = area * filmPrice;
+                        price += perimeter * kantPrice;
+                        
+                        if (w.grommets) price += w.grommetsCount * 40;
+                        if (w.ringGrommets) price += w.ringGrommetsCount * 55;
+                        if (w.frenchLock) price += w.frenchLockCount * 25;
+                        if (w.measurement) price += 500;
+                        if (w.installation) price += area * 200;
+                        
+                        return { ...w, area, price, perimeter };
+                      }
+                      return w;
+                    });
+                    setWindows(updatedWindows);
+                  }}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white h-10 mb-4"
+                >
+                  <Icon name="Calculator" className="mr-2" size={18} />
+                  Рассчитать окно {index + 1}
+                </Button>
+
                 <div className="my-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
                   <ShapeRenderer calculation={window as any} />
                 </div>

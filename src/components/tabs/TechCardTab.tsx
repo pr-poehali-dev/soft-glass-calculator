@@ -8,6 +8,10 @@ interface TechCardTabProps {
 }
 
 const TechCardTab: React.FC<TechCardTabProps> = ({ calculation }) => {
+  if (!calculation) {
+    return <div>Нет данных расчета</div>;
+  }
+  
   const { верх, право, низ, лево, kantSize, kantColor, grommets, grommetsCount, ringGrommets, ringGrommetsCount, frenchLock, frenchLockCount } = calculation;
   
   const kantColorName = kantColors.find(k => k.id === kantColor)?.name || 'Белый';

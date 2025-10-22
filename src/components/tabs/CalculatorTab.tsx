@@ -461,7 +461,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 </div>
 
                 <div className="my-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <ShapeRenderer window={window} />
+                  <ShapeRenderer calculation={window as any} />
                 </div>
 
                 {window.area > 0 && (

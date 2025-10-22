@@ -53,10 +53,24 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <line x1="380" y1="282" x2="380" y2="288" stroke="#000" strokeWidth="1"/>
         <text x="220" y="300" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">C = {c + calculation.kantSize} мм</text>
         
+        <line x1="104" y1="210" x2="336" y2="210" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="104" y1="207" x2="104" y2="213" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="115" y1="207" x2="115" y2="213" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="325" y1="207" x2="325" y2="213" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="336" y1="207" x2="336" y2="213" stroke="#22C55E" strokeWidth="1.5"/>
+        <text x="220" y="224" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E">ПВХ: {c + 50} мм</text>
+        
         <line x1="25" y1="40" x2="25" y2="260" stroke="#000" strokeWidth="1"/>
         <line x1="22" y1="40" x2="28" y2="40" stroke="#000" strokeWidth="1"/>
         <line x1="22" y1="260" x2="28" y2="260" stroke="#000" strokeWidth="1"/>
         <text x="15" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000" transform="rotate(-90 15 150)">D = {d + calculation.kantSize} мм</text>
+        
+        <line x1="115" y1="84" x2="115" y2="216" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
+        <line x1="112" y1="84" x2="118" y2="84" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="112" y1="95" x2="118" y2="95" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="112" y1="205" x2="118" y2="205" stroke="#22C55E" strokeWidth="1.5"/>
+        <line x1="112" y1="216" x2="118" y2="216" stroke="#22C55E" strokeWidth="1.5"/>
+        <text x="108" y="150" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#22C55E" transform="rotate(-90 108 150)">ПВХ: {d + 50} мм</text>
         
 
         <text x="220" y="320" textAnchor="middle" fontSize="11" fill="#666">ПВХ пленка: A×B | Общий размер с кантом: +{calculation.kantSize/2}мм с каждой стороны</text>

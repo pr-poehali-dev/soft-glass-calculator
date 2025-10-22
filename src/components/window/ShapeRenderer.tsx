@@ -97,8 +97,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
               const totalWidthPx = 320;
               const scale = totalWidthPx / topSideMm;
               
-              // Расстояние между угловыми люверсами в мм (теперь кант/4 с каждой стороны)
-              const distanceBetweenCornersMm = topSideMm - kantSize / 2;
+              // Расстояние между угловыми люверсами в мм (кант/4 + кант/4 = кант/2)
+              const leftEdgeOffsetMm = kantSize / 4;
+              const rightEdgeOffsetMm = kantSize / 4;
+              const distanceBetweenCornersMm = topSideMm - leftEdgeOffsetMm - rightEdgeOffsetMm;
               
               // Расчет оптимального шага (250-350 мм) для равномерного распределения
               const spacingMm = distanceBetweenCornersMm / (count - 1 || 1);

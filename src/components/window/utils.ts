@@ -11,14 +11,14 @@ export const calculatePerimeter = (calculation: WindowCalculation) => {
 };
 
 export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: number = 250, maxStep: number = 350) => {
-  const topSideMm = calculation.верх + 25; // Размер ПВХ с припуском
   const kantSize = calculation.kantSize;
+  const topSideMm = calculation.верх + kantSize;
   
   // Расстояние между угловыми люверсами по ОСЯМ (от центра до центра)
-  // Первый люверс на расстоянии kantSize/2 от края
-  // Последний люверс на расстоянии kantSize/2 от противоположного края
-  // Расстояние между их центрами = общая длина - kantSize/2 - kantSize/2 = общая длина - kantSize
-  const distanceBetweenCornerAxes = topSideMm - kantSize;
+  // Первый люверс на расстоянии kantSize/4 от края
+  // Последний люверс на расстоянии kantSize/4 от противоположного края
+  // Расстояние между их центрами = общая длина - kantSize/4 - kantSize/4 = общая длина - kantSize/2
+  const distanceBetweenCornerAxes = topSideMm - (kantSize / 4) - (kantSize / 4);
   
   // Подбираем количество люверсов так, чтобы шаг между ОСЯМИ был в диапазоне 250-350 мм
   let count = 2;
@@ -38,16 +38,16 @@ export const calculateGrommetsCount = (calculation: WindowCalculation, minStep: 
 };
 
 export const calculateRingGrommetsCount = (calculation: WindowCalculation, grommetsStepMm: number = 350) => {
-  const leftSideMm = calculation.лево + 25;
-  const rightSideMm = calculation.право + 25;
-  const bottomSideMm = calculation.низ + 25;
   const kantSize = calculation.kantSize;
+  const leftSideMm = calculation.лево + kantSize;
+  const rightSideMm = calculation.право + kantSize;
+  const bottomSideMm = calculation.низ + kantSize;
   
   const calculateSideGrommets = (sideMm: number) => {
     // Расстояние между угловыми люверсами по ОСЯМ (от центра до центра)
-    // Первый люверс на расстоянии kantSize/2 от края
-    // Последний люверс на расстоянии kantSize/2 от противоположного края
-    const distanceBetweenCornerAxes = sideMm - kantSize;
+    // Первый люверс на расстоянии kantSize/4 от края
+    // Последний люверс на расстоянии kantSize/4 от противоположного края
+    const distanceBetweenCornerAxes = sideMm - (kantSize / 4) - (kantSize / 4);
     let count = 2;
     
     if (distanceBetweenCornerAxes <= 0) return 2;

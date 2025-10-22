@@ -24,10 +24,10 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
         <rect x="60" y="40" width="320" height="220" fill="#A0522D" stroke="none"/>
         <rect x="95" y="75" width="250" height="150" fill="#B3E5FC" stroke="none"/>
         
-        <line x1="60" y1="8" x2="380" y2="8" stroke="#000" strokeWidth="1"/>
-        <line x1="60" y1="5" x2="60" y2="11" stroke="#000" strokeWidth="1"/>
-        <line x1="380" y1="5" x2="380" y2="11" stroke="#000" strokeWidth="1"/>
-        <text x="220" y="3" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize} мм</text>
+        <line x1="60" y1="15" x2="380" y2="15" stroke="#000" strokeWidth="1"/>
+        <line x1="60" y1="12" x2="60" y2="18" stroke="#000" strokeWidth="1"/>
+        <line x1="380" y1="12" x2="380" y2="18" stroke="#000" strokeWidth="1"/>
+        <text x="220" y="10" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#000">A = {a + calculation.kantSize} мм</text>
         
         <line x1="104" y1="90" x2="336" y2="90" stroke="#22C55E" strokeWidth="1.5" strokeDasharray="5,3"/>
         <line x1="104" y1="87" x2="104" y2="93" stroke="#22C55E" strokeWidth="1.5"/>

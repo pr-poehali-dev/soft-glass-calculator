@@ -131,7 +131,23 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   };
 
   const updateWindow = (id: string, field: keyof WindowItem, value: number | boolean | string) => {
-    setWindows(windows.map(w => w.id === id ? { ...w, [field]: value } : w));
+    setWindows(windows.map(w => {
+      if (w.id !== id) return w;
+      
+      const updatedWindow = { ...w, [field]: value };
+      
+      // Автоматичний перерахунок люверсів при зміні розмірів
+      if (field === 'верх' || field === 'право' || field === 'низ' || field === 'лево' || field === 'kantSize') {
+        if (updatedWindow.grommets) {
+          updatedWindow.grommetsCount = calculateGrommetsCount(updatedWindow);
+        }
+        if (updatedWindow.ringGrommets) {
+          updatedWindow.ringGrommetsCount = calculateRingGrommetsCount(updatedWindow);
+        }
+      }
+      
+      return updatedWindow;
+    }));
   };
 
   const calculateWindowPrice = (window: WindowItem) => {

@@ -90,7 +90,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                     </tr>
                     <tr className="border-b border-gray-200">
                       <td className="py-2 text-gray-600">Площадь ПВХ:</td>
-                      <td className="py-2 text-right font-medium">{(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м²</td>
+                      <td className="py-2 text-right font-medium">{window.area.toFixed(2)} м²</td>
                     </tr>
                   </tbody>
                 </table>

@@ -164,17 +164,16 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const filmType = filmTypes.find(f => f.id === window.filmType);
     if (!filmType) return { area: 0, price: 0, perimeter: 0 };
 
-    // Размеры верх, право, низ, лево - это размеры ПВХ пленки
-    // Припуск 25 мм с каждой стороны для ПВХ
-    const allowance = 25;
-    const pvcWidth = window.верх + (2 * allowance);
-    const pvcHeight = window.право + (2 * allowance);
+    // Размеры верх, право, низ, лево - это размеры проема
+    // ПВХ делается с припуском 25 мм с каждой стороны
+    const pvcWidth = window.верх + 50;  // +25мм с каждой стороны
+    const pvcHeight = window.право + 50; // +25мм с каждой стороны
 
     // Площадь ПВХ с припуском
     const area = (pvcWidth * pvcHeight) / 1000000;
     let price = area * filmType.price;
 
-    // Общий размер окна = размер ПВХ с припуском + кант/2 с каждой стороны
+    // Общий размер окна = размер ПВХ + кант/2 с каждой стороны
     const kantAddition = window.kantSize / 2;
     const totalWidth = pvcWidth + (2 * kantAddition);
     const totalHeight = pvcHeight + (2 * kantAddition);
@@ -194,7 +193,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       price += window.ringGrommetsCount * 130; // Люверсы 42х22 + Замок
       price += window.ringGrommetsCount * 2 * 2; // Саморезы (2 шт на люверс)
     }
-    if (window.installation) price += 2000;
+    if (window.installation) price += area * 200; // Монтаж 200₽/м²
 
     return { area, price, perimeter: perimeterMeters };
   };
@@ -512,7 +511,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         Размеры ПВХ (с припуском 25мм): <strong>{window.верх + 50} x {window.право + 50} мм</strong>
                       </p>
                       <p className="text-gray-700 text-sm">
-                        Площадь ПВХ: <strong>{(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м²</strong>
+                        Площадь ПВХ: <strong>{window.area.toFixed(2)} м²</strong>
                       </p>
                       {window.perimeter && (
                         <p className="text-gray-700 text-sm">

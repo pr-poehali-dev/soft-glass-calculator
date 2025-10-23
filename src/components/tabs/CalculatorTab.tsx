@@ -411,7 +411,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`ring-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Люверсы 42х22 (55 ₽/шт)
+                      Люверсы 42х22 (55 ₽/шт) + Замок поворотный (75 ₽/шт)
                     </Label>
                   </div>
                   {window.ringGrommets && (
@@ -423,41 +423,12 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                           const newCount = e.target.value === '' ? 0 : parseInt(e.target.value) || 0;
                           const updatedWindows = windows.map(w => {
                             if (w.id === window.id) {
-                              const frenchCount = w.frenchLock ? newCount : w.frenchLockCount;
-                              return { ...w, ringGrommetsCount: newCount, frenchLockCount: frenchCount };
+                              return { ...w, ringGrommetsCount: newCount, frenchLock: true, frenchLockCount: newCount };
                             }
                             return w;
                           });
                           setWindows(updatedWindows);
                         }}
-                        className="w-20 h-8"
-                      />
-                    </div>
-                  )}
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`french-${window.id}`}
-                      checked={window.frenchLock}
-                      onCheckedChange={(checked) => {
-                        const isChecked = checked === true;
-                        const count = isChecked ? window.ringGrommetsCount : 0;
-                        const updatedWindows = windows.map(w => 
-                          w.id === window.id ? { ...w, frenchLock: isChecked, frenchLockCount: count } : w
-                        );
-                        setWindows(updatedWindows);
-                      }}
-                    />
-                    <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Замок поворотный (75 ₽/шт)
-                    </Label>
-                  </div>
-                  {window.frenchLock && (
-                    <div className="ml-6">
-                      <Input
-                        type="number"
-                        value={window.frenchLockCount === 0 ? '' : window.frenchLockCount}
-                        onChange={(e) => updateWindow(window.id, 'frenchLockCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
                         className="w-20 h-8"
                       />
                     </div>

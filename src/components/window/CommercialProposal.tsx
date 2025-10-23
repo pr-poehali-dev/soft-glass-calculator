@@ -77,7 +77,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       <td className="py-2 text-right font-medium">{window.верх} x {window.право} мм</td>
                     </tr>
                     <tr className="border-b border-gray-200">
-                      <td className="py-2 text-gray-600">Размеры ПВХ с припуском:</td>
+                      <td className="py-2 text-gray-600">Размеры ПВХ (с припуском 25мм):</td>
                       <td className="py-2 text-right font-medium">{window.верх + 50} x {window.право + 50} мм</td>
                     </tr>
                     <tr className="border-b border-gray-200">

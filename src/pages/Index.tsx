@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import Icon from '@/components/ui/icon';
 import { WindowCalculation, WindowItem } from '@/components/window/types';
 import { calculatePrice } from '@/components/window/utils';
@@ -15,6 +18,8 @@ import ContactsTab from '@/components/tabs/ContactsTab';
 import CartTab from '@/components/tabs/CartTab';
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
   const [cart, setCart] = useState<WindowItem[]>([]);
   const [calculation, setCalculation] = useState<WindowCalculation>({
     shape: 'rectangle',
@@ -61,6 +66,29 @@ const Index = () => {
               <h1 className="text-lg sm:text-2xl font-roboto font-bold text-gray-900">Полимер-проект</h1>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4">
+              {isAuthenticated ? (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate('/account')}
+                  className="text-xs sm:text-sm"
+                >
+                  <Icon name="User" className="mr-1 sm:mr-2" size={16} />
+                  <span className="hidden sm:inline">{user?.email}</span>
+                  <span className="sm:hidden">Профиль</span>
+                </Button>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate('/auth')}
+                  className="text-xs sm:text-sm"
+                >
+                  <Icon name="LogIn" className="mr-1 sm:mr-2" size={16} />
+                  <span className="hidden sm:inline">Войти</span>
+                  <span className="sm:hidden">Вход</span>
+                </Button>
+              )}
               <Badge variant="outline" className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700 text-xs sm:text-sm px-2 py-1">
                 <Icon name="Phone" size={12} className="mr-1 sm:mr-1" />
                 <span className="hidden sm:inline">+7 (921) 636-36-08</span>

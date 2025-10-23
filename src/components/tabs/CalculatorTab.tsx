@@ -158,7 +158,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
     if (window.frenchLock) price += window.frenchLockCount * 75;
     if (window.measurement) price += 2000;
-    if (window.installation) price += area * 200;
+    if (window.installation) price += 2000;
 
     return { area, price, perimeter: perimeterMeters };
   };

@@ -187,6 +187,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
     if (window.grommets) {
       price += window.grommetsCount * 40; // Люверсы 16мм
+      price += window.grommetsCount * 45; // Пластиковые клипсы (1 шт на люверс)
       price += window.grommetsCount * 2; // Саморезы (1 шт на люверс)
     }
     if (window.ringGrommets) {

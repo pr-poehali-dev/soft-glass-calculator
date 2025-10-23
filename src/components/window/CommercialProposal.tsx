@@ -106,8 +106,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                             <span className="font-medium">{window.grommetsCount * 40} ₽</span>
                           </li>
                           <li className="flex justify-between">
-                            <span>• Пластиковая клипса для крепления ({window.grommetsCount} шт × 0 ₽)</span>
-                            <span className="font-medium">0 ₽</span>
+                            <span>• Пластиковая клипса для крепления ({window.grommetsCount} шт × 45 ₽)</span>
+                            <span className="font-medium">{window.grommetsCount * 45} ₽</span>
                           </li>
                           <li className="flex justify-between">
                             <span>• Саморез 30 по дереву ({window.grommetsCount} шт × 2 ₽)</span>

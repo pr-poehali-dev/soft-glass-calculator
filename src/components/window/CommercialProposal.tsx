@@ -100,29 +100,30 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                     <p className="font-semibold text-gray-900 mb-2">Дополнительные опции:</p>
                     <ul className="space-y-1 text-sm">
                       {window.grommets && (
-                        <li className="flex justify-between">
-                          <span>• Люверсы 16мм ({window.grommetsCount} шт × 40 ₽)</span>
-                          <span className="font-medium">{window.grommetsCount * 40} ₽</span>
-                        </li>
+                        <>
+                          <li className="flex justify-between">
+                            <span>• Люверсы 16мм ({window.grommetsCount} шт × 40 ₽)</span>
+                            <span className="font-medium">{window.grommetsCount * 40} ₽</span>
+                          </li>
+                          <li className="flex justify-between">
+                            <span>• Саморез 30 по дереву ({window.grommetsCount} шт × 2 ₽)</span>
+                            <span className="font-medium">{window.grommetsCount * 2} ₽</span>
+                          </li>
+                        </>
                       )}
                       {window.ringGrommets && (
                         <>
                           <li className="flex justify-between">
-                            <span>• Кольцевые люверсы 42х22 ({window.ringGrommetsCount} шт × 55 ₽)</span>
-                            <span className="font-medium">{window.ringGrommetsCount * 55} ₽</span>
+                            <span>• Люверсы 42х22 + Замок поворотный ({window.ringGrommetsCount} шт × 130 ₽)</span>
+                            <span className="font-medium">{window.ringGrommetsCount * 130} ₽</span>
                           </li>
                           <li className="flex justify-between">
-                            <span>• Скоба поворотная ({window.ringGrommetsCount} шт × 25 ₽)</span>
-                            <span className="font-medium">{window.ringGrommetsCount * 25} ₽</span>
+                            <span>• Саморез 30 по дереву ({window.ringGrommetsCount * 2} шт × 2 ₽)</span>
+                            <span className="font-medium">{window.ringGrommetsCount * 2 * 2} ₽</span>
                           </li>
                         </>
                       )}
-                      {window.frenchLock && (
-                        <li className="flex justify-between">
-                          <span>• Скоба поворотная ({window.frenchLockCount} шт × 25 ₽)</span>
-                          <span className="font-medium">{window.frenchLockCount * 25} ₽</span>
-                        </li>
-                      )}
+
 
                       {window.installation && (
                         <li className="flex justify-between">
@@ -181,8 +182,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                 <h3 className="font-semibold mb-2 text-gray-900">Фурнитура:</h3>
                 <ul className="space-y-1 text-gray-700">
                   <li>• Люверс 16мм — 40 ₽/шт</li>
-                  <li>• Люверс кольцевой 42х22 — 55 ₽/шт</li>
-                  <li>• Французский замок — 70 ₽/м²</li>
+                  <li>• Люверс 42х22 + Замок поворотный — 130 ₽/шт</li>
+                  <li>• Саморез 30 по дереву — 2 ₽/шт</li>
                 </ul>
               </div>
               <div>

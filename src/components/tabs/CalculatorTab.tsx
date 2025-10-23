@@ -185,8 +185,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const kantPricePerMeter = kantType ? kantType.price : 150;
     price += perimeterMeters * kantPricePerMeter;
 
-    if (window.grommets) price += window.grommetsCount * 40;
-    if (window.ringGrommets) price += window.ringGrommetsCount * 130;
+    if (window.grommets) {
+      price += window.grommetsCount * 40; // Люверсы 16мм
+      price += window.grommetsCount * 2; // Саморезы (1 шт на люверс)
+    }
+    if (window.ringGrommets) {
+      price += window.ringGrommetsCount * 130; // Люверсы 42х22 + Замок
+      price += window.ringGrommetsCount * 2 * 2; // Саморезы (2 шт на люверс)
+    }
     if (window.installation) price += 2000;
 
     return { area, price, perimeter: perimeterMeters };

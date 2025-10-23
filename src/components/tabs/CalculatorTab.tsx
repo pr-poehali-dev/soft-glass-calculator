@@ -466,6 +466,17 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       Монтаж (+200 ₽/м²)
                     </Label>
                   </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="global-measurement"
+                      checked={globalMeasurement}
+                      onCheckedChange={(checked) => setGlobalMeasurement(checked === true)}
+                    />
+                    <Label htmlFor="global-measurement" className="text-gray-700 text-sm cursor-pointer">
+                      Выполнить замер (+2000 ₽)
+                    </Label>
+                  </div>
                 </div>
 
                 <Button 

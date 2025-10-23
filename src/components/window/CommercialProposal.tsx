@@ -77,6 +77,10 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       <td className="py-2 text-right font-medium">{window.верх} x {window.право} мм</td>
                     </tr>
                     <tr className="border-b border-gray-200">
+                      <td className="py-2 text-gray-600">Размеры ПВХ с припуском:</td>
+                      <td className="py-2 text-right font-medium">{window.верх + 50} x {window.право + 50} мм</td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
                       <td className="py-2 text-gray-600">Тип пленки:</td>
                       <td className="py-2 text-right font-medium">{getFilmTypeName(window.filmType)} (700 ₽/м²)</td>
                     </tr>
@@ -85,7 +89,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       <td className="py-2 text-right font-medium">{window.kantSize} мм (75 ₽/м)</td>
                     </tr>
                     <tr className="border-b border-gray-200">
-                      <td className="py-2 text-gray-600">Площадь окна:</td>
+                      <td className="py-2 text-gray-600">Площадь ПВХ:</td>
                       <td className="py-2 text-right font-medium">{window.area.toFixed(2)} м²</td>
                     </tr>
                   </tbody>

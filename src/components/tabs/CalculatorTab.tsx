@@ -410,7 +410,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`ring-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Люверсы 42х22 (55 ₽/шт) + Замок поворотный (75 ₽/шт)
+                      Люверсы 42х22 + Замок поворотный (130 ₽/шт)
                     </Label>
                   </div>
                   {window.ringGrommets && (

@@ -411,7 +411,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`ring-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Кольцевые люверсы 42х22 (55 ₽/шт)
+                      Люверсы 42х22 (55 ₽/шт)
                     </Label>
                   </div>
                   {window.ringGrommets && (
@@ -449,7 +449,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`french-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Скоба поворотная (75 ₽/шт)
+                      Замок поворотный (75 ₽/шт)
                     </Label>
                   </div>
                   {window.frenchLock && (
@@ -462,8 +462,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       />
                     </div>
                   )}
-
-
 
                   <div className="flex items-center space-x-2">
                     <Checkbox

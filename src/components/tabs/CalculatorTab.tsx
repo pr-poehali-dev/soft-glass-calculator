@@ -144,7 +144,16 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
         }
         if (updatedWindow.ringGrommets) {
           updatedWindow.ringGrommetsCount = calculateRingGrommetsCount(updatedWindow);
+          updatedWindow.frenchLockCount = updatedWindow.ringGrommetsCount;
         }
+      }
+      
+      // Автоматичний перерахунок скоб при зміні кільцевих люверсів
+      if (field === 'ringGrommets' && value === true) {
+        updatedWindow.ringGrommetsCount = calculateRingGrommetsCount(updatedWindow);
+        updatedWindow.frenchLockCount = updatedWindow.ringGrommetsCount;
+      } else if (field === 'ringGrommets' && value === false) {
+        updatedWindow.frenchLockCount = 0;
       }
       
       return updatedWindow;

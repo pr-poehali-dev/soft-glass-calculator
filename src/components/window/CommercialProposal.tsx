@@ -118,8 +118,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       )}
                       {window.installation && (
                         <li className="flex justify-between">
-                          <span>• Монтаж ({window.area.toFixed(2)} м² × 200 ₽)</span>
-                          <span className="font-medium">{(window.area * 200).toFixed(0)} ₽</span>
+                          <span>• Монтаж</span>
+                          <span className="font-medium">2000 ₽</span>
                         </li>
                       )}
                     </ul>
@@ -175,7 +175,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                 <h3 className="font-semibold mb-2 text-gray-900">Услуги:</h3>
                 <ul className="space-y-1 text-gray-700">
                   <li>• Замер — 2000 ₽</li>
-                  <li>• Монтаж — 200 ₽/м²</li>
+                  <li>• Монтаж — 2000 ₽</li>
                 </ul>
               </div>
             </div>

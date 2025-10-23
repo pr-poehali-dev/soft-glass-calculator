@@ -5,11 +5,14 @@ import Icon from '@/components/ui/icon';
 interface CommercialProposalProps {
   windows: WindowItem[];
   onClose: () => void;
+  globalMeasurement?: boolean;
 }
 
-const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose }) => {
+const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false }) => {
   const calculateTotal = () => {
-    return windows.reduce((sum, w) => sum + w.price, 0);
+    const windowsTotal = windows.reduce((sum, w) => sum + w.price, 0);
+    const measurementCost = globalMeasurement ? 2000 : 0;
+    return windowsTotal + measurementCost;
   };
 
   const calculateTotalArea = () => {
@@ -88,7 +91,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                   </tbody>
                 </table>
 
-                {(window.grommets || window.ringGrommets || window.frenchLock || window.measurement || window.installation) && (
+                {(window.grommets || window.ringGrommets || window.frenchLock || window.installation) && (
                   <div className="mt-3 bg-gray-50 p-3 rounded">
                     <p className="font-semibold text-gray-900 mb-2">Дополнительные опции:</p>
                     <ul className="space-y-1 text-sm">
@@ -110,12 +113,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                           <span className="font-medium">{window.frenchLockCount * 75} ₽</span>
                         </li>
                       )}
-                      {window.measurement && (
-                        <li className="flex justify-between">
-                          <span>• Выполнить замер</span>
-                          <span className="font-medium">2000 ₽</span>
-                        </li>
-                      )}
+
                       {window.installation && (
                         <li className="flex justify-between">
                           <span>• Монтаж ({window.area.toFixed(2)} м² × 200 ₽)</span>
@@ -146,6 +144,12 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                 <span className="text-gray-900">Общая площадь:</span>
                 <span className="font-bold">{calculateTotalArea().toFixed(2)} м²</span>
               </div>
+              {globalMeasurement && (
+                <div className="flex justify-between text-lg pt-2 border-t border-blue-300">
+                  <span className="text-gray-900">Выполнить замер:</span>
+                  <span className="font-bold">2000 ₽</span>
+                </div>
+              )}
               <div className="flex justify-between text-2xl font-bold pt-3 border-t-2 border-blue-300">
                 <span className="text-gray-900">Итого к оплате:</span>
                 <span className="text-blue-600">{calculateTotal().toFixed(0)} ₽</span>

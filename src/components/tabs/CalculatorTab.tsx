@@ -26,6 +26,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [proposalOpen, setProposalOpen] = useState(false);
   const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
   const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
+  const [globalMeasurement, setGlobalMeasurement] = useState(false);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -173,7 +174,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     if (window.grommets) price += window.grommetsCount * 40;
     if (window.ringGrommets) price += window.ringGrommetsCount * 55;
     if (window.frenchLock) price += window.frenchLockCount * 75;
-    if (window.measurement) price += 2000;
     if (window.installation) price += 2000;
 
     return { area, price, perimeter: perimeterMeters };
@@ -195,7 +195,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   };
 
   const calculateTotal = () => {
-    return windows.reduce((sum, w) => sum + w.price, 0);
+    const windowsTotal = windows.reduce((sum, w) => sum + w.price, 0);
+    const measurementCost = globalMeasurement ? 2000 : 0;
+    return windowsTotal + measurementCost;
   };
 
   const calculateTotalArea = () => {
@@ -447,21 +449,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     </div>
                   )}
 
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`measurement-${window.id}`}
-                      checked={window.measurement}
-                      onCheckedChange={(checked) => {
-                        const updatedWindows = windows.map(w => 
-                          w.id === window.id ? { ...w, measurement: checked === true } : w
-                        );
-                        setWindows(updatedWindows);
-                      }}
-                    />
-                    <Label htmlFor={`measurement-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Выполнить замер (+2000 ₽)
-                    </Label>
-                  </div>
+
 
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -496,7 +484,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         if (w.grommets) price += w.grommetsCount * 40;
                         if (w.ringGrommets) price += w.ringGrommetsCount * 55;
                         if (w.frenchLock) price += w.frenchLockCount * 25;
-                        if (w.measurement) price += 500;
                         if (w.installation) price += area * 200;
                         
                         return { ...w, area, price, perimeter };
@@ -558,6 +545,16 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                     <div className="flex justify-between text-gray-900">
                       <span>Общая площадь:</span>
                       <strong>{calculateTotalArea().toFixed(2)} м²</strong>
+                    </div>
+                    <div className="flex items-center space-x-2 py-2 border-t border-blue-300">
+                      <Checkbox
+                        id="global-measurement"
+                        checked={globalMeasurement}
+                        onCheckedChange={(checked) => setGlobalMeasurement(checked === true)}
+                      />
+                      <Label htmlFor="global-measurement" className="text-gray-700 text-sm cursor-pointer">
+                        Выполнить замер (+2000 ₽)
+                      </Label>
                     </div>
                     <div className="flex justify-between text-gray-900 text-2xl font-bold pt-3 border-t border-blue-300">
                       <span>Итого:</span>
@@ -679,6 +676,14 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
             </div>
           </CardContent>
         </Card>
+      )}
+      
+      {proposalOpen && (
+        <CommercialProposal 
+          windows={proposalWindows}
+          onClose={() => setProposalOpen(false)}
+          globalMeasurement={globalMeasurement}
+        />
       )}
     </div>
   );

@@ -537,7 +537,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         Размеры ПВХ (с припуском 25мм): <strong>{window.верх + 50} x {window.право + 50} мм</strong>
                       </p>
                       <p className="text-gray-700 text-sm">
-                        Площадь ПВХ: <strong>{window.area.toFixed(2)} м²</strong>
+                        Площадь ПВХ: <strong>{(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м²</strong>
                       </p>
                       {window.perimeter && (
                         <p className="text-gray-700 text-sm">

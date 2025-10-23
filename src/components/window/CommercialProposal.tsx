@@ -102,15 +102,21 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                         </li>
                       )}
                       {window.ringGrommets && (
-                        <li className="flex justify-between">
-                          <span>• Кольцевые люверсы 42х22 ({window.ringGrommetsCount} шт × 55 ₽)</span>
-                          <span className="font-medium">{window.ringGrommetsCount * 55} ₽</span>
-                        </li>
+                        <>
+                          <li className="flex justify-between">
+                            <span>• Кольцевые люверсы 42х22 ({window.ringGrommetsCount} шт × 55 ₽)</span>
+                            <span className="font-medium">{window.ringGrommetsCount * 55} ₽</span>
+                          </li>
+                          <li className="flex justify-between">
+                            <span>• Скоба поворотная ({window.ringGrommetsCount} шт × 25 ₽)</span>
+                            <span className="font-medium">{window.ringGrommetsCount * 25} ₽</span>
+                          </li>
+                        </>
                       )}
                       {window.frenchLock && (
                         <li className="flex justify-between">
-                          <span>• Скоба поворотная ({window.frenchLockCount} шт × 75 ₽)</span>
-                          <span className="font-medium">{window.frenchLockCount * 75} ₽</span>
+                          <span>• Скоба поворотная ({window.frenchLockCount} шт × 25 ₽)</span>
+                          <span className="font-medium">{window.frenchLockCount * 25} ₽</span>
                         </li>
                       )}
 

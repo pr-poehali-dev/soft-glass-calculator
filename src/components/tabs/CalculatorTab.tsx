@@ -493,7 +493,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         price += perimeter * kantPrice;
                         
                         if (w.grommets) price += w.grommetsCount * 40;
-                        if (w.ringGrommets) price += w.ringGrommetsCount * 55;
+                        if (w.ringGrommets) {
+                          price += w.ringGrommetsCount * 55;
+                          price += w.ringGrommetsCount * 25;
+                        }
                         if (w.frenchLock) price += w.frenchLockCount * 25;
                         if (w.installation) price += area * 200;
                         

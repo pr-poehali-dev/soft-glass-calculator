@@ -124,7 +124,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   };
   
   const addToCart = (window: WindowItem) => {
-    setCart([...cart, { ...window, id: Date.now().toString() }]);
+    const { area, price, perimeter } = calculateWindowPrice(window);
+    setCart([...cart, { ...window, area, price, perimeter, id: Date.now().toString() }]);
   };
   
   const removeFromCart = (id: string) => {

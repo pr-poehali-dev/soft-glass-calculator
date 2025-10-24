@@ -37,24 +37,16 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         windows = body_data.get('windows', [])
         total = body_data.get('total', 0)
         images = body_data.get('images', [])
-        client_name = body_data.get('clientName', 'Не указано')
-        client_phone = body_data.get('clientPhone', 'Не указано')
         
         msg = MIMEMultipart()
         msg['From'] = 'noreply@poehali.dev'
         msg['To'] = email_to
-        msg['Subject'] = f'Заявка от {client_name} - {len(windows)} окон'
+        msg['Subject'] = f'Заявка на расчет ПВХ окон - {len(windows)} шт'
         
         html_content = f"""
         <html>
         <body style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
             <h2 style="color: #2563eb;">Новая заявка на расчет ПВХ окон</h2>
-            
-            <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2563eb;">
-                <h3 style="color: #1f2937; margin-top: 0;">Контактная информация:</h3>
-                <p style="margin: 5px 0;"><strong>Имя:</strong> {client_name}</p>
-                <p style="margin: 5px 0;"><strong>Телефон:</strong> {client_phone}</p>
-            </div>
             
             <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 5px 0;"><strong>Количество окон:</strong> {len(windows)} шт</p>

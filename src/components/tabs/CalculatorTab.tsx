@@ -173,12 +173,12 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const pvcArea = (pvcWidth * pvcHeight) / 1000000;
     let price = pvcArea * filmType.price;
 
-    // Общий размер окна = размер проема + кант/2 с каждой стороны
+    // Общий размер окна = размер ПВХ (с припуском) + кант/2 с каждой стороны
     const kantAddition = window.kantSize / 2;
-    const totalWidth = window.верх + (2 * kantAddition);
-    const totalHeight = window.право + (2 * kantAddition);
+    const totalWidth = pvcWidth + (2 * kantAddition);
+    const totalHeight = pvcHeight + (2 * kantAddition);
 
-    // Общая площадь окна (без припуска ПВХ, только с кантом)
+    // Общая площадь окна (с припуском ПВХ + кант)
     const totalArea = (totalWidth * totalHeight) / 1000000;
 
     // Расчет канта (периметр в метрах * цена за метр)

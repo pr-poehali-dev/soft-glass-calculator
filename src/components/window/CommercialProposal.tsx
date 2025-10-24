@@ -9,8 +9,40 @@ interface CommercialProposalProps {
 }
 
 const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false }) => {
+  const calculateWindowTotal = (window: WindowItem) => {
+    let total = 0;
+    
+    // ПВХ с припуском
+    const areaWithAllowance = ((window.верх + 50) * (window.право + 50)) / 1000000;
+    total += areaWithAllowance * 700;
+    
+    // Кант
+    const perimeter = ((window.верх + 50 + (window.kantSize || 40) / 2) * 2 + (window.право + 50 + (window.kantSize || 40) / 2) * 2) / 1000;
+    total += perimeter * 75;
+    
+    // Люверсы 16мм
+    if (window.grommets) {
+      total += window.grommetsCount * 40; // Люверсы
+      total += window.grommetsCount * 45; // Клипсы
+      total += window.grommetsCount * 2;  // Саморезы
+    }
+    
+    // Люверсы 42х22
+    if (window.ringGrommets) {
+      total += window.ringGrommetsCount * 130; // Люверсы + замок
+      total += window.ringGrommetsCount * 2 * 2; // Саморезы
+    }
+    
+    // Монтаж
+    if (window.installation) {
+      total += window.area * 200;
+    }
+    
+    return total;
+  };
+
   const calculateTotal = () => {
-    const windowsTotal = windows.reduce((sum, w) => sum + w.price, 0);
+    const windowsTotal = windows.reduce((sum, w) => sum + calculateWindowTotal(w), 0);
     const measurementCost = globalMeasurement ? 2000 : 0;
     return windowsTotal + measurementCost;
   };
@@ -171,7 +203,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                 <div className="mt-3 pt-3 border-t border-gray-300">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-gray-900">Стоимость окна №{index + 1}:</span>
-                    <span className="font-bold text-xl text-blue-600">{window.price.toFixed(0)} ₽</span>
+                    <span className="font-bold text-xl text-blue-600">{calculateWindowTotal(window).toFixed(0)} ₽</span>
                   </div>
                 </div>
               </div>

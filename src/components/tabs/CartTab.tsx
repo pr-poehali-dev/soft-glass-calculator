@@ -97,7 +97,7 @@ const CartTab: React.FC<CartTabProps> = ({ cart, onRemoveFromCart, onClearCart, 
 
                 <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                   <p className="text-gray-700 text-sm">
-                    Площадь: <strong>{item.area.toFixed(2)} м²</strong>
+                    Общая площадь: <strong>{item.area.toFixed(2)} м²</strong>
                   </p>
                   {item.perimeter && (
                     <p className="text-gray-700 text-sm">

@@ -27,6 +27,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
   const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
   const [globalMeasurement, setGlobalMeasurement] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -560,6 +561,61 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                 </CardContent>
               </Card>
 
+              <Card className="bg-gray-50 border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900 text-base">Фотографии объекта (до 10 шт)</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <Label htmlFor="image-upload" className="cursor-pointer">
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 transition-colors text-center">
+                        <Icon name="Upload" className="mx-auto mb-2 text-gray-400" size={32} />
+                        <p className="text-sm text-gray-600">Нажмите для загрузки фото</p>
+                        <p className="text-xs text-gray-400 mt-1">Загружено: {uploadedImages.length}/10</p>
+                      </div>
+                    </Label>
+                    <Input
+                      id="image-upload"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        const remaining = 10 - uploadedImages.length;
+                        const newFiles = files.slice(0, remaining);
+                        setUploadedImages([...uploadedImages, ...newFiles]);
+                        e.target.value = '';
+                      }}
+                      className="hidden"
+                    />
+                  </div>
+
+                  {uploadedImages.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {uploadedImages.map((file, idx) => (
+                        <div key={idx} className="relative group">
+                          <img 
+                            src={URL.createObjectURL(file)} 
+                            alt={`Фото ${idx + 1}`}
+                            className="w-full h-24 object-cover rounded border border-gray-200"
+                          />
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => {
+                              setUploadedImages(uploadedImages.filter((_, i) => i !== idx));
+                            }}
+                          >
+                            <Icon name="X" size={14} />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
               <Button 
                 onClick={() => {
                   setProposalWindows(windows);
@@ -581,6 +637,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
         <CommercialProposal 
           windows={proposalWindows}
           onClose={() => setProposalOpen(false)}
+          globalMeasurement={globalMeasurement}
+          uploadedImages={uploadedImages}
         />
       )}
       

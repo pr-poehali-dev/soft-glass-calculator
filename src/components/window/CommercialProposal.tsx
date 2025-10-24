@@ -6,9 +6,11 @@ interface CommercialProposalProps {
   windows: WindowItem[];
   onClose: () => void;
   globalMeasurement?: boolean;
+  uploadedImages?: File[];
 }
 
-const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false }) => {
+const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false, uploadedImages = [] }) => {
+  const [isSending, setIsSending] = React.useState(false);
   const calculateWindowTotal = (window: WindowItem) => {
     let total = 0;
     
@@ -78,6 +80,49 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
     window.print();
   };
 
+  const handleSendEmail = async () => {
+    setIsSending(true);
+    try {
+      const imagePromises = uploadedImages.map(file => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64 = reader.result as string;
+            resolve(base64.split(',')[1]);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const images = await Promise.all(imagePromises);
+
+      const response = await fetch('https://functions.poehali.dev/37c88ed4-173c-48ae-9ad3-26cf25013d4b', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          windows,
+          total: calculateTotal(),
+          images
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка отправки');
+      }
+
+      alert('Заявка успешно отправлена на email!');
+      onClose();
+    } catch (error) {
+      alert('Ошибка при отправке заявки. Попробуйте позже.');
+      console.error(error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   const getFilmTypeName = (filmType: string) => {
     const types: Record<string, string> = {
       transparent: 'Прозрачная ПВХ',
@@ -93,6 +138,14 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
         <div className="print:hidden sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center">
           <h2 className="text-xl font-bold text-gray-900">Коммерческое предложение</h2>
           <div className="flex gap-2">
+            <button
+              onClick={handleSendEmail}
+              disabled={isSending}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Icon name="Mail" size={18} />
+              {isSending ? 'Отправка...' : 'Отправить на email'}
+            </button>
             <button
               onClick={handlePrint}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"

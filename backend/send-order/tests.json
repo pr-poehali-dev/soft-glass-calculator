@@ -1,0 +1,25 @@
+{
+  "tests": [
+    {
+      "name": "Отправка заявки с расчетом",
+      "method": "POST",
+      "body": {
+        "windows": [
+          {
+            "верх": 1000,
+            "право": 1000,
+            "area": 1.0,
+            "price": 500
+          }
+        ],
+        "total": 500,
+        "images": []
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

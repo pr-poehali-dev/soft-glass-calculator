@@ -123,6 +123,10 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                       <span>• Площадь окна с припуском ПВХ ({(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м² × 700 ₽):</span>
                       <span className="font-medium">{(((window.верх + 50) * (window.право + 50)) / 1000000 * 700).toFixed(0)} ₽</span>
                     </li>
+                    <li className="flex justify-between">
+                      <span>• Кант ({(((window.верх + 50 + (window.kantSize || 40) / 2) * 2 + (window.право + 50 + (window.kantSize || 40) / 2) * 2) / 1000).toFixed(2)} м × 75 ₽):</span>
+                      <span className="font-medium">{(((window.верх + 50 + (window.kantSize || 40) / 2) * 2 + (window.право + 50 + (window.kantSize || 40) / 2) * 2) / 1000 * 75).toFixed(0)} ₽</span>
+                    </li>
                     {window.grommets && (
                       <>
                         <li className="flex justify-between">

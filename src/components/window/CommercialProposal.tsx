@@ -120,8 +120,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                   <p className="font-semibold text-gray-900 mb-2">Дополнительные опции:</p>
                   <ul className="space-y-1 text-sm">
                     <li className="flex justify-between">
-                      <span>• Площадь окна с припуском ПВХ:</span>
-                      <span className="font-medium">{(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м²</span>
+                      <span>• Площадь окна с припуском ПВХ ({(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м² × 700 ₽):</span>
+                      <span className="font-medium">{(((window.верх + 50) * (window.право + 50)) / 1000000 * 700).toFixed(0)} ₽</span>
                     </li>
                     {window.grommets && (
                       <>

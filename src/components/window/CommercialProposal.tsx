@@ -12,6 +12,12 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
   const calculateWindowTotal = (window: WindowItem) => {
     let total = 0;
     
+    // Общий размер окна = размер ПВХ (с припуском) + кант/2 с каждой стороны
+    const kantAddition = window.kantSize / 2;
+    const totalWidth = window.верх + 50 + (2 * kantAddition);
+    const totalHeight = window.право + 50 + (2 * kantAddition);
+    const totalArea = (totalWidth * totalHeight) / 1000000;
+    
     // ПВХ с припуском
     const areaWithAllowance = ((window.верх + 50) * (window.право + 50)) / 1000000;
     total += areaWithAllowance * 700;
@@ -35,7 +41,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
     
     // Монтаж
     if (window.installation) {
-      total += window.area * 200;
+      total += totalArea * 200;
     }
     
     return total;

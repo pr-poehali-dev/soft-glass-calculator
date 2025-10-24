@@ -26,6 +26,16 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
     }, 0);
   };
 
+  const calculateTotalAreaWithKant = () => {
+    return windows.reduce((sum, w) => {
+      const kantSize = w.kantSize || 40;
+      const widthWithKant = w.верх + 50 + kantSize * 2;
+      const heightWithKant = w.право + 50 + kantSize * 2;
+      const areaWithKant = (widthWithKant * heightWithKant) / 1000000;
+      return sum + areaWithKant;
+    }, 0);
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -173,6 +183,10 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
               <div className="flex justify-between text-lg">
                 <span className="text-gray-900">Общая площадь с припуском:</span>
                 <span className="font-bold">{calculateTotalAreaWithAllowance().toFixed(2)} м²</span>
+              </div>
+              <div className="flex justify-between text-lg">
+                <span className="text-gray-900">Общая площадь ПВХ (с припуском и кантом):</span>
+                <span className="font-bold">{calculateTotalAreaWithKant().toFixed(2)} м²</span>
               </div>
               {globalMeasurement && (
                 <div className="flex justify-between text-lg pt-2 border-t border-blue-300">

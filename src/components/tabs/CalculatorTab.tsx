@@ -165,41 +165,41 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     const filmType = filmTypes.find(f => f.id === window.filmType);
     if (!filmType) return { area: 0, price: 0, perimeter: 0 };
 
-    // Размеры верх, право, низ, лево - это размеры проема
-    // ПВХ делается с припуском 25 мм с каждой стороны
-    const pvcWidth = window.верх + 50;  // +25мм с каждой стороны
-    const pvcHeight = window.право + 50; // +25мм с каждой стороны
-
-    // Площадь ПВХ с припуском (для расчета стоимости пленки)
-    const pvcArea = (pvcWidth * pvcHeight) / 1000000;
-    let price = pvcArea * filmType.price;
-
+    let price = 0;
+    
     // Общий размер окна = размер ПВХ (с припуском) + кант/2 с каждой стороны
     const kantAddition = window.kantSize / 2;
-    const totalWidth = pvcWidth + (2 * kantAddition);
-    const totalHeight = pvcHeight + (2 * kantAddition);
-
-    // Общая площадь окна (с припуском ПВХ + кант)
+    const totalWidth = window.верх + 50 + (2 * kantAddition);
+    const totalHeight = window.право + 50 + (2 * kantAddition);
     const totalArea = (totalWidth * totalHeight) / 1000000;
-
-    // Расчет канта (периметр в метрах * цена за метр)
-    const perimeterMeters = ((totalWidth + totalHeight) * 2) / 1000;
-    const kantType = kantSizes.find(k => k.size === window.kantSize);
-    const kantPricePerMeter = kantType ? kantType.price : 150;
-    price += perimeterMeters * kantPricePerMeter;
-
+    
+    // ПВХ с припуском
+    const areaWithAllowance = ((window.верх + 50) * (window.право + 50)) / 1000000;
+    price += areaWithAllowance * 700;
+    
+    // Кант - периметр с учётом припуска и половины канта
+    const perimeter = ((window.верх + 50 + (window.kantSize || 40) / 2) * 2 + (window.право + 50 + (window.kantSize || 40) / 2) * 2) / 1000;
+    price += perimeter * 75;
+    
+    // Люверсы 16мм
     if (window.grommets) {
-      price += window.grommetsCount * 40; // Люверсы 16мм
-      price += window.grommetsCount * 45; // Пластиковые клипсы (1 шт на люверс)
-      price += window.grommetsCount * 2; // Саморезы (1 шт на люверс)
+      price += window.grommetsCount * 40; // Люверсы
+      price += window.grommetsCount * 45; // Клипсы
+      price += window.grommetsCount * 2;  // Саморезы
     }
+    
+    // Люверсы 42х22
     if (window.ringGrommets) {
-      price += window.ringGrommetsCount * 130; // Люверсы 42х22 + Замок
-      price += window.ringGrommetsCount * 2 * 2; // Саморезы (2 шт на люверс)
+      price += window.ringGrommetsCount * 130; // Люверсы + замок
+      price += window.ringGrommetsCount * 2 * 2; // Саморезы
     }
-    if (window.installation) price += totalArea * 200; // Монтаж 200₽/м²
+    
+    // Монтаж
+    if (window.installation) {
+      price += totalArea * 200;
+    }
 
-    return { area: totalArea, price, perimeter: perimeterMeters };
+    return { area: totalArea, price, perimeter };
   };
 
   const calculateAllWindows = () => {

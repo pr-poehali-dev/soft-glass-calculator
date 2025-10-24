@@ -198,7 +198,7 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                     {window.installation && (
                       <>
                         <li className="flex justify-between">
-                          <span>• Монтаж ({(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м² × 200 ₽)</span>
+                          <span>• Монтаж ({window.area.toFixed(2)} м² × 200 ₽)</span>
                           <span className="font-medium">{(window.area * 200).toFixed(0)} ₽</span>
                         </li>
                       </>

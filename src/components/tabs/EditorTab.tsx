@@ -9,6 +9,50 @@ import ImageEditor from '@/components/ImageEditor';
 const EditorTab: React.FC = () => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const handleSendEmail = async () => {
+    if (uploadedImages.length === 0) {
+      alert('Загрузите хотя бы одну фотографию');
+      return;
+    }
+
+    setIsSending(true);
+    try {
+      const imagePromises = uploadedImages.map(async (file) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const images = await Promise.all(imagePromises);
+
+      const response = await fetch('https://functions.poehali.dev/37c88ed4-173c-48ae-9ad3-26cf25013d4b', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          windows: [],
+          total: 0,
+          images
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка отправки');
+      }
+
+      alert('Фотографии успешно отправлены на почту!');
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      alert('Не удалось отправить фотографии. Попробуйте еще раз.');
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -75,15 +119,26 @@ const EditorTab: React.FC = () => {
                 <h3 className="font-semibold text-gray-900">
                   Загруженные изображения ({uploadedImages.length})
                 </h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setUploadedImages([])}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Icon name="Trash2" className="mr-2" size={16} />
-                  Удалить все
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    onClick={handleSendEmail}
+                    disabled={isSending}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    <Icon name="Mail" className="mr-2" size={16} />
+                    {isSending ? 'Отправка...' : 'Отправить на почту'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setUploadedImages([])}
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <Icon name="Trash2" className="mr-2" size={16} />
+                    Удалить все
+                  </Button>
+                </div>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

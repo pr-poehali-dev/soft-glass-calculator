@@ -383,7 +383,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       }}
                     />
                     <Label htmlFor={`grommets-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
-                      Люверсы 16мм (40 ₽/шт) + Пластиковая клипса для крепления
+                      Люверсы 16мм (40 ₽/шт) + Пластиковая клипса для крепления (45 ₽/шт)
                     </Label>
                   </div>
                   {window.grommets && (

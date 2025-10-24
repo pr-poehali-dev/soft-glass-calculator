@@ -99,51 +99,53 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                   </tbody>
                 </table>
 
-                {(window.grommets || window.ringGrommets || window.frenchLock || window.installation) && (
-                  <div className="mt-3 bg-gray-50 p-3 rounded">
-                    <p className="font-semibold text-gray-900 mb-2">Дополнительные опции:</p>
-                    <ul className="space-y-1 text-sm">
-                      {window.grommets && (
-                        <>
-                          <li className="flex justify-between">
-                            <span>• Люверсы 16мм ({window.grommetsCount} шт × 40 ₽)</span>
-                            <span className="font-medium">{window.grommetsCount * 40} ₽</span>
-                          </li>
-                          <li className="flex justify-between">
-                            <span>• Пластиковая клипса для крепления ({window.grommetsCount} шт × 45 ₽)</span>
-                            <span className="font-medium">{window.grommetsCount * 45} ₽</span>
-                          </li>
-                          <li className="flex justify-between">
-                            <span>• Саморез 30 по дереву ({window.grommetsCount} шт × 2 ₽)</span>
-                            <span className="font-medium">{window.grommetsCount * 2} ₽</span>
-                          </li>
-                        </>
-                      )}
-                      {window.ringGrommets && (
-                        <>
-                          <li className="flex justify-between">
-                            <span>• Люверсы 42х22 + Замок поворотный ({window.ringGrommetsCount} шт × 130 ₽)</span>
-                            <span className="font-medium">{window.ringGrommetsCount * 130} ₽</span>
-                          </li>
-                          <li className="flex justify-between">
-                            <span>• Саморез 30 по дереву ({window.ringGrommetsCount * 2} шт × 2 ₽)</span>
-                            <span className="font-medium">{window.ringGrommetsCount * 2 * 2} ₽</span>
-                          </li>
-                        </>
-                      )}
+                <div className="mt-3 bg-gray-50 p-3 rounded">
+                  <p className="font-semibold text-gray-900 mb-2">Дополнительные опции:</p>
+                  <ul className="space-y-1 text-sm">
+                    <li className="flex justify-between">
+                      <span>• Площадь окна с припуском ПВХ:</span>
+                      <span className="font-medium">{(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м²</span>
+                    </li>
+                    {window.grommets && (
+                      <>
+                        <li className="flex justify-between">
+                          <span>• Люверсы 16мм ({window.grommetsCount} шт × 40 ₽)</span>
+                          <span className="font-medium">{window.grommetsCount * 40} ₽</span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span>• Пластиковая клипса для крепления ({window.grommetsCount} шт × 45 ₽)</span>
+                          <span className="font-medium">{window.grommetsCount * 45} ₽</span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span>• Саморез 30 по дереву ({window.grommetsCount} шт × 2 ₽)</span>
+                          <span className="font-medium">{window.grommetsCount * 2} ₽</span>
+                        </li>
+                      </>
+                    )}
+                    {window.ringGrommets && (
+                      <>
+                        <li className="flex justify-between">
+                          <span>• Люверсы 42х22 + Замок поворотный ({window.ringGrommetsCount} шт × 130 ₽)</span>
+                          <span className="font-medium">{window.ringGrommetsCount * 130} ₽</span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span>• Саморез 30 по дереву ({window.ringGrommetsCount * 2} шт × 2 ₽)</span>
+                          <span className="font-medium">{window.ringGrommetsCount * 2 * 2} ₽</span>
+                        </li>
+                      </>
+                    )}
 
 
-                      {window.installation && (
-                        <>
-                          <li className="flex justify-between">
-                            <span>• Монтаж (площадь с припуском: {(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м² × 200 ₽)</span>
-                            <span className="font-medium">{(window.area * 200).toFixed(0)} ₽</span>
-                          </li>
-                        </>
-                      )}
-                    </ul>
-                  </div>
-                )}
+                    {window.installation && (
+                      <>
+                        <li className="flex justify-between">
+                          <span>• Монтаж ({(((window.верх + 50) * (window.право + 50)) / 1000000).toFixed(2)} м² × 200 ₽)</span>
+                          <span className="font-medium">{(window.area * 200).toFixed(0)} ₽</span>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </div>
 
                 <div className="mt-3 pt-3 border-t border-gray-300">
                   <div className="flex justify-between items-center">

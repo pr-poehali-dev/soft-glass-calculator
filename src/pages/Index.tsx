@@ -16,6 +16,7 @@ import TechCardTab from '@/components/tabs/TechCardTab';
 import ContractTab from '@/components/tabs/ContractTab';
 import ContactsTab from '@/components/tabs/ContactsTab';
 import CartTab from '@/components/tabs/CartTab';
+import EditorTab from '@/components/tabs/EditorTab';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -101,9 +102,10 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-9 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
+          <TabsList className="grid w-full grid-cols-5 sm:grid-cols-10 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
             <TabsTrigger value="main" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Главная</TabsTrigger>
             <TabsTrigger value="calculator" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Калькулятор</TabsTrigger>
+            <TabsTrigger value="editor" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Редактор</TabsTrigger>
             <TabsTrigger value="cart" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2 relative">
               Корзина
               {cart.length > 0 && (
@@ -132,6 +134,10 @@ const Index = () => {
               cart={cart}
               setCart={setCart}
             />
+          </TabsContent>
+
+          <TabsContent value="editor">
+            <EditorTab />
           </TabsContent>
 
           <TabsContent value="cart">

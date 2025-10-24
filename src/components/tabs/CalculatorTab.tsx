@@ -13,7 +13,6 @@ import { calculateGrommetsCount, calculateRingGrommetsCount } from '@/components
 import { generatePDF } from '@/components/window/PDFGenerator';
 import ShapeRenderer from '@/components/window/ShapeRenderer';
 import CommercialProposal from '@/components/window/CommercialProposal';
-import ImageEditor from '@/components/ImageEditor';
 
 interface CalculatorTabProps {
   calculation: WindowCalculation;
@@ -31,7 +30,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [clientName, setClientName] = useState('');
   const [clientPhone, setClientPhone] = useState('');
-  const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -598,6 +596,9 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               <Card className="bg-gray-50 border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900 text-base">Фотографии объекта (до 10 шт)</CardTitle>
+                  <CardDescription className="text-gray-600 text-sm">
+                    Для добавления размеров на фото используйте вкладку "Редактор"
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
@@ -631,19 +632,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                           <img 
                             src={URL.createObjectURL(file)} 
                             alt={`Фото ${idx + 1}`}
-                            className="w-full h-24 object-cover rounded border border-gray-200 cursor-pointer"
-                            onClick={() => setEditingImageIndex(idx)}
+                            className="w-full h-24 object-cover rounded border border-gray-200"
                           />
-                          <Button
-                            size="sm"
-                            className="absolute bottom-1 left-1 h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity bg-blue-600 hover:bg-blue-700"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setEditingImageIndex(idx);
-                            }}
-                          >
-                            <Icon name="Pencil" size={14} />
-                          </Button>
                           <Button
                             size="sm"
                             variant="destructive"
@@ -721,20 +711,6 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
         </DialogContent>
       </Dialog>
 
-      {editingImageIndex !== null && (
-        <ImageEditor
-          image={uploadedImages[editingImageIndex]}
-          onSave={(blob) => {
-            const file = new File([blob], uploadedImages[editingImageIndex].name, { type: 'image/jpeg' });
-            const updatedImages = [...uploadedImages];
-            updatedImages[editingImageIndex] = file;
-            setUploadedImages(updatedImages);
-            setEditingImageIndex(null);
-          }}
-          onClose={() => setEditingImageIndex(null)}
-        />
-      )}
-      
       {cart.length > 0 && (
         <Card className="mt-6 bg-green-50 border-green-200">
           <CardHeader>

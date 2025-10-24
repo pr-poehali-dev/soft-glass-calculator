@@ -28,6 +28,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
   const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
   const [globalMeasurement, setGlobalMeasurement] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [clientName, setClientName] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
   const [windows, setWindows] = useState<WindowItem[]>([{
     id: '1',
     shape: 'rectangle',
@@ -563,6 +565,36 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
               <Card className="bg-gray-50 border-gray-200">
                 <CardHeader>
+                  <CardTitle className="text-gray-900 text-base">Контактная информация</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <Label htmlFor="client-name" className="text-gray-700 text-sm">Ваше имя</Label>
+                    <Input
+                      id="client-name"
+                      type="text"
+                      placeholder="Иван Иванов"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                      className="h-10"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="client-phone" className="text-gray-700 text-sm">Телефон</Label>
+                    <Input
+                      id="client-phone"
+                      type="tel"
+                      placeholder="+7 (999) 123-45-67"
+                      value={clientPhone}
+                      onChange={(e) => setClientPhone(e.target.value)}
+                      className="h-10"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gray-50 border-gray-200">
+                <CardHeader>
                   <CardTitle className="text-gray-900 text-base">Фотографии объекта (до 10 шт)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -618,6 +650,10 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
 
               <Button 
                 onClick={() => {
+                  if (!clientName.trim() || !clientPhone.trim()) {
+                    alert('Пожалуйста, заполните имя и телефон');
+                    return;
+                  }
                   setProposalWindows(windows);
                   setProposalOpen(true);
                 }} 
@@ -639,6 +675,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           onClose={() => setProposalOpen(false)}
           globalMeasurement={globalMeasurement}
           uploadedImages={uploadedImages}
+          clientName={clientName}
+          clientPhone={clientPhone}
         />
       )}
       

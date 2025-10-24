@@ -7,9 +7,11 @@ interface CommercialProposalProps {
   onClose: () => void;
   globalMeasurement?: boolean;
   uploadedImages?: File[];
+  clientName?: string;
+  clientPhone?: string;
 }
 
-const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false, uploadedImages = [] }) => {
+const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClose, globalMeasurement = false, uploadedImages = [], clientName = '', clientPhone = '' }) => {
   const [isSending, setIsSending] = React.useState(false);
   const calculateWindowTotal = (window: WindowItem) => {
     let total = 0;
@@ -105,7 +107,9 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
         body: JSON.stringify({
           windows,
           total: calculateTotal(),
-          images
+          images,
+          clientName,
+          clientPhone
         })
       });
 

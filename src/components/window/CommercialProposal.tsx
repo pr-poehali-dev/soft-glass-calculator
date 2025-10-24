@@ -19,6 +19,13 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
     return windows.reduce((sum, w) => sum + w.area, 0);
   };
 
+  const calculateTotalAreaWithAllowance = () => {
+    return windows.reduce((sum, w) => {
+      const areaWithAllowance = ((w.верх + 50) * (w.право + 50)) / 1000000;
+      return sum + areaWithAllowance;
+    }, 0);
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -164,8 +171,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
                 <span className="font-bold">{windows.length} шт</span>
               </div>
               <div className="flex justify-between text-lg">
-                <span className="text-gray-900">Общая площадь:</span>
-                <span className="font-bold">{calculateTotalArea().toFixed(2)} м²</span>
+                <span className="text-gray-900">Общая площадь с припуском:</span>
+                <span className="font-bold">{calculateTotalAreaWithAllowance().toFixed(2)} м²</span>
               </div>
               {globalMeasurement && (
                 <div className="flex justify-between text-lg pt-2 border-t border-blue-300">

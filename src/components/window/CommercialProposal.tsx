@@ -29,8 +29,8 @@ const CommercialProposal: React.FC<CommercialProposalProps> = ({ windows, onClos
   const calculateTotalAreaWithKant = () => {
     return windows.reduce((sum, w) => {
       const kantSize = w.kantSize || 40;
-      const widthWithKant = w.верх + 50 + kantSize * 2;
-      const heightWithKant = w.право + 50 + kantSize * 2;
+      const widthWithKant = w.верх + 50 + kantSize;
+      const heightWithKant = w.право + 50 + kantSize;
       const areaWithKant = (widthWithKant * heightWithKant) / 1000000;
       return sum + areaWithKant;
     }, 0);

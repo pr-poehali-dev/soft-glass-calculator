@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 import ImageEditor from '@/components/ImageEditor';
@@ -10,6 +11,7 @@ const EditorTab: React.FC = () => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
+  const [comment, setComment] = useState('');
 
   const handleSendEmail = async () => {
     if (uploadedImages.length === 0) {
@@ -37,7 +39,8 @@ const EditorTab: React.FC = () => {
         body: JSON.stringify({
           windows: [],
           total: 0,
-          images
+          images,
+          comment
         })
       });
 
@@ -46,6 +49,7 @@ const EditorTab: React.FC = () => {
       }
 
       alert('Фотографии успешно отправлены на почту!');
+      setComment('');
     } catch (error) {
       console.error('Ошибка отправки:', error);
       alert('Не удалось отправить фотографии. Попробуйте еще раз.');
@@ -115,6 +119,20 @@ const EditorTab: React.FC = () => {
 
           {uploadedImages.length > 0 && (
             <div>
+              <div className="mb-4">
+                <Label htmlFor="comment" className="text-gray-700 mb-2 block">
+                  Комментарий к фотографиям (необязательно)
+                </Label>
+                <Textarea
+                  id="comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Укажите дополнительную информацию: адрес объекта, особые пожелания, вопросы..."
+                  rows={3}
+                  className="resize-none"
+                />
+              </div>
+
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-semibold text-gray-900">
                   Загруженные изображения ({uploadedImages.length})

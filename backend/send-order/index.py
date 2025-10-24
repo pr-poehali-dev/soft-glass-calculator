@@ -37,6 +37,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         windows = body_data.get('windows', [])
         total = body_data.get('total', 0)
         images = body_data.get('images', [])
+        comment = body_data.get('comment', '')
         
         msg = MIMEMultipart()
         msg['From'] = 'noreply@poehali.dev'
@@ -53,7 +54,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 <p style="margin: 5px 0;"><strong>Общая стоимость:</strong> {total} ₽</p>
                 <p style="margin: 5px 0;"><strong>Загружено фотографий:</strong> {len(images)} шт</p>
             </div>
-            
+        """
+        
+        if comment:
+            html_content += f"""
+            <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2563eb;">
+                <h3 style="color: #1f2937; margin-top: 0;">Комментарий клиента:</h3>
+                <p style="margin: 0; white-space: pre-wrap;">{comment}</p>
+            </div>
+            """
+        
+        html_content += """
             <h3 style="color: #1f2937;">Детали расчета:</h3>
         """
         

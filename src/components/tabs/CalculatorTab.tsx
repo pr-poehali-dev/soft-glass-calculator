@@ -475,23 +475,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                   onClick={() => {
                     const updatedWindows = windows.map(w => {
                       if (w.id === window.id) {
-                        const area = (w.верх * w.право) / 1000000;
-                        const perimeter = (w.верх + w.право + w.низ + w.лево + w.kantSize * 4) / 1000;
-                        
-                        const filmPrice = filmTypes.find(f => f.id === w.filmType)?.price || 450;
-                        const kantPrice = kantSizes.find(k => k.size === w.kantSize)?.price || 15;
-                        
-                        let price = area * filmPrice;
-                        price += perimeter * kantPrice;
-                        
-                        if (w.grommets) price += w.grommetsCount * 40;
-                        if (w.ringGrommets) {
-                          price += w.ringGrommetsCount * 55;
-                          price += w.ringGrommetsCount * 25;
-                        }
-                        if (w.frenchLock) price += w.frenchLockCount * 25;
-                        if (w.installation) price += area * 200;
-                        
+                        const { area, price, perimeter } = calculateWindowPrice(w);
                         return { ...w, area, price, perimeter };
                       }
                       return w;

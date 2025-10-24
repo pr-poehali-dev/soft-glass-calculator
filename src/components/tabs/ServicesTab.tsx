@@ -46,18 +46,18 @@ const ServicesTab: React.FC = () => {
             <div className="p-3 bg-yellow-50 rounded">
               <h4 className="font-medium flex items-center">
                 <Icon name="Circle" size={16} className="mr-2 text-orange-500" />
-                Кольцевые люверсы
+                Люверсы 42х22 + Замок поворотный
               </h4>
-              <p className="text-sm text-gray-600">Боковые люверсы для дополнительного крепления</p>
-              <Badge className="mt-1">55 ₽/шт</Badge>
+              <p className="text-sm text-gray-600">Кольцевые люверсы с замком для бокового крепления</p>
+              <Badge className="mt-1">130 ₽/шт</Badge>
             </div>
             <div className="p-3 bg-red-50 rounded">
               <h4 className="font-medium flex items-center">
                 <Icon name="Lock" size={16} className="mr-2 text-destructive" />
-                Скобы поворотные
+                Монтаж
               </h4>
-              <p className="text-sm text-gray-600">Система быстрого открывания</p>
-              <Badge className="mt-1">75 ₽/шт</Badge>
+              <p className="text-sm text-gray-600">Установка мягких окон</p>
+              <Badge className="mt-1">200 ₽/м²</Badge>
             </div>
           </CardContent>
         </Card>

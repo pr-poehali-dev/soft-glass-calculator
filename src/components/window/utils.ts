@@ -79,9 +79,8 @@ export const calculatePrice = (calculation: WindowCalculation) => {
   const filmPrice = filmTypes.find(f => f.id === calculation.filmType)?.price || 450;
   let pricePerWindow = area * filmPrice;
 
-  if (calculation.grommets) pricePerWindow += calculation.grommetsCount * 150;
-  if (calculation.ringGrommets) pricePerWindow += calculation.ringGrommetsCount * 180;
-  if (calculation.frenchLock) pricePerWindow += area * 80;
+  if (calculation.grommets) pricePerWindow += calculation.grommetsCount * 87;
+  if (calculation.ringGrommets) pricePerWindow += calculation.ringGrommetsCount * 134;
   
   const perimeter = calculatePerimeter(calculation);
   pricePerWindow += perimeter * 15;

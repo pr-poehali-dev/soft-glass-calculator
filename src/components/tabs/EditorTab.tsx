@@ -9,13 +9,14 @@ import ImageEditor from '@/components/ImageEditor';
 
 const EditorTab: React.FC = () => {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [comment, setComment] = useState('');
 
   const handleSendEmail = async () => {
-    if (uploadedImages.length === 0) {
-      alert('Загрузите хотя бы одну фотографию');
+    if (uploadedImages.length === 0 && uploadedFiles.length === 0) {
+      alert('Загрузите хотя бы одну фотографию или файл');
       return;
     }
 
@@ -29,7 +30,16 @@ const EditorTab: React.FC = () => {
         });
       });
 
+      const filePromises = uploadedFiles.map(async (file) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+
       const images = await Promise.all(imagePromises);
+      const files = await Promise.all(filePromises);
 
       const response = await fetch('https://functions.poehali.dev/37c88ed4-173c-48ae-9ad3-26cf25013d4b', {
         method: 'POST',
@@ -40,6 +50,11 @@ const EditorTab: React.FC = () => {
           windows: [],
           total: 0,
           images,
+          files: files.map((data, idx) => ({
+            data,
+            name: uploadedFiles[idx].name,
+            type: uploadedFiles[idx].type
+          })),
           comment
         })
       });
@@ -48,7 +63,9 @@ const EditorTab: React.FC = () => {
         throw new Error('Ошибка отправки');
       }
 
-      alert('Фотографии успешно отправлены на почту!');
+      alert('Фотографии и файлы успешно отправлены на почту!');
+      setUploadedImages([]);
+      setUploadedFiles([]);
       setComment('');
     } catch (error) {
       console.error('Ошибка отправки:', error);
@@ -120,6 +137,64 @@ const EditorTab: React.FC = () => {
           {uploadedImages.length > 0 && (
             <div>
               <div className="mb-4">
+                <Label htmlFor="file-upload" className="cursor-pointer">
+                  <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 hover:border-blue-500 transition-colors text-center bg-blue-50">
+                    <Icon name="FileText" className="mx-auto mb-2 text-blue-500" size={36} />
+                    <p className="text-sm font-medium text-gray-700 mb-1">
+                      Загрузить файлы (чертежи, схемы, документы)
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      PDF, DOC, DOCX, XLS, XLSX, DWG (до 5 файлов)
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Загружено: {uploadedFiles.length}/5
+                    </p>
+                  </div>
+                </Label>
+                <Input
+                  id="file-upload"
+                  type="file"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.dwg,.txt"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    const remaining = 5 - uploadedFiles.length;
+                    const newFiles = files.slice(0, remaining);
+                    setUploadedFiles([...uploadedFiles, ...newFiles]);
+                    e.target.value = '';
+                  }}
+                  className="hidden"
+                />
+              </div>
+
+              {uploadedFiles.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">Загруженные файлы ({uploadedFiles.length})</h4>
+                  <div className="space-y-2">
+                    {uploadedFiles.map((file, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <Icon name="FileText" className="text-blue-600" size={20} />
+                          <div>
+                            <p className="text-sm font-medium text-gray-900 truncate max-w-xs">{file.name}</p>
+                            <p className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setUploadedFiles(uploadedFiles.filter((_, i) => i !== idx))}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Icon name="X" size={16} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="mb-4">
                 <Label htmlFor="comment" className="text-gray-700 mb-2 block">
                   Комментарий к фотографиям (необязательно)
                 </Label>
@@ -150,7 +225,11 @@ const EditorTab: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setUploadedImages([])}
+                    onClick={() => {
+                      setUploadedImages([]);
+                      setUploadedFiles([]);
+                      setComment('');
+                    }}
                     className="text-red-600 hover:text-red-700"
                   >
                     <Icon name="Trash2" className="mr-2" size={16} />

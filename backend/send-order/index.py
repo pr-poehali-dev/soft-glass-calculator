@@ -87,7 +87,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         for idx, image_data in enumerate(images):
             try:
-                image_bytes = base64.b64decode(image_data)
+                image_bytes = base64.b64decode(image_data.split(',')[1] if ',' in image_data else image_data)
                 part = MIMEBase('application', 'octet-stream')
                 part.set_payload(image_bytes)
                 encoders.encode_base64(part)
@@ -95,6 +95,22 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 msg.attach(part)
             except Exception as e:
                 print(f'Error attaching image {idx}: {e}')
+        
+        files_list = body_data.get('files', [])
+        for idx, file_info in enumerate(files_list):
+            try:
+                file_data = file_info.get('data', '')
+                file_name = file_info.get('name', f'document_{idx + 1}')
+                file_type = file_info.get('type', 'application/octet-stream')
+                
+                file_bytes = base64.b64decode(file_data.split(',')[1] if ',' in file_data else file_data)
+                part = MIMEBase('application', 'octet-stream')
+                part.set_payload(file_bytes)
+                encoders.encode_base64(part)
+                part.add_header('Content-Disposition', f'attachment; filename="{file_name}"')
+                msg.attach(part)
+            except Exception as e:
+                print(f'Error attaching file {idx}: {e}')
         
         smtp_server = 'smtp.mail.ru'
         smtp_port = 587

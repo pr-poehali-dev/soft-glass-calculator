@@ -7,6 +7,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import psycopg2
+from datetime import datetime
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'POST')
@@ -38,16 +40,38 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         total = body_data.get('total', 0)
         images = body_data.get('images', [])
         comment = body_data.get('comment', '')
+        files_info = body_data.get('files', [])
+        
+        db_dsn = os.environ.get('DATABASE_URL', '')
+        conn = psycopg2.connect(db_dsn)
+        cur = conn.cursor()
+        
+        order_data = {
+            'windows': windows,
+            'comment': comment,
+            'images_count': len(images),
+            'files_count': len(files_info),
+            'created_at': datetime.now().isoformat()
+        }
+        
+        cur.execute(
+            "INSERT INTO t_p92177054_soft_glass_calculato.orders (order_data, total_price, status) VALUES (%s, %s, %s) RETURNING id",
+            (json.dumps(order_data), total, 'new')
+        )
+        order_id = cur.fetchone()[0]
+        conn.commit()
+        cur.close()
+        conn.close()
         
         msg = MIMEMultipart()
         msg['From'] = 'noreply@poehali.dev'
         msg['To'] = email_to
-        msg['Subject'] = f'Заявка на расчет ПВХ окон - {len(windows)} шт'
+        msg['Subject'] = f'Заявка #{order_id} на расчет ПВХ окон - {len(windows)} шт'
         
         html_content = f"""
         <html>
         <body style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
-            <h2 style="color: #2563eb;">Новая заявка на расчет ПВХ окон</h2>
+            <h2 style="color: #2563eb;">Новая заявка #{order_id} на расчет ПВХ окон</h2>
             
             <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 5px 0;"><strong>Количество окон:</strong> {len(windows)} шт</p>
@@ -130,7 +154,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'Access-Control-Allow-Origin': '*'
             },
             'isBase64Encoded': False,
-            'body': json.dumps({'success': True, 'message': 'Заявка отправлена'})
+            'body': json.dumps({'success': True, 'message': f'Заявка #{order_id} отправлена', 'orderId': order_id})
         }
         
     except Exception as e:

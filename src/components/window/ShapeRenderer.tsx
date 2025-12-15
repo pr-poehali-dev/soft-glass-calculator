@@ -520,6 +520,90 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             Скоба поворотная: {calculation.frenchLockCount} шт
           </text>
         )}
+
+        {calculation.zipper && (
+          <>
+            {/* Молния по центру (если 1 шт) или по бокам (если 2 шт) */}
+            {(() => {
+              const zipperCount = 1; // Пока всегда 1 молния, можно добавить поле в типы для количества
+              
+              if (zipperCount === 1) {
+                // Одна молния по центру
+                const centerX = 220;
+                const zipperY1 = 75;
+                const zipperY2 = 225;
+                
+                return (
+                  <g key="zipper-center">
+                    {/* Вертикальная линия молнии */}
+                    <line x1={centerX} y1={zipperY1} x2={centerX} y2={zipperY2} stroke="#4A90E2" strokeWidth="3"/>
+                    
+                    {/* Зубчики молнии */}
+                    {Array.from({ length: 15 }).map((_, i) => {
+                      const y = zipperY1 + (i * (zipperY2 - zipperY1) / 15);
+                      return (
+                        <g key={`zipper-tooth-${i}`}>
+                          <line x1={centerX - 3} y1={y} x2={centerX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                          <line x1={centerX + 3} y1={y} x2={centerX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                        </g>
+                      );
+                    })}
+                    
+                    {/* Бегунок молнии */}
+                    <rect x={centerX - 5} y={(zipperY1 + zipperY2) / 2 - 8} width="10" height="16" fill="#FFD700" stroke="#DAA520" strokeWidth="1" rx="2"/>
+                    <circle cx={centerX} cy={(zipperY1 + zipperY2) / 2} r="2" fill="#2C5AA0"/>
+                  </g>
+                );
+              } else if (zipperCount === 2) {
+                // Две молнии по бокам
+                const leftX = 120;
+                const rightX = 320;
+                const zipperY1 = 75;
+                const zipperY2 = 225;
+                
+                return (
+                  <>
+                    {/* Левая молния */}
+                    <g key="zipper-left">
+                      <line x1={leftX} y1={zipperY1} x2={leftX} y2={zipperY2} stroke="#4A90E2" strokeWidth="3"/>
+                      {Array.from({ length: 15 }).map((_, i) => {
+                        const y = zipperY1 + (i * (zipperY2 - zipperY1) / 15);
+                        return (
+                          <g key={`zipper-left-tooth-${i}`}>
+                            <line x1={leftX - 3} y1={y} x2={leftX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                            <line x1={leftX + 3} y1={y} x2={leftX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                          </g>
+                        );
+                      })}
+                      <rect x={leftX - 5} y={(zipperY1 + zipperY2) / 2 - 8} width="10" height="16" fill="#FFD700" stroke="#DAA520" strokeWidth="1" rx="2"/>
+                      <circle cx={leftX} cy={(zipperY1 + zipperY2) / 2} r="2" fill="#2C5AA0"/>
+                    </g>
+                    
+                    {/* Правая молния */}
+                    <g key="zipper-right">
+                      <line x1={rightX} y1={zipperY1} x2={rightX} y2={zipperY2} stroke="#4A90E2" strokeWidth="3"/>
+                      {Array.from({ length: 15 }).map((_, i) => {
+                        const y = zipperY1 + (i * (zipperY2 - zipperY1) / 15);
+                        return (
+                          <g key={`zipper-right-tooth-${i}`}>
+                            <line x1={rightX - 3} y1={y} x2={rightX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                            <line x1={rightX + 3} y1={y} x2={rightX} y2={y + 3} stroke="#2C5AA0" strokeWidth="1.5"/>
+                          </g>
+                        );
+                      })}
+                      <rect x={rightX - 5} y={(zipperY1 + zipperY2) / 2 - 8} width="10" height="16" fill="#FFD700" stroke="#DAA520" strokeWidth="1" rx="2"/>
+                      <circle cx={rightX} cy={(zipperY1 + zipperY2) / 2} r="2" fill="#2C5AA0"/>
+                    </g>
+                  </>
+                );
+              }
+            })()}
+            
+            <text x="220" y="380" textAnchor="middle" fontSize="11" fill="#4A90E2">
+              Молния: 1 шт
+            </text>
+          </>
+        )}
       </svg>
     );
   }

@@ -11,6 +11,7 @@ export interface WindowCalculation {
   frenchLockCount: number;
   ringGrommets: boolean;
   ringGrommetsCount: number;
+  zipper: boolean;
   filmType: string;
   kantSize: number;
   kantColor: string;
@@ -36,6 +37,7 @@ export interface WindowItem {
   frenchLockCount: number;
   ringGrommets: boolean;
   ringGrommetsCount: number;
+  zipper: boolean;
   filmType: string;
   kantSize: number;
   kantColor: string;

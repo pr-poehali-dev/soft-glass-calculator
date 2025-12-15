@@ -20,9 +20,10 @@ interface CalculatorTabProps {
   onCalculate: () => void;
   cart: WindowItem[];
   setCart: React.Dispatch<React.SetStateAction<WindowItem[]>>;
+  isDoors?: boolean;
 }
 
-const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate, cart, setCart }) => {
+const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculation, onCalculate, cart, setCart, isDoors = false }) => {
   const [proposalOpen, setProposalOpen] = useState(false);
   const [previewWindowId, setPreviewWindowId] = useState<string | null>(null);
   const [proposalWindows, setProposalWindows] = useState<WindowItem[]>([]);
@@ -42,6 +43,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     ringGrommetsCount: 0,
     frenchLock: false,
     frenchLockCount: 0,
+    zipper: false,
     filmType: 'transparent',
     kantSize: 160,
     kantColor: 'white',
@@ -107,6 +109,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       ringGrommetsCount: 0,
       frenchLock: false,
       frenchLockCount: 0,
+      zipper: false,
       filmType: 'transparent',
       kantSize: 160,
       kantColor: 'white',
@@ -195,6 +198,11 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       price += window.ringGrommetsCount * 2 * 2; // Саморезы
     }
     
+    // Молния (для дверей)
+    if (window.zipper) {
+      price += 150; // Молния
+    }
+    
     // Монтаж
     if (window.installation) {
       price += totalArea * 200;
@@ -235,21 +243,21 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
           <CardTitle className="flex items-center justify-between text-gray-900">
             <div className="flex items-center">
               <Icon name="Calculator" className="mr-2" />
-              Калькулятор мягких окон
+              Калькулятор мягких {isDoors ? 'дверей' : 'окон'}
             </div>
             <Button onClick={addWindow} variant="outline" size="sm" className="border-blue-600 text-blue-600 hover:bg-blue-50">
               <Icon name="Plus" className="mr-1" size={16} />
-              Добавить окно
+              Добавить {isDoors ? 'дверь' : 'окно'}
             </Button>
           </CardTitle>
           <CardDescription className="text-gray-600">
-            Рассчитайте стоимость изготовления по вашим размерам
+            {isDoors ? 'Рассчитайте стоимость изготовления дверей по вашим размерам' : 'Рассчитайте стоимость изготовления по вашим размерам'}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <Button onClick={calculateAllWindows} className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base" size="lg">
             <Icon name="Calculator" className="mr-2" />
-            Рассчитать все окна
+            Рассчитать все {isDoors ? 'двери' : 'окна'}
           </Button>
 
           {windows.map((window, index) => (
@@ -257,7 +265,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <CardTitle className="text-gray-900 text-lg">
-                    Окно {index + 1} <span className="text-sm font-normal text-gray-500">(Внесите сюда чистые размеры проема)</span>
+                    {isDoors ? 'Дверь' : 'Окно'} {index + 1} <span className="text-sm font-normal text-gray-500">(Внесите сюда чистые размеры проема)</span>
                   </CardTitle>
                   {windows.length > 1 && (
                     <Button 
@@ -441,6 +449,24 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         }}
                         className="w-20 h-8"
                       />
+                    </div>
+                  )}
+
+                  {isDoors && (
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`zipper-${window.id}`}
+                        checked={window.zipper}
+                        onCheckedChange={(checked) => {
+                          const updatedWindows = windows.map(w => 
+                            w.id === window.id ? { ...w, zipper: checked === true } : w
+                          );
+                          setWindows(updatedWindows);
+                        }}
+                      />
+                      <Label htmlFor={`zipper-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
+                        Молния (150 ₽/шт)
+                      </Label>
                     </div>
                   )}
 

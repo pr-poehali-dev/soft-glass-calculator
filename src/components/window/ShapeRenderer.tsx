@@ -521,11 +521,11 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
           </text>
         )}
 
-        {calculation.zipper && (
+        {calculation.zipper && calculation.zipperCount > 0 && (
           <>
             {/* Молния по центру (если 1 шт) или по бокам (если 2 шт) */}
             {(() => {
-              const zipperCount = 1; // Пока всегда 1 молния, можно добавить поле в типы для количества
+              const zipperCount = calculation.zipperCount;
               
               if (zipperCount === 1) {
                 // Одна молния по центру
@@ -600,7 +600,7 @@ const ShapeRenderer: React.FC<ShapeRendererProps> = ({ calculation }) => {
             })()}
             
             <text x="220" y="380" textAnchor="middle" fontSize="11" fill="#4A90E2">
-              Молния: 1 шт
+              Молния: {calculation.zipperCount} шт
             </text>
           </>
         )}

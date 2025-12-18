@@ -44,6 +44,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     frenchLock: false,
     frenchLockCount: 0,
     zipper: false,
+    zipperCount: 0,
     filmType: 'transparent',
     kantSize: 160,
     kantColor: 'white',
@@ -110,6 +111,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
       frenchLock: false,
       frenchLockCount: 0,
       zipper: false,
+      zipperCount: 0,
       filmType: 'transparent',
       kantSize: 160,
       kantColor: 'white',
@@ -199,8 +201,8 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
     }
     
     // Молния (для дверей)
-    if (window.zipper) {
-      price += 150; // Молния
+    if (window.zipper && window.zipperCount > 0) {
+      price += window.zipperCount * 150; // Молния
     }
     
     // Монтаж
@@ -459,7 +461,7 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                         checked={window.zipper}
                         onCheckedChange={(checked) => {
                           const updatedWindows = windows.map(w => 
-                            w.id === window.id ? { ...w, zipper: checked === true } : w
+                            w.id === window.id ? { ...w, zipper: checked === true, zipperCount: checked === true ? 1 : 0 } : w
                           );
                           setWindows(updatedWindows);
                         }}
@@ -467,6 +469,18 @@ const CalculatorTab: React.FC<CalculatorTabProps> = ({ calculation, setCalculati
                       <Label htmlFor={`zipper-${window.id}`} className="text-gray-700 text-sm cursor-pointer">
                         Молния (150 ₽/шт)
                       </Label>
+                    </div>
+                  )}
+                  {isDoors && window.zipper && (
+                    <div className="ml-6">
+                      <Input
+                        type="number"
+                        value={window.zipperCount === 0 ? '' : window.zipperCount}
+                        onChange={(e) => updateWindow(window.id, 'zipperCount', e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                        className="w-20 h-8"
+                        min="1"
+                        max="2"
+                      />
                     </div>
                   )}
 

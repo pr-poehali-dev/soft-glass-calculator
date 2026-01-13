@@ -103,10 +103,9 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 sm:grid-cols-11 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
+          <TabsList className="grid w-full grid-cols-5 sm:grid-cols-10 mb-4 sm:mb-8 bg-white shadow-sm border border-gray-200 h-auto p-1">
             <TabsTrigger value="main" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Главная</TabsTrigger>
             <TabsTrigger value="windows" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Окна</TabsTrigger>
-            <TabsTrigger value="doors" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Двери</TabsTrigger>
             <TabsTrigger value="editor" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2">Редактор</TabsTrigger>
             <TabsTrigger value="cart" className="text-xs sm:text-sm text-gray-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 px-2 py-2 relative">
               Корзина
@@ -135,17 +134,6 @@ const Index = () => {
               onCalculate={handleCalculate}
               cart={cart}
               setCart={setCart}
-            />
-          </TabsContent>
-
-          <TabsContent value="doors">
-            <CalculatorTab 
-              calculation={calculation}
-              setCalculation={setCalculation}
-              onCalculate={handleCalculate}
-              cart={cart}
-              setCart={setCart}
-              isDoors={true}
             />
           </TabsContent>
 

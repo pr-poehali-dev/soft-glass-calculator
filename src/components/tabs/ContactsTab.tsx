@@ -21,7 +21,6 @@ const ContactsTab: React.FC = () => {
             <div className="flex items-center space-x-3">
               <Icon name="Phone" className="text-primary" />
               <div>
-                <p className="font-medium">+7 (921) 636-36-08</p>
                 <p className="text-sm text-gray-600">Звонки с 9:00 до 18:00</p>
               </div>
             </div>

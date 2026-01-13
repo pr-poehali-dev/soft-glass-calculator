@@ -25,14 +25,7 @@ const ContactsTab: React.FC = () => {
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
-              <Icon name="Mail" className="text-primary" />
-              <div>
-                <p className="font-medium">info@polymer-project.ru</p>
-                <p className="text-sm text-gray-600">Ответим в течение часа</p>
-              </div>
-            </div>
-            
+
             <div className="flex items-start space-x-3">
               <Icon name="MapPin" className="text-primary mt-1" />
               <div>

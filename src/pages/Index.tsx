@@ -91,11 +91,6 @@ const Index = () => {
                   <span className="sm:hidden">Вход</span>
                 </Button>
               )}
-              <Badge variant="outline" className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700 text-xs sm:text-sm px-2 py-1">
-                <Icon name="Phone" size={12} className="mr-1 sm:mr-1" />
-                <span className="hidden sm:inline">+7 (921) 636-36-08</span>
-                <span className="sm:hidden">Звонок</span>
-              </Badge>
             </div>
           </div>
         </div>

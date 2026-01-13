@@ -176,15 +176,7 @@ const Index = () => {
         </Tabs>
       </div>
 
-      <footer className="bg-white border-t border-gray-200 py-6 sm:py-8 relative z-10">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex justify-center">
-          <img 
-            src="https://cdn.poehali.dev/files/e9509955-756f-46ec-924f-b4d6e05c7d03.png" 
-            alt="Полимер-проект логотип" 
-            className="h-32 sm:h-48 lg:h-64 object-contain"
-          />
-        </div>
-      </footer>
+
     </div>
   );
 };
